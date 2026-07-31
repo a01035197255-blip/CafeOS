@@ -19,6 +19,8 @@ repositories {
 }
 
 dependencies {
+
+    implementation 'net.nurigo:sdk:4.3.2'
     implementation("me.paulschwarz:spring-dotenv:4.0.0")
     implementation 'io.jsonwebtoken:jjwt-api:0.12.7'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.7'

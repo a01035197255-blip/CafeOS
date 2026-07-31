@@ -19,6 +19,7 @@ public enum ErrorCode {
     PHONE_ALREADY_EXISTS(HttpStatus.CONFLICT, "U003", "이미 사용 중인 전화번호입니다."),
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "U004", "비밀번호가 일치하지 않습니다."),
     OWNER_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "OWNER_001", "이미 OWNER 계정이 존재합니다."),
+    INVALID_PHONE(HttpStatus.BAD_REQUEST,    "AUTH_009","휴대폰 번호가 일치하지 않습니다."),
 
     USER_DISABLED(HttpStatus.FORBIDDEN, "USER_001", "비활성화된 사용자입니다."),
 
@@ -34,6 +35,9 @@ public enum ErrorCode {
     EMPTY_TOKEN(HttpStatus.UNAUTHORIZED, "A005", "토큰이 존재하지 않습니다."),
     REFRESH_TOKEN_NOT_FOUND(HttpStatus.UNAUTHORIZED, "AUTH_008", "리프레시 토큰이 존재하지 않습니다."),
     INVALID_REFRESH_TOKEN(HttpStatus.UNAUTHORIZED, "AUTH_009", "유효하지 않은 리프레시 토큰입니다."),
+    VERIFICATION_CODE_EXPIRED(HttpStatus.BAD_REQUEST, "AUTH_010", "인증번호가 만료되었습니다."),
+
+    INVALID_VERIFICATION_CODE(HttpStatus.BAD_REQUEST, "AUTH_011", "인증번호가 올바르지 않습니다."),
     LOGIN_REQUIRED(HttpStatus.UNAUTHORIZED, "A006", "로그인이 필요합니다.");
 
     private final HttpStatus status;

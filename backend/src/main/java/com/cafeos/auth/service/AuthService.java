@@ -1,20 +1,23 @@
 package com.cafeos.auth.service;
 
-import com.cafeos.auth.dto.LoginRequest;
-import com.cafeos.auth.dto.LoginResponse;
-import com.cafeos.auth.dto.SignupRequest;
+import com.cafeos.auth.dto.*;
 import com.cafeos.common.exception.BusinessException;
 import com.cafeos.common.exception.ErrorCode;
 import com.cafeos.common.jwt.JwtUtil;
+import com.cafeos.common.service.CoolSmsService;
 import com.cafeos.common.service.EmailService;
 import com.cafeos.common.service.RefreshTokenService;
 import com.cafeos.user.entity.User;
 import com.cafeos.user.entity.UserRole;
 import com.cafeos.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.security.SecureRandom;
+import java.time.Duration;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +29,8 @@ public class AuthService {
     private final JwtUtil jwtUtil;
     private final RefreshTokenService refreshTokenService;
     private final EmailService emailService;
+    private final CoolSmsService coolSmsService;
+    private final StringRedisTemplate redisTemplate;
 
     @Transactional
     public void signup(SignupRequest request) {
@@ -118,5 +123,54 @@ public class AuthService {
                 .accessToken(newAccessToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    @Transactional
+    public void sendPasswordResetCode(PasswordResetSmsRequest request) {
+
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() ->
+                        new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        if (!user.getPhone().equals(request.getPhone())) {
+            throw new BusinessException(ErrorCode.INVALID_PHONE);
+        }
+
+        String code = String.format("%06d", new SecureRandom().nextInt(1000000));
+
+        redisTemplate.opsForValue().set(
+                "PASSWORD_RESET:" + request.getEmail(),
+                code,
+                Duration.ofMinutes(3)
+        );
+
+        coolSmsService.sendVerificationCode(request.getPhone(), code);
+    }
+
+    @Transactional(readOnly = true)
+    public void verifyPasswordResetCode(PasswordVerifyRequest request) {
+
+        String savedCode = redisTemplate.opsForValue()
+                .get("PASSWORD_RESET:" + request.getEmail());
+
+        if (savedCode == null) {
+            throw new BusinessException(ErrorCode.VERIFICATION_CODE_EXPIRED);
+        }
+
+        if (!savedCode.equals(request.getCode())) {
+            throw new BusinessException(ErrorCode.INVALID_VERIFICATION_CODE);
+        }
+
+        redisTemplate.delete("PASSWORD_RESET:" + request.getEmail());
+    }
+
+    @Transactional
+    public void resetPassword(PasswordResetRequest request) {
+
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() ->
+                        new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        user.changePassword(passwordEncoder.encode(request.getNewPassword()));
     }
 }
