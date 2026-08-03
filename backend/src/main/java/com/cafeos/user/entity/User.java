@@ -73,4 +73,36 @@ public class User {
     public void changeProvider(Provider provider) {
         this.provider = provider;
     }
+
+    public void changeEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public void update(
+            String name,
+            String phone,
+            LocalDate birthDate,
+            Gender gender,
+            UserRole role,
+            Boolean enabled
+    ) {
+        this.name = name;
+        this.phone = phone;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.role = role;
+        this.enabled = enabled;
+    }
+
+    public void updateMyInfo(
+            String name,
+            String phone,
+            LocalDate birthDate,
+            Gender gender
+    ) {
+        this.name = name;
+        this.phone = phone;
+        this.birthDate = birthDate;
+        this.gender = gender;
+    }
 }

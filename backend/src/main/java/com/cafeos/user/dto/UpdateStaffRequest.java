@@ -1,6 +1,7 @@
 package com.cafeos.user.dto;
 
 import com.cafeos.user.entity.Gender;
+import com.cafeos.user.entity.UserRole;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor
-public class UpdateUserRequest {
+public class UpdateStaffRequest {
 
     @NotBlank(message = "이름은 필수입니다.")
     private String name;
@@ -23,4 +24,8 @@ public class UpdateUserRequest {
 
     @NotNull(message = "성별은 필수입니다.")
     private Gender gender;
+
+    private UserRole role;
+
+    private Boolean enabled;
 }
