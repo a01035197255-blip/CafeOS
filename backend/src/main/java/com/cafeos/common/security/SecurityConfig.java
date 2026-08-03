@@ -1,5 +1,7 @@
 package com.cafeos.common.security;
 
+import com.cafeos.auth.service.CustomOAuth2UserService;
+import com.cafeos.auth.service.OAuth2SuccessHandler;
 import com.cafeos.common.jwt.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +22,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -35,6 +39,12 @@ public class SecurityConfig {
 
                 // HTTP Basic 비활성화
                 .httpBasic(httpBasic -> httpBasic.disable())
+
+                .oauth2Login(oauth -> oauth
+                        .userInfoEndpoint(userInfo ->
+                                userInfo.userService(customOAuth2UserService))
+                        .successHandler(oAuth2SuccessHandler)
+                )
 
                 // Session 사용 안 함
                 .sessionManagement(session ->

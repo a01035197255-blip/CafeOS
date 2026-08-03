@@ -42,6 +42,9 @@ public class User {
     @Column(nullable = false)
     private UserRole role;
 
+    @Enumerated(EnumType.STRING)
+    private Provider provider;
+
     @Builder.Default
     @Column(nullable = false)
     private Boolean enabled = true;
@@ -65,5 +68,9 @@ public class User {
 
     public void changePassword(String password) {
         this.password = password;
+    }
+
+    public void changeProvider(Provider provider) {
+        this.provider = provider;
     }
 }
