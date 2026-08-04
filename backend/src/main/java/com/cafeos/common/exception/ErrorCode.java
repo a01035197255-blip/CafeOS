@@ -42,6 +42,9 @@ public enum ErrorCode {
     // Recipe
     RECIPE_NOT_FOUND(HttpStatus.NOT_FOUND, "RECIPE_001", "레시피를 찾을 수 없습니다."),
     RECIPE_ALREADY_EXISTS(HttpStatus.CONFLICT, "RECIPE_002", "이미 존재하는 레시피입니다."),
+    // RecipeItem
+    RECIPE_ITEM_NOT_FOUND(HttpStatus.NOT_FOUND, "RECIPE_ITEM_001", "레시피 재료를 찾을 수 없습니다."),
+    RECIPE_ITEM_ALREADY_EXISTS(HttpStatus.CONFLICT, "RECIPE_ITEM_002", "이미 등록된 레시피 재료입니다."),
 
     // Order
     ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "ORDER_001", "주문을 찾을 수 없습니다."),
