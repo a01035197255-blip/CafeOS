@@ -49,6 +49,7 @@ public enum ErrorCode {
     // Order
     ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "ORDER_001", "주문을 찾을 수 없습니다."),
     ORDER_ALREADY_COMPLETED(HttpStatus.BAD_REQUEST, "ORDER_002", "이미 완료된 주문입니다."),
+    ORDER_ALREADY_CANCELLED(HttpStatus.BAD_REQUEST, "ORDER_002", "이미 취소된 주문입니다."),
 
     // Attendance
     ATTENDANCE_NOT_FOUND(HttpStatus.NOT_FOUND, "ATTENDANCE_001", "근태 정보를 찾을 수 없습니다."),
