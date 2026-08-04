@@ -26,10 +26,31 @@ public enum ErrorCode {
     EMAIL_CODE_EXPIRED(HttpStatus.BAD_REQUEST, "EMAIL_001", "이메일 인증번호가 만료되었습니다."),
     INVALID_EMAIL_CODE(HttpStatus.BAD_REQUEST, "EMAIL_002", "이메일 인증번호가 올바르지 않습니다."),
 
+    // Menu
     MENU_NOT_FOUND(HttpStatus.NOT_FOUND, "MENU_001", "메뉴를 찾을 수 없습니다."),
-
     MENU_ALREADY_EXISTS(HttpStatus.CONFLICT, "MENU_002", "이미 존재하는 메뉴입니다."),
 
+    // Ingredient
+    INGREDIENT_NOT_FOUND(HttpStatus.NOT_FOUND, "INGREDIENT_001", "재료를 찾을 수 없습니다."),
+    INGREDIENT_ALREADY_EXISTS(HttpStatus.CONFLICT, "INGREDIENT_002", "이미 존재하는 재료입니다."),
+
+    // Inventory
+    INVENTORY_NOT_FOUND(HttpStatus.NOT_FOUND, "INVENTORY_001", "재고를 찾을 수 없습니다."),
+    INSUFFICIENT_STOCK(HttpStatus.BAD_REQUEST, "INVENTORY_002", "재고가 부족합니다."),
+
+    // Recipe
+    RECIPE_NOT_FOUND(HttpStatus.NOT_FOUND, "RECIPE_001", "레시피를 찾을 수 없습니다."),
+    RECIPE_ALREADY_EXISTS(HttpStatus.CONFLICT, "RECIPE_002", "이미 존재하는 레시피입니다."),
+
+    // Order
+    ORDER_NOT_FOUND(HttpStatus.NOT_FOUND, "ORDER_001", "주문을 찾을 수 없습니다."),
+    ORDER_ALREADY_COMPLETED(HttpStatus.BAD_REQUEST, "ORDER_002", "이미 완료된 주문입니다."),
+
+    // Attendance
+    ATTENDANCE_NOT_FOUND(HttpStatus.NOT_FOUND, "ATTENDANCE_001", "근태 정보를 찾을 수 없습니다."),
+
+    // Notice
+    NOTICE_NOT_FOUND(HttpStatus.NOT_FOUND, "NOTICE_001", "공지를 찾을 수 없습니다."),
 
     // Auth
     INVALID_EMAIL_OR_PASSWORD(HttpStatus.UNAUTHORIZED, "A001", "이메일 또는 비밀번호가 올바르지 않습니다."),
