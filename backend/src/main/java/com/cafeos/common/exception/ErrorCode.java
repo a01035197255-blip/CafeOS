@@ -26,6 +26,10 @@ public enum ErrorCode {
     EMAIL_CODE_EXPIRED(HttpStatus.BAD_REQUEST, "EMAIL_001", "이메일 인증번호가 만료되었습니다."),
     INVALID_EMAIL_CODE(HttpStatus.BAD_REQUEST, "EMAIL_002", "이메일 인증번호가 올바르지 않습니다."),
 
+    MENU_NOT_FOUND(HttpStatus.NOT_FOUND, "MENU_001", "메뉴를 찾을 수 없습니다."),
+
+    MENU_ALREADY_EXISTS(HttpStatus.CONFLICT, "MENU_002", "이미 존재하는 메뉴입니다."),
+
 
     // Auth
     INVALID_EMAIL_OR_PASSWORD(HttpStatus.UNAUTHORIZED, "A001", "이메일 또는 비밀번호가 올바르지 않습니다."),
