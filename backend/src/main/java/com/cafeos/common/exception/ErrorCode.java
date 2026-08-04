@@ -37,6 +37,7 @@ public enum ErrorCode {
     // Inventory
     INVENTORY_NOT_FOUND(HttpStatus.NOT_FOUND, "INVENTORY_001", "재고를 찾을 수 없습니다."),
     INSUFFICIENT_STOCK(HttpStatus.BAD_REQUEST, "INVENTORY_002", "재고가 부족합니다."),
+    INVENTORY_ALREADY_EXISTS(HttpStatus.CONFLICT, "INVENTORY_002", "이미 등록된 재고입니다."),
 
     // Recipe
     RECIPE_NOT_FOUND(HttpStatus.NOT_FOUND, "RECIPE_001", "레시피를 찾을 수 없습니다."),
