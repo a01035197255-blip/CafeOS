@@ -56,6 +56,8 @@ public enum ErrorCode {
     ALREADY_CHECKED_IN(HttpStatus.BAD_REQUEST, "ATTENDANCE_002", "이미 출근 처리되었습니다."),
     ALREADY_CHECKED_OUT(HttpStatus.BAD_REQUEST, "ATTENDANCE_003", "이미 퇴근 처리되었습니다."),
 
+    TASK_NOT_FOUND(HttpStatus.NOT_FOUND, "TASK_001", "업무를 찾을 수 없습니다."),
+
     // Notice
     NOTICE_NOT_FOUND(HttpStatus.NOT_FOUND, "NOTICE_001", "공지를 찾을 수 없습니다."),
 
