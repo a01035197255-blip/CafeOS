@@ -28,6 +28,9 @@ public class Inventory {
     @Column(nullable = false)
     private Integer quantity;
 
+    @Column(nullable = false)
+    private Integer minimumStock;
+
     // 마지막 입고일
     private LocalDateTime lastStockedAt;
 
