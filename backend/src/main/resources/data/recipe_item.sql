@@ -358,7 +358,10 @@ VALUES
 
 -- 60. 에그 샌드위치
      ,(60,(SELECT ingredient_id FROM ingredients WHERE name='식빵'),2)
+     ,(60,(SELECT ingredient_id FROM ingredients WHERE name='계란'),2)
+     ,(60,(SELECT ingredient_id FROM ingredients WHERE name='마요네즈'),20)
      ,(60,(SELECT ingredient_id FROM ingredients WHERE name='버터'),10)
+     ,(60,(SELECT ingredient_id FROM ingredients WHERE name='파슬리'),2)
 
 -- 61. 햄치즈 샌드위치
      ,(61,(SELECT ingredient_id FROM ingredients WHERE name='식빵'),2)
@@ -369,6 +372,8 @@ VALUES
 -- 62. 갈릭 브레드
      ,(62,(SELECT ingredient_id FROM ingredients WHERE name='식빵'),2)
      ,(62,(SELECT ingredient_id FROM ingredients WHERE name='버터'),15)
+     ,(62,(SELECT ingredient_id FROM ingredients WHERE name='다진마늘'),10)
+     ,(62,(SELECT ingredient_id FROM ingredients WHERE name='파슬리'),2)
 
 -- =========================
 -- SEASON

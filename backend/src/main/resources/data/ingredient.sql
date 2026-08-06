@@ -92,6 +92,10 @@ VALUES
 ('햄','G',true,NOW(),NOW()),
 ('슬라이스 치즈','G',true,NOW(),NOW()),
 ('버터','G',true,NOW(),NOW()),
+('계란','EA',true,NOW(),NOW()),
+('마요네즈','G',true,NOW(),NOW()),
+('파슬리','G',true,NOW(),NOW()),
+('다진마늘','G',true,NOW(),NOW()),
 
 -- 디저트
 ('뉴욕 치즈케이크','EA',true,NOW(),NOW()),
