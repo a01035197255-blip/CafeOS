@@ -15,7 +15,6 @@ public class IngredientResponse {
 
     private IngredientUnit unit;
 
-    private Integer minimumStock;
 
     private Boolean enabled;
 
@@ -25,7 +24,6 @@ public class IngredientResponse {
                 .id(ingredient.getId())
                 .name(ingredient.getName())
                 .unit(ingredient.getUnit())
-                .minimumStock(ingredient.getMinimumStock())
                 .enabled(ingredient.getEnabled())
                 .build();
     }

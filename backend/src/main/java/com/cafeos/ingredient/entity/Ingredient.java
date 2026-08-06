@@ -27,9 +27,6 @@ public class Ingredient {
     @Column(nullable = false)
     private IngredientUnit unit;
 
-    // 최소 재고
-    @Column(nullable = false)
-    private Integer minimumStock;
 
     // 사용 여부
     @Builder.Default
@@ -56,12 +53,10 @@ public class Ingredient {
     public void update(
             String name,
             IngredientUnit unit,
-            Integer minimumStock,
             Boolean enabled
     ) {
         this.name = name;
         this.unit = unit;
-        this.minimumStock = minimumStock;
         this.enabled = enabled;
     }
 

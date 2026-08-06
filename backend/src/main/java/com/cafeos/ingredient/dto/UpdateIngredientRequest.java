@@ -15,8 +15,5 @@ public class UpdateIngredientRequest {
     private IngredientUnit unit;
 
     @NotNull
-    private Integer minimumStock;
-
-    @NotNull
     private Boolean enabled;
 }

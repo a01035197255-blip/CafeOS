@@ -46,7 +46,6 @@ public class IngredientService {
         Ingredient ingredient = Ingredient.builder()
                 .name(request.getName())
                 .unit(request.getUnit())
-                .minimumStock(request.getMinimumStock())
                 .enabled(true)
                 .build();
 
@@ -99,7 +98,6 @@ public class IngredientService {
         ingredient.update(
                 request.getName(),
                 request.getUnit(),
-                request.getMinimumStock(),
                 request.getEnabled()
         );
     }

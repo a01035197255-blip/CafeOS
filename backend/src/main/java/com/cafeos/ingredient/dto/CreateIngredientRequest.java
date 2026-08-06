@@ -14,6 +14,4 @@ public class CreateIngredientRequest {
     @NotNull
     private IngredientUnit unit;
 
-    @NotNull
-    private Integer minimumStock;
 }
