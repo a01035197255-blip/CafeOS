@@ -66,7 +66,7 @@ public class DashboardService {
                         .stream()
                         .filter(inventory ->
                                 inventory.getQuantity() <=
-                                        inventory.getIngredient().getMinimumStock())
+                                        inventory.getMinimumStock())
                         .count();
 
         // 공지사항
