@@ -98,7 +98,6 @@ VALUES
 ('브라우니','EA',true,NOW(),NOW()),
 ('티라미수','EA',true,NOW(),NOW()),
 ('마카롱','EA',true,NOW(),NOW()),
-('티라미수','EA',true,NOW(),NOW()),
 
 -- 시즌
 ('밤크림','ML',true,NOW(),NOW()),
