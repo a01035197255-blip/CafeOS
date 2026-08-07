@@ -1,159 +1,114 @@
-import Image from "next/image";
 import Link from "next/link";
-import {
-  BarChart3,
-  Boxes,
-  ShoppingCart,
-  Users,
-  Bell,
-  Brain,
-} from "lucide-react";
-
-const features = [
-  {
-    icon: <BarChart3 size={28} />,
-    title: "매출 분석",
-    desc: "실시간 매출 현황과 판매 데이터를 확인하세요.",
-  },
-  {
-    icon: <Boxes size={28} />,
-    title: "재고 관리",
-    desc: "재고와 최소 재고를 손쉽게 관리합니다.",
-  },
-  {
-    icon: <ShoppingCart size={28} />,
-    title: "주문(POS)",
-    desc: "빠르고 편리한 주문 및 결제 시스템.",
-  },
-  {
-    icon: <Users size={28} />,
-    title: "직원 관리",
-    desc: "직원 정보와 근태를 관리합니다.",
-  },
-  {
-    icon: <Bell size={28} />,
-    title: "공지 관리",
-    desc: "공지사항을 등록하고 공유하세요.",
-  },
-  {
-    icon: <Brain size={28} />,
-    title: "AI 분석",
-    desc: "판매 추이와 재고를 예측합니다.",
-  },
-];
+import { Coffee, BarChart3, Package, Users } from "lucide-react";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#faf8f6]">
+    <div className="min-h-screen bg-[#121212] text-white flex flex-col justify-between relative overflow-x-hidden font-sans">
+      {/* 선명한 배경 이미지 및 어두운 오버레이 레이어 */}
+      <div
+        className="absolute inset-0 z-0 bg-cover bg-center"
+        style={{
+          backgroundImage: `url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2560&auto=format&fit=crop')`,
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/65 to-black/40" />
+      </div>
 
-      {/* Header */}
+      {/* 헤더 네비게이션 */}
+      <header className="relative z-10 max-w-7xl w-full mx-auto px-6 py-6 flex items-center justify-between">
+        <div className="flex items-center gap-2 cursor-pointer">
+          <div className="bg-[#8B4513] p-2 rounded-full text-white shadow-md">
+            <Coffee size={24} />
+          </div>
+          <span className="text-xl font-bold tracking-tight">CafeOS</span>
+        </div>
 
-      <header className="border-b border-[#ece7e3] bg-white">
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-8">
-
-          <h1 className="text-3xl font-bold text-[#8B5E3C]">
-            ☕ CafeOS
-          </h1>
-
-          <nav className="hidden items-center gap-10 text-sm text-gray-600 md:flex">
-            <a href="#">기능 소개</a>
-            <a href="#">가격</a>
-            <a href="#">고객지원</a>
-            <a href="#">문의</a>
-          </nav>
-
+        <div>
           <Link
             href="/login"
-            className="rounded-lg bg-[#8B5E3C] px-5 py-2 font-semibold text-white transition hover:bg-[#6d472e]"
+            className="px-5 py-2 border border-white/30 rounded-full text-sm font-medium hover:bg-white/10 transition"
           >
             로그인
           </Link>
-
         </div>
       </header>
 
-      {/* Hero */}
-
-      <section className="mx-auto flex max-w-7xl items-center justify-between gap-20 px-8 py-20">
-
-        {/* Left */}
-
-        <div className="max-w-xl">
-
-          <h2 className="text-6xl font-extrabold leading-tight text-gray-900">
-            카페 운영,
-            <br />
-            더 쉽고 스마트하게
-          </h2>
-
-          <p className="mt-8 text-lg leading-8 text-gray-600">
-            매출, 재고, 직원, 주문, 공지까지
-            <br />
-            모든 것을 하나의 시스템에서 관리하세요.
-          </p>
-
-          <div className="mt-10 flex gap-4">
-
-            <Link
-              href="/login"
-              className="rounded-xl bg-[#8B5E3C] px-8 py-4 font-semibold text-white transition hover:bg-[#71482e]"
-            >
-              시작하기
-            </Link>
-
-            <button className="rounded-xl border border-gray-300 bg-white px-8 py-4 font-semibold hover:bg-gray-50">
-              기능 둘러보기
-            </button>
-
-          </div>
-
+      {/* 히어로 섹션 */}
+      <main className="relative z-10 max-w-7xl w-full mx-auto px-6 pt-12 pb-24 flex flex-col items-start">
+        <div className="inline-block bg-[#5C3A21]/90 border border-[#8B4513] text-[#F3E5AB] text-xs font-semibold px-4 py-1.5 rounded-full mb-6 backdrop-blur-md shadow-sm">
+          카페 운영을 더 쉽고 스마트하게
         </div>
 
-        {/* Right */}
+        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight leading-tight mb-6">
+          카페 운영의 모든 것,<br />
+          <span className="text-white">CafeOS 하나로</span>
+        </h1>
 
-        <div className="relative h-[500px] w-[520px] overflow-hidden rounded-[36px] bg-white shadow-2xl">
+        <p className="text-gray-200 text-base md:text-lg max-w-xl mb-10 leading-relaxed font-light">
+          주문, 재고, 매출, 직원 관리까지<br />
+          효율적인 카페 운영을 경험해보세요.
+        </p>
 
-          <Image
-            src="/images/hero.jpg"
-            alt="Cafe"
-            fill
-            priority
-            className="object-cover"
-          />
-
-        </div>
-
-      </section>
-
-      {/* Feature */}
-
-      <section className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-8 pb-24 md:grid-cols-2 lg:grid-cols-3">
-
-        {features.map((item) => (
-
-          <div
-            key={item.title}
-            className="rounded-3xl border border-[#efefef] bg-white p-8 transition hover:-translate-y-1 hover:shadow-xl"
+        <div className="flex flex-wrap gap-4">
+          <Link
+            href="/login"
+            className="px-8 py-3.5 bg-[#8B4513] hover:bg-[#6F370F] text-white font-medium rounded-xl shadow-lg transition text-center"
           >
+            지금 시작하기
+          </Link>
+          <Link
+            href="#features"
+            className="px-8 py-3.5 bg-black/40 hover:bg-black/60 border border-white/20 text-white font-medium rounded-xl backdrop-blur-md transition text-center"
+          >
+            기능 둘러보기
+          </Link>
+        </div>
+      </main>
 
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#F5EEE8] text-[#8B5E3C]">
-              {item.icon}
+      {/* 하단 카드 섹션 (문구 보완) */}
+      <section className="relative z-20 bg-white text-black rounded-t-[2.5rem] pt-12 pb-16 px-6 shadow-2xl">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+          {/* 카드 1 */}
+          <div className="bg-[#FAF6F0] p-6 rounded-2xl flex flex-col items-center text-center border border-[#F0E6D8] transition hover:shadow-md">
+            <div className="w-14 h-14 bg-[#F3E5AB]/70 rounded-full flex items-center justify-center text-[#5C3A21] mb-4">
+              <Coffee size={28} />
             </div>
-
-            <h3 className="mt-6 text-2xl font-bold">
-              {item.title}
-            </h3>
-
-            <p className="mt-3 leading-7 text-gray-500">
-              {item.desc}
-            </p>
-
+            <h3 className="font-bold text-lg mb-1 text-gray-900">POS 주문 관리</h3>
+            <p className="text-xs text-gray-600 leading-relaxed">터치 몇 번으로 주문부터 결제까지 빠르게 처리합니다.</p>
           </div>
 
-        ))}
+          {/* 카드 2 */}
+          <div className="bg-[#FAF6F0] p-6 rounded-2xl flex flex-col items-center text-center border border-[#F0E6D8] transition hover:shadow-md">
+            <div className="w-14 h-14 bg-[#F3E5AB]/70 rounded-full flex items-center justify-center text-[#5C3A21] mb-4">
+              <BarChart3 size={28} />
+            </div>
+            <h3 className="font-bold text-lg mb-1 text-gray-900">실시간 매출 및 리포트</h3>
+            <p className="text-xs text-gray-600 leading-relaxed"> 일별·월별 매출과 인기 메뉴를 그래프로 확인할 수 있습니다.</p>
+          </div>
 
+          {/* 카드 3 */}
+          <div className="bg-[#FAF6F0] p-6 rounded-2xl flex flex-col items-center text-center border border-[#F0E6D8] transition hover:shadow-md">
+            <div className="w-14 h-14 bg-[#F3E5AB]/70 rounded-full flex items-center justify-center text-[#5C3A21] mb-4">
+              <Package size={28} />
+            </div>
+            <h3 className="font-bold text-lg mb-1 text-gray-900">자동 재고 소모 알림</h3>
+            <p className="text-xs text-gray-600 leading-relaxed">원두와 우유 등 재고를 실시간으로
+                                                                   관리하고 부족 시 알림을 제공합니다.</p>
+          </div>
+
+          {/* 카드 4 */}
+          <div className="bg-[#FAF6F0] p-6 rounded-2xl flex flex-col items-center text-center border border-[#F0E6D8] transition hover:shadow-md">
+            <div className="w-14 h-14 bg-[#F3E5AB]/70 rounded-full flex items-center justify-center text-[#5C3A21] mb-4">
+              <Users size={28} />
+            </div>
+            <h3 className="font-bold text-lg mb-1 text-gray-900">직원 근태 및 권한 설정</h3>
+            <p className="text-xs text-gray-600 leading-relaxed">직원별 권한 설정과 근무 관리를
+                                                                   간편하게 할 수 있습니다.</p>
+          </div>
+
+        </div>
       </section>
-
-    </main>
+    </div>
   );
 }
