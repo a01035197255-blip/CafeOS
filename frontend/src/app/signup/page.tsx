@@ -4,13 +4,11 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Coffee, Eye, EyeOff } from "lucide-react";
-// auth.ts 경로에 맞게 임포트 경로를 확인해주세요
 import { signup, sendEmailCode } from "@/services/auth";
 
 export default function SignupPage() {
   const router = useRouter();
 
-  // SignupRequest 인터페이스에 맞춘 상태값 설정
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
   const [password, setPassword] = useState("");
@@ -29,7 +27,6 @@ export default function SignupPage() {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  // 이메일 인증 코드 전송 핸들러
   const handleSendEmailCode = async () => {
     if (!email) {
       setErrorMessage("이메일을 먼저 입력해주세요.");
@@ -50,7 +47,6 @@ export default function SignupPage() {
     }
   };
 
-  // 회원가입 제출 핸들러
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage("");
@@ -115,11 +111,11 @@ export default function SignupPage() {
         </Link>
       </header>
 
-      {/* 메인 컨텐츠 영역 */}
-      <main className="relative z-10 max-w-6xl w-full mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center flex-grow">
+      {/* 메인 컨텐츠 영역: items-start를 주어 긴 폼 박스와 상단 정렬을 맞춤 */}
+      <main className="relative z-10 max-w-6xl w-full mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-start flex-grow">
 
-        {/* 왼쪽 안내 문구 */}
-        <div className="flex flex-col items-start justify-center">
+        {/* 왼쪽 안내 문구 (sticky를 적용해 스크롤 시에도 자연스럽게 위치 고정) */}
+        <div className="flex flex-col items-start justify-center lg:sticky lg:top-12">
           <div className="inline-block bg-[#8B4513]/30 border border-[#8B4513]/50 text-[#D2B48C] text-xs font-semibold px-3.5 py-1.5 rounded-full mb-4">
             회원가입
           </div>
@@ -186,7 +182,6 @@ export default function SignupPage() {
           )}
 
           <form onSubmit={handleSignup} className="space-y-3">
-            {/* 이메일 입력 및 인증 코드 전송 버튼 */}
             <div>
               <label className="block text-xs font-semibold text-gray-700 mb-1">이메일</label>
               <div className="flex gap-2">
@@ -209,7 +204,6 @@ export default function SignupPage() {
               </div>
             </div>
 
-            {/* 인증 코드 입력 */}
             <div>
               <label className="block text-xs font-semibold text-gray-700 mb-1">인증 코드</label>
               <input
@@ -222,7 +216,6 @@ export default function SignupPage() {
               />
             </div>
 
-            {/* 비밀번호 */}
             <div>
               <label className="block text-xs font-semibold text-gray-700 mb-1">비밀번호</label>
               <div className="relative">
@@ -244,7 +237,6 @@ export default function SignupPage() {
               </div>
             </div>
 
-            {/* 비밀번호 확인 */}
             <div>
               <label className="block text-xs font-semibold text-gray-700 mb-1">비밀번호 확인</label>
               <div className="relative">
@@ -266,7 +258,6 @@ export default function SignupPage() {
               </div>
             </div>
 
-            {/* 이름 */}
             <div>
               <label className="block text-xs font-semibold text-gray-700 mb-1">이름</label>
               <input
@@ -279,7 +270,6 @@ export default function SignupPage() {
               />
             </div>
 
-            {/* 전화번호 & 생년월일 (2열) */}
             <div className="grid grid-cols-2 gap-2">
               <div>
                 <label className="block text-xs font-semibold text-gray-700 mb-1">전화번호</label>
@@ -304,7 +294,6 @@ export default function SignupPage() {
               </div>
             </div>
 
-            {/* 성별 */}
             <div>
               <label className="block text-xs font-semibold text-gray-700 mb-1">성별</label>
               <select
@@ -318,7 +307,6 @@ export default function SignupPage() {
               </select>
             </div>
 
-            {/* 이용약관 동의 */}
             <div className="flex items-center text-xs text-gray-600 pt-1">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
@@ -347,18 +335,7 @@ export default function SignupPage() {
             <span className="relative bg-white px-3 text-xs text-gray-400">또는</span>
           </div>
 
-          <button
-            type="button"
-            className="w-full py-2.5 border border-gray-200 hover:bg-gray-50 rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition text-gray-700 shadow-sm"
-          >
-            <svg className="w-4 h-4" viewBox="0 0 24 24">
-              <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
-              <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.13 0-5.78-2.11-6.73-4.96H1.19v3.15C3.17 21.31 7.26 24 12 24z"/>
-              <path fill="#FBBC05" d="M5.27 14.24c-.25-.72-.39-1.5-.39-2.24s.14-1.52.39-2.24V6.6H1.19C.43 8.13 0 9.87 0 11.7s.43 3.57 1.19 5.1l4.08-2.56z"/>
-              <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.26 0 3.17 2.69 1.19 6.6l4.08 3.15c.95-2.85 3.6-4.96 6.73-4.96z"/>
-            </svg>
-            Google로 가입
-          </button>
+
 
           <div className="mt-3 text-center text-xs text-gray-500">
             이미 계정이 있으신가요?{" "}
@@ -373,7 +350,7 @@ export default function SignupPage() {
 
       {/* 하단 푸터 */}
       <footer className="relative z-10 max-w-7xl w-full mx-auto px-6 py-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between text-xs text-gray-400 gap-4">
-        <p>© 2024 CafeOS. All rights reserved.</p>
+        <p>© 2026 CafeOS. All rights reserved.</p>
         <div className="flex gap-6">
           <Link href="/terms" className="hover:text-white transition">이용약관</Link>
           <Link href="/privacy" className="hover:text-white transition">개인정보처리방침</Link>

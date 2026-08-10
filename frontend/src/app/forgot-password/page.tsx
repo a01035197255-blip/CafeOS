@@ -93,7 +93,7 @@ export default function ForgotPasswordPage() {
           <div className="bg-[#8B4513] p-2 rounded-full text-white shadow-md">
             <Coffee size={22} />
           </div>
-          <span className="text-xl font-bold tracking-tight text-[#D2B48C]">CafeOS</span>
+          <span className="text-xl font-bold tracking-tight text-white">CafeOS</span>
         </Link>
       </header>
 

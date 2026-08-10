@@ -59,7 +59,7 @@ export default function LoginPage() {
             <Coffee size={22} />
           </div>
           {/* 요청하신 브라운 컬러 적용 */}
-          <span className="text-xl font-bold tracking-tight text-[#D2B48C]">CafeOS</span>
+          <span className="text-xl font-bold tracking-tight text-white">CafeOS</span>
         </Link>
       </header>
 
