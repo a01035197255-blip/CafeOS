@@ -193,7 +193,7 @@ export default function ForgotPasswordPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 bg-[#8B4513] hover:bg-[#6F370F] text-white font-medium rounded-xl shadow-md transition text-center disabled:opacity-50 mt-2"
+                className="w-full py-3.5 bg-[#8B4513] hover:bg-[#6F370F] text-white font-medium rounded-xl shadow-md transition text-center disabled:opacity-50 mt-2 cursor-pointer"
               >
                 {loading ? "전송 중..." : "인증번호 보내기"}
               </button>
@@ -218,7 +218,7 @@ export default function ForgotPasswordPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 bg-[#8B4513] hover:bg-[#6F370F] text-white font-medium rounded-xl shadow-md transition text-center disabled:opacity-50 mt-2"
+                className="w-full py-3.5 bg-[#8B4513] hover:bg-[#6F370F] text-white font-medium rounded-xl shadow-md transition text-center disabled:opacity-50 mt-2 cursor-pointer"
               >
                 {loading ? "확인 중..." : "인증번호 확인"}
               </button>
@@ -255,7 +255,7 @@ export default function ForgotPasswordPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 bg-[#8B4513] hover:bg-[#6F370F] text-white font-medium rounded-xl shadow-md transition text-center disabled:opacity-50 mt-2"
+                className="w-full py-3.5 bg-[#8B4513] hover:bg-[#6F370F] text-white font-medium rounded-xl shadow-md transition text-center disabled:opacity-50 mt-2 cursor-pointer"
               >
                 {loading ? "변경 중..." : "비밀번호 재설정"}
               </button>

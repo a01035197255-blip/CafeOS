@@ -156,7 +156,7 @@ const handleGoogleLogin = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 bg-[#8B4513] hover:bg-[#6F370F] text-white font-medium rounded-xl shadow-md transition text-center disabled:opacity-50 mt-2"
+              className="w-full py-3.5 bg-[#8B4513] hover:bg-[#6F370F] text-white font-medium rounded-xl shadow-md transition text-center disabled:opacity-50 mt-2 cursor-pointer"
             >
               {loading ? "로그인 중..." : "로그인"}
             </button>
@@ -170,7 +170,7 @@ const handleGoogleLogin = () => {
           <button
             type="button"
             onClick={handleGoogleLogin}
-            className="w-full py-3 border border-gray-200 hover:bg-gray-50 rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition text-gray-700"
+            className="w-full py-3 border border-gray-200 hover:bg-gray-50 rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition text-gray-700 cursor-pointer"
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>

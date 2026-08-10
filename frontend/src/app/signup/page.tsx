@@ -197,7 +197,7 @@ export default function SignupPage() {
                   type="button"
                   onClick={handleSendEmailCode}
                   disabled={sendingEmail}
-                  className="px-3 py-2.5 bg-gray-800 hover:bg-black text-white text-xs font-medium rounded-xl whitespace-nowrap transition disabled:opacity-50"
+                  className="px-3 py-2.5 bg-gray-800 hover:bg-black text-white text-xs font-medium rounded-xl whitespace-nowrap transition disabled:opacity-50 cursor-pointer"
                 >
                   {sendingEmail ? "전송 중" : "코드 전송"}
                 </button>
@@ -324,7 +324,7 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-[#8B4513] hover:bg-[#6F370F] text-white font-medium rounded-xl shadow-md transition text-center disabled:opacity-50 mt-1"
+              className="w-full py-3 bg-[#8B4513] hover:bg-[#6F370F] text-white font-medium rounded-xl shadow-md transition text-center disabled:opacity-50 mt-1 cursor-pointer"
             >
               {loading ? "가입 처리 중..." : "회원가입"}
             </button>
