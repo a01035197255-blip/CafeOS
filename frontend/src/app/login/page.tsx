@@ -40,6 +40,11 @@ export default function LoginPage() {
     }
   };
 
+const handleGoogleLogin = () => {
+  // 백엔드 스프링 시큐리티의 구글 소셜 로그인 엔드포인트로 이동
+  window.location.href = "http://localhost:8080/oauth2/authorization/google";
+};
+
   return (
     <div className="min-h-screen bg-[#121212] text-white flex flex-col justify-between relative overflow-x-hidden font-sans">
       {/* 배경 이미지 및 어두운 오버레이 */}
@@ -164,6 +169,7 @@ export default function LoginPage() {
 
           <button
             type="button"
+            onClick={handleGoogleLogin}
             className="w-full py-3 border border-gray-200 hover:bg-gray-50 rounded-xl text-sm font-medium flex items-center justify-center gap-2 transition text-gray-700"
           >
             <svg className="w-4 h-4" viewBox="0 0 24 24">
