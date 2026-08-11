@@ -31,7 +31,7 @@ export default function LoginPage() {
       localStorage.setItem("accessToken", response.accessToken);
       localStorage.setItem("refreshToken", response.refreshToken);
 
-      router.push("/");
+      router.push("/dashboard");
     } catch (error: any) {
       console.error(error);
       setErrorMessage("로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.");

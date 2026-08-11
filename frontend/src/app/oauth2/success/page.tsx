@@ -25,7 +25,7 @@ export default function OAuth2SuccessPage() {
 
       setStatusText("로그인 성공! 메인 페이지로 이동합니다.");
       setTimeout(() => {
-        router.push("/");
+        router.push("/dashboard");
       }, 1000);
     } catch (error) {
       console.error(error);
