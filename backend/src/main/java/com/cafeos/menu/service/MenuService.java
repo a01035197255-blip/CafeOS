@@ -61,7 +61,7 @@ public class MenuService {
      */
     public List<MenuResponse> getMenuList() {
 
-        return menuRepository.findAll()
+        return menuRepository.findAllByOrderByIdAsc()
                 .stream()
                 .map(MenuResponse::from)
                 .toList();
