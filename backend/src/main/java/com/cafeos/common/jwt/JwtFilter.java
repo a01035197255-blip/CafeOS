@@ -23,10 +23,11 @@ public class JwtFilter extends OncePerRequestFilter {
     private final CustomUserDetailsService customUserDetailsService;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain)
-            throws ServletException, IOException {
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain
+    ) throws ServletException, IOException {
 
         String header = request.getHeader("Authorization");
 
@@ -36,34 +37,63 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        // Bearer 제거
         String token = header.substring(7);
 
-        // 토큰 검증 (유효하지 않으면 BusinessException 발생)
-        jwtUtil.validateToken(token);
+        try {
 
-        // 이메일 추출
-        String email = jwtUtil.getEmail(token);
+            // 토큰 검증
+            jwtUtil.validateToken(token);
 
-        // UserDetails 조회
-        CustomUserDetails userDetails =
-                (CustomUserDetails) customUserDetailsService.loadUserByUsername(email);
+            // 이메일 추출
+            String email = jwtUtil.getEmail(token);
 
-        // Authentication 생성
-        UsernamePasswordAuthenticationToken authentication =
-                new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.getAuthorities()
-                );
+            // UserDetails 조회
+            CustomUserDetails userDetails =
+                    (CustomUserDetails)
+                            customUserDetailsService
+                                    .loadUserByUsername(email);
 
-        authentication.setDetails(
-                new WebAuthenticationDetailsSource().buildDetails(request)
-        );
+            // Authentication 생성
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            userDetails.getAuthorities()
+                    );
 
-        // SecurityContext 저장
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            authentication.setDetails(
+                    new WebAuthenticationDetailsSource()
+                            .buildDetails(request)
+            );
 
-        filterChain.doFilter(request, response);
+            // SecurityContext 저장
+            SecurityContextHolder
+                    .getContext()
+                    .setAuthentication(authentication);
+
+            // 다음 필터로
+            filterChain.doFilter(request, response);
+
+        } catch (Exception e) {
+
+            // JWT가 만료되거나 잘못된 경우
+            SecurityContextHolder.clearContext();
+
+            response.setStatus(
+                    HttpServletResponse.SC_UNAUTHORIZED
+            );
+
+            response.setContentType(
+                    "application/json;charset=UTF-8"
+            );
+
+            response.getWriter().write("""
+                    {
+                        "status": 401,
+                        "message": "인증이 만료되었습니다."
+                    }
+                    """);
+
+        }
     }
 }
