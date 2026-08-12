@@ -10,7 +10,12 @@ import {
   Trash2,
 } from "lucide-react";
 
-import { getMenuList } from "@/services/menu";
+import {
+  getMenuList,
+  deleteMenu,
+  changeMenuSale,
+} from "@/services/menu";
+import { useRouter } from "next/navigation";
 import type { MenuCategory, MenuResponse } from "@/types/menu";
 
 const categoryLabels: Record<MenuCategory, string> = {
@@ -42,6 +47,7 @@ const categories: MenuCategory[] = [
 export default function MenusPage() {
   const [menus, setMenus] = useState<MenuResponse[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   const [search, setSearch] = useState("");
   const [selectedCategory, setSelectedCategory] =
@@ -82,6 +88,44 @@ export default function MenusPage() {
     });
   }, [menus, search, selectedCategory]);
 
+    const handleDelete = async (
+      menuId: number,
+      menuName: string
+    ) => {
+      const confirmed = window.confirm(
+        `"${menuName}" 메뉴를 삭제하시겠습니까?`
+      );
+
+      if (!confirmed) {
+        return;
+      }
+
+      try {
+        await deleteMenu(menuId);
+
+        alert("메뉴가 삭제되었습니다.");
+
+        await fetchMenus();
+      } catch (error) {
+        console.error("메뉴 삭제 실패:", error);
+        alert("메뉴 삭제에 실패했습니다.");
+      }
+    };
+
+    const handleSaleChange = async (
+      menuId: number,
+      sale: boolean
+    ) => {
+      try {
+        await changeMenuSale(menuId, sale);
+
+        await fetchMenus();
+      } catch (error) {
+        console.error("판매 상태 변경 실패:", error);
+        alert("판매 상태 변경에 실패했습니다.");
+      }
+    };
+
   return (
     <div className="min-h-screen bg-[#F4F5F7]">
       <main className="max-w-[1500px] mx-auto px-8 py-8">
@@ -100,6 +144,7 @@ export default function MenusPage() {
 
           <button
             type="button"
+            onClick={() => router.push("/menus/new")}
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#5C3A21] text-white text-sm font-semibold hover:bg-[#4A2E1A] transition shadow-sm"
           >
             <Plus size={17} />
@@ -229,15 +274,17 @@ export default function MenusPage() {
                   )}
 
                   {/* 판매 여부 */}
-                  <span
-                    className={`absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-semibold ${
+                  <button
+                    type="button"
+                    onClick={() => handleSaleChange(menu.id, !menu.sale)}
+                    className={`absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-semibold transition ${
                       menu.sale
-                        ? "bg-green-50 text-green-600"
-                        : "bg-gray-100 text-gray-500"
+                        ? "bg-green-50 text-green-600 hover:bg-green-100"
+                        : "bg-red-50 text-red-500 hover:bg-red-100"
                     }`}
                   >
-                    {menu.sale ? "판매중" : "판매중지"}
-                  </span>
+                    {menu.sale ? "판매중" : "품절"}
+                  </button>
                 </div>
 
                 {/* 내용 */}
@@ -271,6 +318,9 @@ export default function MenusPage() {
                     <div className="flex items-center gap-1">
                       <button
                         type="button"
+                        onClick={() =>
+                            router.push(`/menus/${menu.id}/edit`)
+                          }
                         className="p-2 rounded-lg text-gray-400 hover:text-[#5C3A21] hover:bg-[#FAF7F4] transition"
                         title="수정"
                       >
@@ -279,6 +329,9 @@ export default function MenusPage() {
 
                       <button
                         type="button"
+                        onClick={() =>
+                            handleDelete(menu.id, menu.name)
+                          }
                         className="p-2 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition"
                         title="삭제"
                       >
