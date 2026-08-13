@@ -33,7 +33,9 @@ export interface InventoryResponse {
   id: number;
   ingredientId: number;
   ingredientName: string;
+  unit: IngredientUnit;
   quantity: number;
+  minimumStock: number;
 }
 
 export interface UpdateInventoryRequest {

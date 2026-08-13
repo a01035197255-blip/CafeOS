@@ -63,7 +63,7 @@ public class InventoryService {
      */
     public List<InventoryResponse> getInventoryList() {
 
-        return inventoryRepository.findAll()
+        return inventoryRepository.findAllByOrderByIdAsc()
                 .stream()
                 .map(InventoryResponse::from)
                 .toList();

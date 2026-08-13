@@ -1,5 +1,6 @@
 package com.cafeos.inventory.dto;
 
+import com.cafeos.ingredient.entity.IngredientUnit;
 import com.cafeos.inventory.entity.Inventory;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,6 +17,10 @@ public class InventoryResponse {
 
     private Integer quantity;
 
+    private Integer minimumStock;
+
+    private IngredientUnit unit;
+
     public static InventoryResponse from(Inventory inventory) {
 
         return InventoryResponse.builder()
@@ -23,6 +28,8 @@ public class InventoryResponse {
                 .ingredientId(inventory.getIngredient().getId())
                 .ingredientName(inventory.getIngredient().getName())
                 .quantity(inventory.getQuantity())
+                .minimumStock(inventory.getMinimumStock())
+                .unit(inventory.getIngredient().getUnit())
                 .build();
     }
 }

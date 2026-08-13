@@ -27,12 +27,15 @@ const unitLabels: Record<IngredientUnit, string> = {
 
 type StockStatus = "NORMAL" | "LOW" | "OUT";
 
-const getStockStatus = (quantity: number): StockStatus => {
+const getStockStatus = (
+  quantity: number,
+  minimumStock: number
+): StockStatus => {
   if (quantity <= 0) {
     return "OUT";
   }
 
-  if (quantity <= 5) {
+  if (quantity <= minimumStock) {
     return "LOW";
   }
 
@@ -80,7 +83,10 @@ export default function InventoryPage() {
     const keyword = search.trim().toLowerCase();
 
     return inventories.filter((inventory) => {
-      const status = getStockStatus(inventory.quantity);
+      const status = getStockStatus(
+        inventory.quantity,
+        inventory.minimumStock
+      );
 
       const matchesStatus =
         selectedStatus === "ALL" ||
@@ -97,15 +103,18 @@ export default function InventoryPage() {
   }, [inventories, search, selectedStatus]);
 
   const normalCount = inventories.filter(
-    (item) => getStockStatus(item.quantity) === "NORMAL"
+    (item) =>
+      getStockStatus(item.quantity, item.minimumStock) === "NORMAL"
   ).length;
 
   const lowCount = inventories.filter(
-    (item) => getStockStatus(item.quantity) === "LOW"
+    (item) =>
+      getStockStatus(item.quantity, item.minimumStock) === "LOW"
   ).length;
 
   const outCount = inventories.filter(
-    (item) => getStockStatus(item.quantity) === "OUT"
+    (item) =>
+      getStockStatus(item.quantity, item.minimumStock) === "OUT"
   ).length;
 
   return (
@@ -333,6 +342,10 @@ export default function InventoryPage() {
                       현재 재고
                     </th>
 
+                    <th className="px-6 py-4 text-right text-xs font-bold text-gray-500">
+                      최소 재고
+                    </th>
+
                     <th className="px-6 py-4 text-center text-xs font-bold text-gray-500">
                       단위
                     </th>
@@ -353,7 +366,8 @@ export default function InventoryPage() {
                   {filteredInventories.map(
                     (inventory) => {
                       const status = getStockStatus(
-                        inventory.quantity
+                        inventory.quantity,
+                        inventory.minimumStock
                       );
 
                       return (
@@ -405,12 +419,16 @@ export default function InventoryPage() {
 
                           </td>
 
+                          <td className="px-6 py-5 text-right">
+                            <span className="text-sm font-semibold text-gray-500">
+                              {inventory.minimumStock.toLocaleString()}
+                            </span>
+                          </td>
+
                           {/* 단위 */}
                           <td className="px-6 py-5 text-center">
                             <span className="text-sm font-medium text-gray-500">
-                              {/* InventoryResponse에는 unit이 없으므로
-                                  현재는 재료 단위를 가져올 수 없음 */}
-                              -
+                              {unitLabels[inventory.unit]}
                             </span>
                           </td>
 
