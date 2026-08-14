@@ -6,9 +6,12 @@ import {
   Plus,
   RefreshCw,
   Coffee,
+  ChefHat,
   Pencil,
   Trash2,
 } from "lucide-react";
+
+import { getRecipeList } from "@/services/recipe";
 
 import {
   getMenuList,
@@ -123,6 +126,25 @@ export default function MenusPage() {
       } catch (error) {
         console.error("판매 상태 변경 실패:", error);
         alert("판매 상태 변경에 실패했습니다.");
+      }
+    };
+
+    const handleRecipe = async (menuId: number) => {
+      try {
+        const recipes = await getRecipeList();
+
+        const recipe = recipes.find(
+          (item) => item.menuId === menuId
+        );
+
+        if (!recipe) {
+          alert("등록된 레시피가 없습니다.");
+          return;
+        }
+
+        router.push(`/recipes/${recipe.id}`);
+      } catch (error) {
+        console.error("레시피 조회 실패:", error);
       }
     };
 
@@ -316,6 +338,25 @@ export default function MenusPage() {
 
                     {/* 관리 버튼 */}
                     <div className="flex items-center gap-1">
+
+                    <button
+                          type="button"
+                          onClick={() => handleRecipe(menu.id)}
+                          className="
+                            flex items-center gap-1.5
+                            rounded-lg
+                            bg-[#F5EFE9]
+                            px-3 py-2
+                            text-sm font-semibold
+                            text-[#5C3A21]
+                            transition
+                            hover:bg-[#EDE3D9]
+                            cursor-pointer
+                          "
+                        >
+                          <ChefHat size={15} />
+                          레시피
+                        </button>
                       <button
                         type="button"
                         onClick={() =>
@@ -337,7 +378,9 @@ export default function MenusPage() {
                       >
                         <Trash2 size={16} />
                       </button>
-                    </div>
+
+
+                     </div>
                   </div>
 
                 </div>

@@ -42,6 +42,11 @@ export interface UpdateInventoryRequest {
   quantity: number;
 }
 
+export interface CreateRecipeRequest {
+  menuId: number;
+  description?: string;
+}
+
 export interface RecipeResponse {
   id: number;
   menuId: number;
