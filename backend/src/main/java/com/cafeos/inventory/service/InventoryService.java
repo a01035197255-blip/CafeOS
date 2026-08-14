@@ -53,6 +53,7 @@ public class InventoryService {
         Inventory inventory = Inventory.builder()
                 .ingredient(ingredient)
                 .quantity(request.getQuantity())
+                .minimumStock(request.getMinimumStock())
                 .build();
 
         inventoryRepository.save(inventory);

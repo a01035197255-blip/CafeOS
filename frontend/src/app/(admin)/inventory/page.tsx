@@ -133,14 +133,27 @@ export default function InventoryPage() {
             </p>
           </div>
 
-          <button
-            type="button"
-            onClick={() => router.push("/inventory/new")}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#5C3A21] text-white text-sm font-semibold hover:bg-[#4A2E1A] transition shadow-sm cursor-pointer"
-          >
-            <Plus size={17} />
-            재고 등록
-          </button>
+          <div className="flex items-center gap-2">
+            {/* 재료 등록 */}
+            <button
+              type="button"
+              onClick={() => router.push("/ingredients/new")}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-[#D8C8BA] bg-white text-[#5C3A21] text-sm font-semibold hover:bg-[#FAF7F4] transition shadow-sm cursor-pointer"
+            >
+              <Plus size={17} />
+              재료 등록
+            </button>
+
+            {/* 재고 등록 */}
+            <button
+              type="button"
+              onClick={() => router.push("/inventory/new")}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#5C3A21] text-white text-sm font-semibold hover:bg-[#4A2E1A] transition shadow-sm cursor-pointer"
+            >
+              <Plus size={17} />
+              재고 등록
+            </button>
+          </div>
         </div>
 
         {/* 요약 */}

@@ -27,7 +27,8 @@ export interface UpdateIngredientRequest {
 export interface CreateInventoryRequest {
   ingredientId: number;
   quantity: number;
-}
+  minimumStock: number;
+  }
 
 export interface InventoryResponse {
   id: number;

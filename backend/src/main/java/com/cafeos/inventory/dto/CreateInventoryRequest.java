@@ -11,4 +11,7 @@ public class CreateInventoryRequest {
 
     @NotNull
     private Integer quantity;
+
+    @NotNull
+    private Integer minimumStock;
 }
