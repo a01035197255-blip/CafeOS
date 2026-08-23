@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Search,
   RefreshCw,
@@ -9,16 +10,22 @@ import {
   XCircle,
   LoaderCircle,
   ShoppingBag,
+  Plus,
 } from "lucide-react";
-
-import { api } from "@/lib/api";
 import type { OrderResponse, OrderStatus } from "@/types/order";
+
+import {
+  getOrderList,
+  changeOrderStatus,
+  cancelOrder as cancelOrderApi,
+} from "@/services/order";
 
 type FilterStatus = "ALL" | OrderStatus;
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState<OrderResponse[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState<FilterStatus>("ALL");
   const [selectedOrder, setSelectedOrder] =
@@ -28,11 +35,9 @@ export default function OrdersPage() {
     try {
       setLoading(true);
 
-      const response = await api.get<{
-        data: OrderResponse[];
-      }>("/orders");
+      const data = await getOrderList();
 
-      setOrders(response.data.data);
+      setOrders(data);
     } catch (error) {
       console.error("주문 목록 조회 실패:", error);
     } finally {
@@ -128,7 +133,7 @@ export default function OrdersPage() {
     status: OrderStatus
   ) => {
     try {
-      await api.patch(`/orders/${orderId}/status`, {
+      await changeOrderStatus(orderId, {
         status,
       });
 
@@ -152,19 +157,20 @@ export default function OrdersPage() {
   };
 
   // 주문 취소
-  const cancelOrder = async (orderId: number) => {
+  const handleCancelOrder = async (orderId: number) => {
     if (!confirm("이 주문을 취소하시겠습니까?")) {
       return;
     }
 
     try {
-      await api.patch(`/orders/${orderId}/cancel`);
+      await cancelOrderApi(orderId);
 
       await fetchOrders();
 
       setSelectedOrder(null);
     } catch (error) {
       console.error("주문 취소 실패:", error);
+      alert("주문 취소에 실패했습니다.");
     }
   };
 
@@ -173,14 +179,25 @@ export default function OrdersPage() {
       <main className="max-w-[1500px] mx-auto px-8 py-8">
 
         {/* 제목 */}
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">
-            주문관리
-          </h1>
+        <div className="mb-8 flex items-start justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">
+              주문관리
+            </h1>
 
-          <p className="mt-1 text-sm text-gray-500">
-            매장의 주문을 확인하고 상태를 관리할 수 있습니다.
-          </p>
+            <p className="mt-1 text-sm text-gray-500">
+              매장의 주문을 확인하고 상태를 관리할 수 있습니다.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => router.push("/orders/new")}
+            className="flex cursor-pointer items-center gap-2 rounded-xl bg-[#5C3A21] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#4A2E1A]"
+          >
+            <Plus size={17} />
+            주문 생성
+          </button>
         </div>
 
         {/* 상단 필터 */}
@@ -505,7 +522,7 @@ export default function OrdersPage() {
                       <button
                         type="button"
                         onClick={() =>
-                          cancelOrder(selectedOrder.id)
+                          handleCancelOrder(selectedOrder.id)
                         }
                         className="w-full mt-2 py-2.5 rounded-lg bg-red-50 text-red-500 text-sm font-semibold hover:bg-red-100"
                       >

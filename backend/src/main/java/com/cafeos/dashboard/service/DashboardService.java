@@ -6,6 +6,7 @@ import com.cafeos.attendance.repository.AttendanceRepository;
 import com.cafeos.common.exception.BusinessException;
 import com.cafeos.common.exception.ErrorCode;
 import com.cafeos.dashboard.dto.DashboardResponse;
+import com.cafeos.dashboard.dto.SalesChartResponse;
 import com.cafeos.notice.dto.NoticeResponse;
 import com.cafeos.notice.repository.NoticeRepository;
 import com.cafeos.inventory.repository.InventoryRepository;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -42,16 +44,39 @@ public class DashboardService {
                 .orElseThrow(() ->
                         new BusinessException(ErrorCode.USER_NOT_FOUND));
 
+        // =========================
+        // 오늘 날짜
+        // =========================
+
+        LocalDate today = LocalDate.now();
+
+        LocalDateTime startOfDay =
+                today.atStartOfDay();
+
+        LocalDateTime endOfDay =
+                today.plusDays(1).atStartOfDay();
+
+        // =========================
+        // 오늘 주문
+        // =========================
+
+        List<Order> todayOrders =
+                orderRepository.findByCreatedAtBetween(
+                        startOfDay,
+                        endOfDay
+                );
+
         // 오늘 매출
-        Integer todaySales = orderRepository.findAll()
-                .stream()
-                .filter(order -> order.getStatus() == OrderStatus.COMPLETED)
+        Integer todaySales = todayOrders.stream()
+                .filter(order ->
+                        order.getStatus() == OrderStatus.COMPLETED
+                )
                 .mapToInt(Order::getTotalPrice)
                 .sum();
 
         // 오늘 주문 수
         Long todayOrderCount =
-                (long) orderRepository.findAll().size();
+                (long) todayOrders.size();
 
         // 현재 출근 직원 수
         Long workingEmployeeCount =
@@ -104,12 +129,57 @@ public class DashboardService {
                         .map(OrderResponse::from)
                         .toList();
 
+        // =========================
+        // 최근 7일 매출 그래프
+        // =========================
+
+        List<SalesChartResponse> salesChart =
+                java.util.stream.IntStream.rangeClosed(0, 6)
+                        .mapToObj(daysAgo -> {
+
+                            LocalDate date =
+                                    today.minusDays(6 - daysAgo);
+
+                            LocalDateTime start =
+                                    date.atStartOfDay();
+
+                            LocalDateTime end =
+                                    date.plusDays(1)
+                                            .atStartOfDay();
+
+                            List<Order> orders =
+                                    orderRepository.findByCreatedAtBetween(
+                                            start,
+                                            end
+                                    );
+
+                            int sales = orders.stream()
+                                    .filter(order ->
+                                            order.getStatus()
+                                                    == OrderStatus.COMPLETED
+                                    )
+                                    .mapToInt(Order::getTotalPrice)
+                                    .sum();
+
+                            return SalesChartResponse.builder()
+                                    .label(
+                                            date.getMonthValue()
+                                                    + "/"
+                                                    + date.getDayOfMonth()
+                                    )
+                                    .sales(sales)
+                                    .build();
+
+                        })
+                        .toList();
+
         return DashboardResponse.builder()
                 .todaySales(todaySales)
                 .todayOrderCount(todayOrderCount)
                 .workingEmployeeCount(workingEmployeeCount)
                 .lowStockCount(lowStockCount)
                 .notices(notices)
+                .salesChart(salesChart)
                 .tasks(tasks)
                 .workingEmployees(workingEmployees)
                 .recentOrders(recentOrders)

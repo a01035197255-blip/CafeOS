@@ -23,6 +23,8 @@ public class DashboardResponse {
 
     private Long lowStockCount;
 
+    private List<SalesChartResponse> salesChart;
+
     // 공지
     private List<NoticeResponse> notices;
 

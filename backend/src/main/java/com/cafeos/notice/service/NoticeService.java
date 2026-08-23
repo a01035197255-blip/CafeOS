@@ -51,9 +51,10 @@ public class NoticeService {
     /**
      * 공지 목록 조회
      */
-    public List<NoticeResponse> getNoticeList(){
+    public List<NoticeResponse> getNoticeList() {
 
-        return noticeRepository.findAll()
+        return noticeRepository
+                .findAllByOrderByPinnedDescCreatedAtDesc()
                 .stream()
                 .map(NoticeResponse::from)
                 .toList();
