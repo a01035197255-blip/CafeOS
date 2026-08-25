@@ -11,11 +11,13 @@ import type {
  */
 export const createRecipe = async (
   request: CreateRecipeRequest
-): Promise<void> => {
-  await api.post<ApiResponse<void>>(
+): Promise<RecipeResponse> => {
+  const { data } = await api.post<ApiResponse<RecipeResponse>>(
     "/recipes",
     request
   );
+
+  return data.data;
 };
 
 /**

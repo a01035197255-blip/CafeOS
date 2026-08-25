@@ -13,6 +13,7 @@ export interface OrderItemResponse {
   id: number;
   menuId: number;
   menuName: string;
+  menuImageUrl: string | null;
   quantity: number;
   price: number;
 }

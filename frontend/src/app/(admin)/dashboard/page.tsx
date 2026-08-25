@@ -5,6 +5,7 @@ import { Coffee, Wallet, Users, Package, AlertTriangle, CheckSquare, Square, Che
 
 import { getDashboard } from "@/services/dashboard";
 import { getMyInfo } from "@/services/user";
+import { useRouter } from "next/navigation";
 
 import type { DashboardResponse, SalesChartResponse } from "@/types/dashboard";
 import type { UserResponse } from "@/types/user";
@@ -14,7 +15,7 @@ export default function DashboardPage() {
   const [data, setData] = useState<DashboardResponse | null>(null);
   const [user, setUser] = useState<UserResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [salesTab, setSalesTab] = useState<"오늘" | "이번 주" | "이번 달" | "올해">("이번 주");
+  const router = useRouter();
 
   /**
    * 대시보드 데이터 조회
@@ -22,7 +23,11 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const [dashboardResponse, userResponse] = await Promise.all([getDashboard(), getMyInfo()]);
+        const [dashboardResponse, userResponse] = await Promise.all([
+          getDashboard(),
+          getMyInfo(),
+        ]);
+
         setData(dashboardResponse);
         setUser(userResponse);
       } catch (error) {
@@ -33,6 +38,12 @@ export default function DashboardPage() {
     };
 
     fetchDashboardData();
+
+    const interval = setInterval(() => {
+      fetchDashboardData();
+    }, 10000);
+
+    return () => clearInterval(interval);
   }, []);
 
   /**
@@ -259,20 +270,8 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-sm font-black text-gray-900">매출 현황</h2>
 
-              <div className="flex items-center gap-1 bg-[#F1F3F5] p-1 rounded-xl text-xs font-semibold">
-                {(["오늘", "이번 주", "이번 달", "올해"] as const).map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setSalesTab(tab)}
-                    className={`px-3 py-1.5 rounded-lg transition ${
-                      salesTab === tab
-                        ? "bg-white text-gray-900 shadow-2xs font-bold"
-                        : "text-gray-500 hover:text-gray-900"
-                    }`}
-                  >
-                    {tab}
-                  </button>
-                ))}
+              <div className="px-3 py-1.5 bg-[#F1F3F5] rounded-xl text-xs font-semibold text-gray-600">
+                최근 7일
               </div>
             </div>
 
@@ -471,7 +470,11 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-sm font-black text-gray-900">직원 오늘 할 일</h2>
 
-              <button className="text-xs text-[#8B4513] font-semibold hover:underline">
+              <button
+                type="button"
+                onClick={() => router.push("/tasks")}
+                className="text-xs text-[#8B4513] font-semibold hover:underline cursor-pointer"
+              >
                 전체 보기 &gt;
               </button>
             </div>
@@ -521,7 +524,11 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-sm font-black text-gray-900">공지사항</h2>
 
-              <button className="text-xs text-gray-400 font-semibold hover:text-[#8B4513]">
+              <button
+                type="button"
+                onClick={() => router.push("/notices")}
+                className="text-xs text-gray-400 font-semibold hover:text-[#8B4513] cursor-pointer"
+              >
                 전체 보기 &gt;
               </button>
             </div>
@@ -575,14 +582,10 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-sm font-black text-gray-900">최근 주문</h2>
 
-              <button className="text-xs text-[#8B4513] font-semibold hover:underline">
-                전체 보기 &gt;
-              </button>
-            </div>
+          </div>
 
-            <div className="grid grid-cols-5 text-xs font-bold text-gray-400 border-b border-[#F1F3F5] pb-3 mb-2">
-              <span>주문번호</span>
-              <span>직원명</span>
+            <div className="grid grid-cols-[1fr_100px_100px_70px] text-xs font-bold text-gray-400 border-b border-[#F1F3F5] pb-3 mb-2">
+              <span>메뉴</span>
               <span>주문시간</span>
               <span className="text-right">금액</span>
               <span className="text-right">상태</span>
@@ -599,25 +602,60 @@ export default function DashboardPage() {
               data.recentOrders.map((order) => {
                 const badge = getOrderStatusBadge(order.status);
 
+                const firstItem = order.items?.[0];
+
                 return (
                   <div
                     key={order.id}
-                    className="grid grid-cols-5 text-xs text-gray-700 items-center py-2 border-b border-[#F1F3F5]/50 last:border-none"
+                    className="grid grid-cols-[1fr_100px_100px_70px] text-xs text-gray-700 items-center py-2.5 border-b border-[#F1F3F5]/50 last:border-none"
                   >
-                    <span className="font-bold text-gray-900">#{order.id}</span>
+                    {/* 메뉴 */}
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="w-11 h-11 rounded-lg overflow-hidden bg-[#F8F6F3] shrink-0">
+                        {firstItem?.menuImageUrl ? (
+                          <img
+                            src={firstItem.menuImageUrl}
+                            alt={firstItem.menuName}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <Coffee
+                              size={17}
+                              className="text-gray-300"
+                            />
+                          </div>
+                        )}
+                      </div>
 
-                    <span className="truncate">{order.employeeName}</span>
+                      <div className="min-w-0">
+                        <p className="font-bold text-gray-900 truncate">
+                          {firstItem?.menuName ?? "주문 메뉴"}
+                        </p>
 
+                        {order.items?.length > 1 && (
+                          <p className="text-[10px] text-gray-400">
+                            외 {order.items.length - 1}건
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* 주문시간 */}
                     <span className="text-gray-400 text-[11px]">
                       {formatTime(order.createdAt)}
                     </span>
 
+                    {/* 금액 */}
                     <span className="text-right font-bold">
                       ₩{formatPrice(order.totalPrice)}
                     </span>
 
+                    {/* 상태 */}
                     <div className="text-right">
-                      <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${badge.style}`}>
+                      <span
+                        className={`px-2 py-0.5 rounded text-[10px] font-bold ${badge.style}`}
+                      >
                         {badge.text}
                       </span>
                     </div>

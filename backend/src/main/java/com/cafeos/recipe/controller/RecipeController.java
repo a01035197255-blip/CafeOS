@@ -25,17 +25,20 @@ public class RecipeController {
      * 레시피 등록
      */
     @PostMapping
-    public ResponseEntity<ApiResponse<Void>> createRecipe(
+    public ResponseEntity<ApiResponse<RecipeResponse>> createRecipe(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestBody @Valid CreateRecipeRequest request
     ) {
 
-        recipeService.createRecipe(
-                userDetails.getUsername(),
-                request
-        );
+        RecipeResponse response =
+                recipeService.createRecipe(
+                        userDetails.getUsername(),
+                        request
+                );
 
-        return ResponseEntity.ok(ApiResponse.ok());
+        return ResponseEntity.ok(
+                ApiResponse.ok(response)
+        );
     }
 
     /**

@@ -71,11 +71,11 @@ export default function MenuCreatePage() {
         imageUrl: imageUrl.trim() || undefined,
       };
 
-      await createMenu(request);
+      const menu = await createMenu(request);
 
       alert("메뉴가 등록되었습니다.");
 
-      router.push("/menus");
+      router.push(`/recipes/new?menuId=${menu.id}`);
     } catch (error) {
       console.error("메뉴 등록 실패:", error);
       alert("메뉴 등록에 실패했습니다.");

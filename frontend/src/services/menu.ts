@@ -11,8 +11,13 @@ import {
  */
 export const createMenu = async (
   request: CreateMenuRequest
-): Promise<void> => {
-  await api.post<ApiResponse<void>>("/menus", request);
+): Promise<MenuResponse> => {
+  const { data } = await api.post<ApiResponse<MenuResponse>>(
+    "/menus",
+    request
+  );
+
+  return data.data;
 };
 
 /**

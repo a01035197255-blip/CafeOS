@@ -28,7 +28,7 @@ public class MenuService {
      * 메뉴 등록
      */
     @Transactional
-    public void createMenu(String email,
+    public MenuResponse createMenu(String email,
                            CreateMenuRequest request) {
 
         User owner = userRepository.findByEmail(email)
@@ -53,7 +53,9 @@ public class MenuService {
                 .imageUrl(request.getImageUrl())
                 .build();
 
-        menuRepository.save(menu);
+        Menu savedMenu = menuRepository.save(menu);
+
+        return MenuResponse.from(savedMenu);
     }
 
     /**

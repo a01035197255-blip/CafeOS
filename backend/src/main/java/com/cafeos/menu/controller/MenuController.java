@@ -25,17 +25,19 @@ public class MenuController {
      * 메뉴 등록
      */
     @PostMapping
-    public ResponseEntity<ApiResponse<Void>> createMenu(
+    public ResponseEntity<ApiResponse<MenuResponse>> createMenu(
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @RequestBody @Valid CreateMenuRequest request
     ) {
 
-        menuService.createMenu(
-                userDetails.getUsername(),
-                request
+        return ResponseEntity.ok(
+                ApiResponse.ok(
+                        menuService.createMenu(
+                                userDetails.getUsername(),
+                                request
+                        )
+                )
         );
-
-        return ResponseEntity.ok(ApiResponse.ok());
     }
 
     /**

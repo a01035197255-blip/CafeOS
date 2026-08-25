@@ -31,7 +31,7 @@ public class RecipeService {
      * 레시피 등록
      */
     @Transactional
-    public void createRecipe(String email,
+    public RecipeResponse createRecipe(String email,
                              CreateRecipeRequest request) {
 
         User owner = userRepository.findByEmail(email)
@@ -55,7 +55,9 @@ public class RecipeService {
                 .description(request.getDescription())
                 .build();
 
-        recipeRepository.save(recipe);
+        Recipe savedRecipe = recipeRepository.save(recipe);
+
+        return RecipeResponse.from(savedRecipe);
     }
 
     /**
