@@ -18,7 +18,16 @@ repositories {
     mavenCentral()
 }
 
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.ai:spring-ai-bom:2.0.1"
+    }
+}
+
 dependencies {
+
+    // Spring AI
+    implementation 'org.springframework.ai:spring-ai-starter-model-openai'
 
     implementation 'net.nurigo:sdk:4.3.2'
     implementation("me.paulschwarz:spring-dotenv:4.0.0")
