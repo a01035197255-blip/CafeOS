@@ -261,6 +261,7 @@ export default function AiAnalysisPage() {
         ========================= */}
 
         <section className="mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+        <div className="mb-5">
 
           <div className="mb-5 flex items-center gap-2">
 
@@ -273,6 +274,11 @@ export default function AiAnalysisPage() {
               AI 운영 개선 제안
             </h2>
 
+          </div>
+
+          <p className="mt-1 text-xs text-gray-500">
+                        매출·메뉴·재고 데이터를 종합 분석하여 현재 매장의 우선 업무를 제안합니다.
+                      </p>
           </div>
 
           <div className="space-y-3">

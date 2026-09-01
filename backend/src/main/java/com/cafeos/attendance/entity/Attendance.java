@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "attendances")
@@ -43,6 +44,16 @@ public class Attendance {
         this.workMinutes =
                 Duration.between(checkInTime, checkOutTime)
                         .toMinutes();
+
+        this.status = AttendanceStatus.OFF_WORK;
+    }
+
+    public void autoCheckOut() {
+
+        this.checkOutTime = LocalDateTime.of(
+                checkInTime.toLocalDate(),
+                LocalTime.MAX
+        );
 
         this.status = AttendanceStatus.OFF_WORK;
     }

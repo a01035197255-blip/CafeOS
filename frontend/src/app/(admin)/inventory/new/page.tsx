@@ -115,6 +115,10 @@ export default function InventoryCreatePage() {
 
       await createInventory(request);
 
+      window.dispatchEvent(
+        new Event("cafeos:data-updated")
+      );
+
       alert("재고가 등록되었습니다.");
 
       router.push("/inventory");

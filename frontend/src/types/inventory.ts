@@ -76,3 +76,19 @@ export interface RecipeItemResponse {
 export interface UpdateRecipeItemRequest {
   quantity: number;
 }
+
+export interface InventoryPredictionResponse {
+  ingredientName: string;
+  currentStock: number;
+  minimumStock: number;
+  unit: string;
+
+  totalUsage: number;
+  averageDailyUsage: number;
+
+  expectedDaysUntilEmpty: number;
+  expectedUsage: number;
+
+  recommendedOrderQuantity: number;
+  orderRequired: boolean;
+}

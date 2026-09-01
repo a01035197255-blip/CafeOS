@@ -4,6 +4,7 @@ import {
   CreateInventoryRequest,
   InventoryResponse,
   UpdateInventoryRequest,
+  InventoryPredictionResponse,
 } from "@/types/inventory";
 
 export const createInventory = async (
@@ -73,4 +74,49 @@ export const stockOut = async (
       },
     }
   );
+};
+
+/**
+ * 최소 재고 기준 수정
+ */
+export const updateMinimumStock = async (
+  inventoryId: number,
+  minimumStock: number
+): Promise<void> => {
+  await api.patch(
+    `/inventories/${inventoryId}/minimum-stock`,
+    null,
+    {
+      params: {
+        minimumStock,
+      },
+    }
+  );
+};
+
+/**
+ * 전체 재고 AI 발주 예측
+ */
+export const getInventoryPredictions = async (): Promise<
+  InventoryPredictionResponse[]
+> => {
+  const { data } = await api.get<
+    ApiResponse<InventoryPredictionResponse[]>
+  >("/inventories/prediction", {
+                               timeout: 30000,
+                             });
+
+  return data.data;
+};
+
+export const getInventoryPrediction = async (
+  inventoryId: number
+): Promise<InventoryPredictionResponse> => {
+  const { data } = await api.get<
+    ApiResponse<InventoryPredictionResponse>
+  >(
+    `/inventories/${inventoryId}/prediction`
+  );
+
+  return data.data;
 };

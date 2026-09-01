@@ -121,4 +121,20 @@ public class AttendanceService {
                 .map(AttendanceResponse::from)
                 .toList();
     }
+
+    @Transactional
+    public void autoCheckOut() {
+
+        LocalDate today = LocalDate.now();
+
+        attendanceRepository
+                .findAllByStatus(AttendanceStatus.WORKING)
+                .stream()
+                .filter(attendance ->
+                        attendance.getCheckInTime()
+                                .toLocalDate()
+                                .isBefore(today)
+                )
+                .forEach(Attendance::autoCheckOut);
+    }
 }

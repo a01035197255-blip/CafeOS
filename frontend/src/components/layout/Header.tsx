@@ -107,37 +107,21 @@ export default function Header() {
     fetchUser();
   }, []);
 
-  /**
-   * 매출 분석 데이터 조회
-   */
-  useEffect(() => {
-    const fetchSalesAnalysis = async () => {
-      try {
-        const data = await getSalesAnalysis();
-        setSalesAnalysis(data);
-      } catch (error) {
-        console.error(
-          "매출 분석 데이터 조회 실패:",
-          error
-        );
-      }
-    };
+  const handleNotificationClick = async () => {
+    try {
+      const [salesData, inventoryData] = await Promise.all([
+        getSalesAnalysis(),
+        getInventoryList(),
+      ]);
 
-    fetchSalesAnalysis();
-  }, []);
+      setSalesAnalysis(salesData);
+      setInventories(inventoryData);
+    } catch (error) {
+      console.error("알림 데이터 갱신 실패:", error);
+    }
 
-    useEffect(() => {
-      const fetchInventories = async () => {
-        try {
-          const data = await getInventoryList();
-          setInventories(data);
-        } catch (error) {
-          console.error("재고 조회 실패:", error);
-        }
-      };
-
-      fetchInventories();
-    }, []);
+    setNotificationOpen((prev) => !prev);
+  };
 
     const lowStockItems = inventories.filter(
       (inventory) =>
@@ -308,11 +292,9 @@ export default function Header() {
 
             <button
               type="button"
-              onClick={() =>
-                setNotificationOpen(
-                  (prev) => !prev
-                )
-              }
+              onClick=
+                {handleNotificationClick}
+
               className="relative cursor-pointer rounded-full p-2.5 transition hover:bg-gray-100"
               title="AI 운영 인사이트"
             >

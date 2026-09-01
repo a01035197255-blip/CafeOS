@@ -154,4 +154,28 @@ public class InventoryService {
 
         inventory.stockOut(quantity);
     }
+
+    /**
+     * 최소 재고 기준 수정
+     */
+    @Transactional
+    public void updateMinimumStock(String email,
+                                   Long inventoryId,
+                                   Integer minimumStock) {
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        // OWNER, MANAGER만 가능
+        if (user.getRole() == UserRole.STAFF) {
+            throw new BusinessException(ErrorCode.ACCESS_DENIED);
+        }
+
+        Inventory inventory = inventoryRepository.findById(inventoryId)
+                .orElseThrow(() ->
+                        new BusinessException(ErrorCode.INVENTORY_NOT_FOUND));
+
+        inventory.updateMinimumStock(minimumStock);
+    }
 }

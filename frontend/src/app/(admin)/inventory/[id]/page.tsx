@@ -14,8 +14,10 @@ import {
 import {
   getInventory,
   updateInventory,
+  updateMinimumStock,
   stockIn,
   stockOut,
+
 } from "@/services/inventory";
 
 import type { IngredientUnit, InventoryResponse } from "@/types/inventory";
@@ -47,6 +49,9 @@ export default function InventoryDetailPage() {
   // 직접 수정할 재고
   const [editQuantity, setEditQuantity] = useState("");
 
+  const [editMinimumStock, setEditMinimumStock] =
+    useState("");
+
   const fetchInventory = async () => {
     try {
       setLoading(true);
@@ -55,6 +60,7 @@ export default function InventoryDetailPage() {
 
       setInventory(data);
       setEditQuantity(String(data.quantity));
+      setEditMinimumStock(String(data.minimumStock));
     } catch (error) {
       console.error("재고 조회 실패:", error);
       alert("재고 정보를 불러오지 못했습니다.");
@@ -84,6 +90,10 @@ export default function InventoryDetailPage() {
       setSaving(true);
 
       await stockIn(inventoryId, quantity);
+
+      window.dispatchEvent(
+        new Event("cafeos:data-updated")
+      );
 
       alert("입고 처리되었습니다.");
 
@@ -119,6 +129,10 @@ export default function InventoryDetailPage() {
 
       await stockOut(inventoryId, quantity);
 
+      window.dispatchEvent(
+        new Event("cafeos:data-updated")
+      );
+
       alert("출고 처리되었습니다.");
 
       setStockQuantity("");
@@ -150,6 +164,10 @@ export default function InventoryDetailPage() {
         quantity,
       });
 
+      window.dispatchEvent(
+        new Event("cafeos:data-updated")
+      );
+
       alert("재고가 수정되었습니다.");
 
       await fetchInventory();
@@ -160,6 +178,41 @@ export default function InventoryDetailPage() {
       setSaving(false);
     }
   };
+
+    const handleUpdateMinimumStock = async () => {
+      const minimumStock = Number(editMinimumStock);
+
+      if (Number.isNaN(minimumStock) || minimumStock < 0) {
+        alert("올바른 최소 재고 수량을 입력해주세요.");
+        return;
+      }
+
+      try {
+        setSaving(true);
+
+        await updateMinimumStock(
+          inventoryId,
+          minimumStock
+        );
+
+        window.dispatchEvent(
+          new Event("cafeos:data-updated")
+        );
+
+        alert("최소 재고 기준이 수정되었습니다.");
+
+        await fetchInventory();
+      } catch (error) {
+        console.error(
+          "최소 재고 수정 실패:",
+          error
+        );
+
+        alert("최소 재고 수정에 실패했습니다.");
+      } finally {
+        setSaving(false);
+      }
+    };
 
   if (loading) {
     return (
@@ -436,6 +489,49 @@ export default function InventoryDetailPage() {
               <Save size={17} />
               재고 저장
             </button>
+          </div>
+        </div>
+
+        <div className="bg-white border border-[#E5E8EB] rounded-2xl p-6 mt-6">
+
+          <div className="mb-6">
+            <h2 className="text-base font-bold text-gray-900">
+              최소 재고 기준 수정
+            </h2>
+
+            <p className="mt-1 text-xs text-gray-400">
+              재고 부족으로 판단할 최소 수량을 설정할 수 있습니다.
+            </p>
+          </div>
+
+          <div className="flex flex-col md:flex-row gap-3">
+
+            <div className="relative flex-1">
+              <input
+                type="number"
+                min="0"
+                value={editMinimumStock}
+                onChange={(e) =>
+                  setEditMinimumStock(e.target.value)
+                }
+                className="w-full px-4 py-3 pr-12 border border-gray-200 rounded-xl text-sm outline-none focus:border-[#5C3A21] focus:ring-2 focus:ring-[#5C3A21]/10"
+              />
+
+              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-400">
+                {unit}
+              </span>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleUpdateMinimumStock}
+              disabled={saving}
+              className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#5C3A21] text-white text-sm font-semibold hover:bg-[#4A2E1A] transition disabled:opacity-50"
+            >
+              <Save size={17} />
+              최소 재고 저장
+            </button>
+
           </div>
         </div>
 

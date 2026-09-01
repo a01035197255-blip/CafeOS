@@ -7,13 +7,20 @@ import {
   RefreshCw,
   Package,
   Pencil,
+  Bot,
+  X,
+  Loader2,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import { getInventoryList } from "@/services/inventory";
+import {
+  getInventoryList,
+  getInventoryPredictions,
+} from "@/services/inventory";
 import type {
   IngredientUnit,
   InventoryResponse,
+  InventoryPredictionResponse,
 } from "@/types/inventory";
 
 const unitLabels: Record<IngredientUnit, string> = {
@@ -61,6 +68,15 @@ export default function InventoryPage() {
   const [selectedStatus, setSelectedStatus] =
     useState<StockStatus | "ALL">("ALL");
 
+    const [showAiPrediction, setShowAiPrediction] =
+      useState(false);
+
+    const [predictions, setPredictions] =
+      useState<InventoryPredictionResponse[]>([]);
+
+    const [predictionLoading, setPredictionLoading] =
+      useState(false);
+
   const fetchInventories = async () => {
     try {
       setLoading(true);
@@ -78,6 +94,21 @@ export default function InventoryPage() {
   useEffect(() => {
     fetchInventories();
   }, []);
+
+const handleAiPrediction = async () => {
+  try {
+    setPredictionLoading(true);
+
+    const data = await getInventoryPredictions();
+
+    setPredictions(data);
+    setShowAiPrediction(true);
+  } catch (error) {
+    console.error("AI 발주 예측 조회 실패:", error);
+  } finally {
+    setPredictionLoading(false);
+  }
+};
 
   const filteredInventories = useMemo(() => {
     const keyword = search.trim().toLowerCase();
@@ -134,6 +165,20 @@ export default function InventoryPage() {
           </div>
 
           <div className="flex items-center gap-2">
+
+          <button
+            type="button"
+            onClick={handleAiPrediction}
+            disabled={predictionLoading}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-[#D8C8BA] bg-white text-[#5C3A21] text-sm font-semibold hover:bg-[#FAF7F4] transition shadow-sm cursor-pointer disabled:opacity-50"
+          >
+            {predictionLoading ? (
+              <Loader2 size={17} className="animate-spin" />
+            ) : (
+              <Bot size={17} />
+            )}
+            AI 발주 추천
+          </button>
             {/* 재료 등록 */}
             <button
               type="button"
@@ -493,6 +538,222 @@ export default function InventoryPage() {
 
         </div>
 
+{showAiPrediction && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-6">
+
+    <div className="w-full max-w-[1100px] max-h-[85vh] overflow-hidden rounded-2xl bg-white shadow-2xl">
+
+      {/* 모달 헤더 */}
+      <div className="flex items-center justify-between border-b border-[#E5E8EB] px-6 py-5">
+
+        <div className="flex items-center gap-3">
+
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F5EEE8]">
+            <Bot size={20} className="text-[#5C3A21]" />
+          </div>
+
+          <div>
+            <h2 className="text-lg font-bold text-gray-900">
+              AI 발주 추천
+            </h2>
+
+            <p className="mt-1 text-xs text-gray-400">
+              최근 7일 판매 데이터를 기반으로 재고 소진량과 발주량을 분석했습니다.
+            </p>
+          </div>
+
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setShowAiPrediction(false)}
+          className="rounded-lg p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-700"
+        >
+          <X size={20} />
+        </button>
+
+      </div>
+
+          {/* 결과 */}
+          <div className="max-h-[65vh] overflow-y-auto p-6">
+
+            <div className="mb-5 grid grid-cols-3 gap-4">
+
+              <div className="rounded-xl bg-[#FAF7F4] p-4">
+                <p className="text-xs text-gray-400">
+                  분석 재고
+                </p>
+
+                <p className="mt-2 text-xl font-black text-gray-900">
+                  {predictions.length}
+                  <span className="ml-1 text-sm font-medium text-gray-400">
+                    개
+                  </span>
+                </p>
+              </div>
+
+              <div className="rounded-xl bg-red-50 p-4">
+                <p className="text-xs text-red-400">
+                  발주 권장
+                </p>
+
+                <p className="mt-2 text-xl font-black text-red-600">
+                  {
+                    predictions.filter(
+                      (item) => item.orderRequired
+                    ).length
+                  }
+                  <span className="ml-1 text-sm font-medium text-red-400">
+                    개
+                  </span>
+                </p>
+              </div>
+
+              <div className="rounded-xl bg-green-50 p-4">
+                <p className="text-xs text-green-500">
+                  정상 재고
+                </p>
+
+                <p className="mt-2 text-xl font-black text-green-600">
+                  {
+                    predictions.filter(
+                      (item) => !item.orderRequired
+                    ).length
+                  }
+                  <span className="ml-1 text-sm font-medium text-green-500">
+                    개
+                  </span>
+                </p>
+              </div>
+
+            </div>
+
+            <div className="overflow-x-auto rounded-xl border border-[#E5E8EB]">
+
+              <table className="w-full min-w-[900px]">
+
+                <thead>
+                  <tr className="bg-[#FAFAF9] border-b border-[#E5E8EB]">
+
+                    <th className="px-5 py-4 text-left text-xs font-bold text-gray-500">
+                      재료
+                    </th>
+
+                    <th className="px-5 py-4 text-right text-xs font-bold text-gray-500">
+                      현재 재고
+                    </th>
+
+                    <th className="px-5 py-4 text-right text-xs font-bold text-gray-500">
+                      일 평균 사용량
+                    </th>
+
+                    <th className="px-5 py-4 text-right text-xs font-bold text-gray-500">
+                      예상 소진
+                    </th>
+
+                    <th className="px-5 py-4 text-right text-xs font-bold text-gray-500">
+                      권장 발주량
+                    </th>
+
+                    <th className="px-5 py-4 text-center text-xs font-bold text-gray-500">
+                      판단
+                    </th>
+
+                  </tr>
+                </thead>
+
+                <tbody>
+
+                  {predictions.map((prediction) => (
+
+                    <tr
+                      key={prediction.ingredientName}
+                      className="border-b border-[#F0F0EE] last:border-b-0"
+                    >
+
+                      <td className="px-5 py-4">
+
+                        <p className="text-sm font-bold text-gray-900">
+                          {prediction.ingredientName}
+                        </p>
+
+                        <p className="mt-1 text-xs text-gray-400">
+                          최소 재고{" "}
+                          {prediction.minimumStock.toLocaleString()}
+                          {prediction.unit}
+                        </p>
+
+                      </td>
+
+                      <td className="px-5 py-4 text-right">
+                        <span className="text-sm font-bold">
+                          {prediction.currentStock.toLocaleString()}
+                          {prediction.unit}
+                        </span>
+                      </td>
+
+                      <td className="px-5 py-4 text-right">
+                        <span className="text-sm font-semibold text-gray-600">
+                          {prediction.averageDailyUsage.toLocaleString()}
+                          {prediction.unit}
+                        </span>
+                      </td>
+
+                      <td className="px-5 py-4 text-right">
+
+                        <span
+                          className={`text-sm font-bold ${
+                            prediction.expectedDaysUntilEmpty <= 3
+                              ? "text-red-500"
+                              : "text-gray-700"
+                          }`}
+                        >
+                          {Math.ceil(prediction.expectedDaysUntilEmpty)}일
+                        </span>
+
+                      </td>
+
+                      <td className="px-5 py-4 text-right">
+
+                        <span className="text-sm font-black text-[#5C3A21]">
+                          {prediction.recommendedOrderQuantity.toLocaleString()}
+                          {prediction.unit}
+                        </span>
+
+                      </td>
+
+                      <td className="px-5 py-4 text-center">
+
+                        <span
+                          className={`inline-flex rounded-full px-3 py-1.5 text-xs font-bold ${
+                            prediction.orderRequired
+                              ? "bg-red-50 text-red-600"
+                              : "bg-green-50 text-green-600"
+                          }`}
+                        >
+                          {prediction.orderRequired
+                            ? "발주 권장"
+                            : "정상"}
+                        </span>
+
+                      </td>
+
+                    </tr>
+
+                  ))}
+
+                </tbody>
+
+              </table>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    )}
       </main>
     </div>
   );

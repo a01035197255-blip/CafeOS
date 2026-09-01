@@ -59,4 +59,8 @@ public class Inventory {
     public void update(Integer quantity) {
         this.quantity = quantity;
     }
+
+    public void updateMinimumStock(Integer minimumStock) {
+        this.minimumStock = minimumStock;
+    }
 }

@@ -3,8 +3,10 @@ package com.cafeos.inventory.controller;
 import com.cafeos.common.response.ApiResponse;
 import com.cafeos.common.security.CustomUserDetails;
 import com.cafeos.inventory.dto.CreateInventoryRequest;
+import com.cafeos.inventory.dto.InventoryPredictionResponse;
 import com.cafeos.inventory.dto.UpdateInventoryRequest;
 import com.cafeos.inventory.dto.InventoryResponse;
+import com.cafeos.inventory.service.InventoryPredictionService;
 import com.cafeos.inventory.service.InventoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import java.util.List;
 public class InventoryController {
 
     private final InventoryService inventoryService;
+    private final InventoryPredictionService inventoryPredictionService;
 
     /**
      * 재고 등록
@@ -86,6 +89,26 @@ public class InventoryController {
     }
 
     /**
+     * 최소 재고 기준 수정
+     * OWNER / MANAGER 가능
+     */
+    @PatchMapping("/{inventoryId}/minimum-stock")
+    public ResponseEntity<ApiResponse<Void>> updateMinimumStock(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @PathVariable Long inventoryId,
+            @RequestParam Integer minimumStock
+    ) {
+
+        inventoryService.updateMinimumStock(
+                userDetails.getUsername(),
+                inventoryId,
+                minimumStock
+        );
+
+        return ResponseEntity.ok(ApiResponse.ok());
+    }
+
+    /**
      * 재고 입고
      */
     @PatchMapping("/{inventoryId}/stock-in")
@@ -121,5 +144,30 @@ public class InventoryController {
         );
 
         return ResponseEntity.ok(ApiResponse.ok());
+    }
+
+    @GetMapping("/prediction")
+    public ResponseEntity<ApiResponse<List<InventoryPredictionResponse>>> predictAll() {
+
+        return ResponseEntity.ok(
+                ApiResponse.ok(
+                        inventoryPredictionService.predictAll()
+                )
+        );
+    }
+
+    /**
+     * 재고 사용량 및 발주 예측
+     */
+    @GetMapping("/{inventoryId}/prediction")
+    public ResponseEntity<ApiResponse<InventoryPredictionResponse>> predictInventory(
+            @PathVariable Long inventoryId
+    ) {
+
+        return ResponseEntity.ok(
+                ApiResponse.ok(
+                        inventoryPredictionService.predict(inventoryId)
+                )
+        );
     }
 }

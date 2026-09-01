@@ -1,6 +1,7 @@
 package com.cafeos.common.security;
 
 import com.cafeos.user.entity.User;
+import com.cafeos.user.entity.UserRole;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -76,6 +77,13 @@ public class CustomUserDetails implements UserDetails {
      */
     public User getUser() {
         return user;
+    }
+
+    /**
+     * 사용자 역할
+     */
+    public UserRole getRole() {
+        return user.getRole();
     }
 
     /**

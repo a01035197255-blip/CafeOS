@@ -180,6 +180,10 @@ export default function CreateOrderPage() {
 
       await createOrder(request);
 
+      window.dispatchEvent(
+        new Event("cafeos:data-updated")
+      );
+
       alert("주문이 생성되었습니다.");
 
       router.push("/orders");
