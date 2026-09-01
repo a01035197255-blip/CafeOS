@@ -39,7 +39,6 @@ export interface UpdateStaffRequest {
   birthDate: string;
   gender: Gender;
   role?: UserRole;
-  enabled?: boolean;
 }
 
 /**

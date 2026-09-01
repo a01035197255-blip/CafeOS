@@ -6,6 +6,8 @@ import com.cafeos.attendance.entity.AttendanceStatus;
 import com.cafeos.attendance.repository.AttendanceRepository;
 import com.cafeos.common.exception.BusinessException;
 import com.cafeos.common.exception.ErrorCode;
+import com.cafeos.schedule.entity.Schedule;
+import com.cafeos.schedule.repository.ScheduleRepository;
 import com.cafeos.user.entity.User;
 import com.cafeos.user.entity.UserRole;
 import com.cafeos.user.repository.UserRepository;
@@ -15,7 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,12 +28,13 @@ public class AttendanceService {
 
     private final AttendanceRepository attendanceRepository;
     private final UserRepository userRepository;
+    private final ScheduleRepository scheduleRepository;
 
     /**
      * 출근
      */
     @Transactional
-    public void checkIn(String email){
+    public void checkIn(String email) {
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() ->
@@ -40,15 +45,43 @@ public class AttendanceService {
         LocalDateTime start = today.atStartOfDay();
         LocalDateTime end = today.plusDays(1).atStartOfDay();
 
-        attendanceRepository.findByUserAndCheckInTimeBetween(user, start, end)
+        attendanceRepository
+                .findByUserAndCheckInTimeBetween(user, start, end)
                 .ifPresent(attendance -> {
-                    throw new BusinessException(ErrorCode.ALREADY_CHECKED_IN);
+                    throw new BusinessException(
+                            ErrorCode.ALREADY_CHECKED_IN
+                    );
                 });
+
+        LocalDateTime now = LocalDateTime.now();
+
+        /*
+         * 오늘 스케줄 조회
+         */
+        boolean late = false;
+
+        Optional<Schedule> schedule =
+                scheduleRepository.findByUserAndWorkDate(
+                        user,
+                        today
+                );
+
+        if (schedule.isPresent()) {
+
+            LocalTime scheduledStart =
+                    schedule.get().getStartTime();
+
+            LocalTime actualStart =
+                    now.toLocalTime();
+
+            late = actualStart.isAfter(scheduledStart);
+        }
 
         Attendance attendance = Attendance.builder()
                 .user(user)
-                .checkInTime(LocalDateTime.now())
+                .checkInTime(now)
                 .status(AttendanceStatus.WORKING)
+                .late(late)
                 .build();
 
         attendanceRepository.save(attendance);
@@ -79,28 +112,6 @@ public class AttendanceService {
         }
 
         attendance.checkOut();
-    }
-
-    /**
-     * 내 근태 조회
-     */
-    public AttendanceResponse getMyAttendance(String email){
-
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() ->
-                        new BusinessException(ErrorCode.USER_NOT_FOUND));
-
-        LocalDate today = LocalDate.now();
-
-        LocalDateTime start = today.atStartOfDay();
-        LocalDateTime end = today.plusDays(1).atStartOfDay();
-
-        Attendance attendance =
-                attendanceRepository.findByUserAndCheckInTimeBetween(user, start, end)
-                        .orElseThrow(() ->
-                                new BusinessException(ErrorCode.ATTENDANCE_NOT_FOUND));
-
-        return AttendanceResponse.from(attendance);
     }
 
     /**
@@ -136,5 +147,21 @@ public class AttendanceService {
                                 .isBefore(today)
                 )
                 .forEach(Attendance::autoCheckOut);
+    }
+
+    /**
+     * 내 근태 목록 조회
+     */
+    public List<AttendanceResponse> getMyAttendanceList(String email) {
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        return attendanceRepository
+                .findAllByUserOrderByCheckInTimeDesc(user)
+                .stream()
+                .map(AttendanceResponse::from)
+                .toList();
     }
 }

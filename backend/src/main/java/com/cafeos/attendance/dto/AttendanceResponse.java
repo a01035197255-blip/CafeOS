@@ -20,6 +20,8 @@ public class AttendanceResponse {
 
     private Long workMinutes;
 
+    private Boolean late;
+
     public static AttendanceResponse from(
             Attendance attendance){
 
@@ -29,6 +31,7 @@ public class AttendanceResponse {
                 .checkInTime(attendance.getCheckInTime())
                 .checkOutTime(attendance.getCheckOutTime())
                 .workMinutes(attendance.getWorkMinutes())
+                .late(attendance.getLate())
                 .build();
     }
 }

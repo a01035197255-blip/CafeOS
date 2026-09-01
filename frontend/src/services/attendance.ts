@@ -17,16 +17,17 @@ export const checkOut = async (): Promise<void> => {
 };
 
 /**
- * 내 근태 조회
+ * 내 근태 목록 조회
  */
-export const getMyAttendance =
-  async (): Promise<AttendanceResponse> => {
-    const { data } = await api.get<ApiResponse<AttendanceResponse>>(
-      "/attendances/me"
-    );
+export const getMyAttendance = async (): Promise<
+  AttendanceResponse[]
+> => {
+  const { data } = await api.get<
+    ApiResponse<AttendanceResponse[]>
+  >("/attendances/me");
 
-    return data.data;
-  };
+  return data.data;
+};
 
 /**
  * 전체 근태 조회

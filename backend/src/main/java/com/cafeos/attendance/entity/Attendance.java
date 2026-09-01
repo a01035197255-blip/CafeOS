@@ -30,6 +30,10 @@ public class Attendance {
 
     private LocalDateTime checkOutTime;
 
+    @Column(nullable = false)
+    @Builder.Default
+    private Boolean late = false;
+
     private Long workMinutes;
 
     @Enumerated(EnumType.STRING)

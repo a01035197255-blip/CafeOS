@@ -115,8 +115,7 @@ public class UserService {
                 request.getPhone(),
                 request.getBirthDate(),
                 request.getGender(),
-                request.getRole(),
-                request.getEnabled()
+                request.getRole()
         );
     }
 

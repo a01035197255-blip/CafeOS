@@ -27,5 +27,4 @@ public class UpdateStaffRequest {
 
     private UserRole role;
 
-    private Boolean enabled;
 }

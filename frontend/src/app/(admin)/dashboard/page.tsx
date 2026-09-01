@@ -472,7 +472,7 @@ export default function DashboardPage() {
 
               <button
                 type="button"
-                onClick={() => router.push("/tasks")}
+                onClick={() => router.push("/employees/tasks")}
                 className="text-xs text-[#8B4513] font-semibold hover:underline cursor-pointer"
               >
                 전체 보기 &gt;

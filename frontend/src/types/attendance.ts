@@ -6,4 +6,5 @@ export interface AttendanceResponse {
   checkInTime: string;
   checkOutTime: string | null;
   workMinutes: number | null;
-}
+  late: boolean;
+ }

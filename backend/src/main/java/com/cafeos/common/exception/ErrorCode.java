@@ -63,6 +63,11 @@ public enum ErrorCode {
     // Notice
     NOTICE_NOT_FOUND(HttpStatus.NOT_FOUND, "NOTICE_001", "공지를 찾을 수 없습니다."),
 
+    // Schedule
+    SCHEDULE_NOT_FOUND(HttpStatus.NOT_FOUND, "SCHEDULE_001", "스케줄을 찾을 수 없습니다."),
+    SCHEDULE_ALREADY_EXISTS(HttpStatus.CONFLICT, "SCHEDULE_002", "해당 직원의 해당 날짜에 이미 스케줄이 존재합니다."),
+    INVALID_SCHEDULE_TIME(HttpStatus.BAD_REQUEST, "SCHEDULE_003", "출근 시간은 퇴근 시간보다 빨라야 합니다."),
+
     // Auth
     INVALID_EMAIL_OR_PASSWORD(HttpStatus.UNAUTHORIZED, "A001", "이메일 또는 비밀번호가 올바르지 않습니다."),
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "A002", "유효하지 않은 토큰입니다."),

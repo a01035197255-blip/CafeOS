@@ -49,23 +49,6 @@ public class AttendanceController {
     }
 
     /**
-     * 내 근태 조회
-     */
-    @GetMapping("/me")
-    public ResponseEntity<ApiResponse<AttendanceResponse>> getMyAttendance(
-            @AuthenticationPrincipal CustomUserDetails userDetails
-    ) {
-
-        return ResponseEntity.ok(
-                ApiResponse.ok(
-                        attendanceService.getMyAttendance(
-                                userDetails.getUsername()
-                        )
-                )
-        );
-    }
-
-    /**
      * 전체 근태 조회
      */
     @GetMapping
@@ -79,6 +62,21 @@ public class AttendanceController {
                                 userDetails.getUsername()
                         )
                 )
+        );
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<ApiResponse<List<AttendanceResponse>>> getMyAttendance(
+            @AuthenticationPrincipal CustomUserDetails userDetails
+    ) {
+
+        List<AttendanceResponse> response =
+                attendanceService.getMyAttendanceList(
+                        userDetails.getUsername()
+                );
+
+        return ResponseEntity.ok(
+                ApiResponse.ok(response)
         );
     }
 }

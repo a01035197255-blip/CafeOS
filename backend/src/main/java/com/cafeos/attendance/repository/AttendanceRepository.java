@@ -21,4 +21,6 @@ public interface AttendanceRepository extends JpaRepository<Attendance,Long> {
     List<Attendance> findAllByStatus(
             AttendanceStatus status
     );
+
+    List<Attendance> findAllByUserOrderByCheckInTimeDesc(User user);
 }

@@ -27,6 +27,9 @@ public class Ingredient {
     @Column(nullable = false)
     private IngredientUnit unit;
 
+    // 1단위당 원가
+    @Column(nullable = false)
+    private Integer unitCost;
 
     // 사용 여부
     @Builder.Default
@@ -53,11 +56,13 @@ public class Ingredient {
     public void update(
             String name,
             IngredientUnit unit,
-            Boolean enabled
+            Boolean enabled,
+            Integer unitCost
     ) {
         this.name = name;
         this.unit = unit;
         this.enabled = enabled;
+        this.unitCost = unitCost;
     }
 
     public void changeEnabled(Boolean enabled) {

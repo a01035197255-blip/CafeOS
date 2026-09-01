@@ -10,10 +10,13 @@ import {
   Users,
 } from "lucide-react";
 
+import { getMyInfo } from "@/services/user";
+
 import {
   checkIn,
   checkOut,
   getAttendanceList,
+  getMyAttendance,
 } from "@/services/attendance";
 
 import type { AttendanceResponse } from "@/types/attendance";
@@ -34,7 +37,12 @@ export default function AttendancePage() {
     try {
       setLoading(true);
 
-      const data = await getAttendanceList();
+      const me = await getMyInfo();
+
+      const data =
+        me?.role === "STAFF"
+          ? await getMyAttendance()
+          : await getAttendanceList();
 
       setAttendance(data);
     } catch (error) {

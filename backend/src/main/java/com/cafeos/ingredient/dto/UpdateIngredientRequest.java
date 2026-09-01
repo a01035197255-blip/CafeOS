@@ -14,6 +14,8 @@ public class UpdateIngredientRequest {
     @NotNull
     private IngredientUnit unit;
 
+    private Integer unitCost;
+
     @NotNull
     private Boolean enabled;
 }

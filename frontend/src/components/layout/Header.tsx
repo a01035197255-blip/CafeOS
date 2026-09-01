@@ -36,6 +36,9 @@ export default function Header() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
 
+  const [salesMenuOpen, setSalesMenuOpen] = useState(false);
+  const [employeeMenuOpen, setEmployeeMenuOpen] = useState(false);
+
   const [loggingOut, setLoggingOut] = useState(false);
 
   const [user, setUser] =
@@ -246,33 +249,185 @@ export default function Header() {
                 menu.href + "/"
               );
 
+            if (menu.name === "매출분석") {
+                return (
+                    <div
+                        key={menu.href}
+                        className="relative"
+                    >
+                        <button
+                            type="button"
+                            onClick={() =>
+                                setSalesMenuOpen((prev) => !prev)
+                            }
+                            className={`group relative flex cursor-pointer items-center gap-2 pb-1 transition-all ${
+                                active
+                                    ? "font-bold text-[#5C3A21]"
+                                    : "text-gray-600 hover:text-[#5C3A21]"
+                            }`}
+                        >
+                            <Icon
+                                size={17}
+                                className={
+                                    active
+                                        ? "text-[#5C3A21]"
+                                        : "text-gray-400 group-hover:text-[#5C3A21]"
+                                }
+                            />
+
+                            <span className="text-[15px]">
+                                {menu.name}
+                            </span>
+
+                            <ChevronDown
+                                size={14}
+                                className={`transition-transform ${
+                                    salesMenuOpen
+                                        ? "rotate-180"
+                                        : ""
+                                }`}
+                            />
+
+                            {active && (
+                                <span className="absolute -bottom-[22px] left-0 h-[3px] w-full rounded-full bg-[#5C3A21]" />
+                            )}
+                        </button>
+
+                        {salesMenuOpen && (
+                            <div className="absolute left-1/2 top-full z-50 mt-4 w-48 -translate-x-1/2 rounded-xl border border-gray-200 bg-white p-2 shadow-xl">
+                                <Link
+                                    href="/sales"
+                                    onClick={() =>
+                                        setSalesMenuOpen(false)
+                                    }
+                                    className="block rounded-lg px-4 py-2.5 text-sm text-gray-600 transition hover:bg-[#FAF8F5] hover:text-[#5C3A21]"
+                                >
+                                    매출 현황
+                                </Link>
+
+                                <Link
+                                    href="/sales/profitability"
+                                    onClick={() =>
+                                        setSalesMenuOpen(false)
+                                    }
+                                    className="block rounded-lg px-4 py-2.5 text-sm text-gray-600 transition hover:bg-[#FAF8F5] hover:text-[#5C3A21]"
+                                >
+                                    수익성 분석
+                                </Link>
+                            </div>
+                        )}
+                    </div>
+                );
+            }
+
+
+        if (menu.name === "직원관리") {
             return (
-              <Link
-                key={menu.href}
-                href={menu.href}
-                className={`group relative flex items-center gap-2 pb-1 transition-all ${
-                  active
-                    ? "font-bold text-[#5C3A21]"
-                    : "text-gray-600 hover:text-[#5C3A21]"
-                }`}
-              >
-                <Icon
-                  size={17}
-                  className={
-                    active
-                      ? "text-[#5C3A21]"
-                      : "text-gray-400 group-hover:text-[#5C3A21]"
-                  }
-                />
+                <div
+                    key={menu.href}
+                    className="relative"
+                >
+                    <button
+                        type="button"
+                        onClick={() =>
+                            setEmployeeMenuOpen((prev) => !prev)
+                        }
+                        className={`group relative flex cursor-pointer items-center gap-2 pb-1 transition-all ${
+                            active
+                                ? "font-bold text-[#5C3A21]"
+                                : "text-gray-600 hover:text-[#5C3A21]"
+                        }`}
+                    >
+                        <Icon
+                            size={17}
+                            className={
+                                active
+                                    ? "text-[#5C3A21]"
+                                    : "text-gray-400 group-hover:text-[#5C3A21]"
+                            }
+                        />
 
-                <span className="text-[15px]">
-                  {menu.name}
-                </span>
+                        <span className="text-[15px]">
+                            {menu.name}
+                        </span>
 
-                {active && (
-                  <span className="absolute -bottom-[22px] left-0 h-[3px] w-full rounded-full bg-[#5C3A21]" />
-                )}
-              </Link>
+                        <ChevronDown
+                            size={14}
+                            className={`transition-transform ${
+                                employeeMenuOpen
+                                    ? "rotate-180"
+                                    : ""
+                            }`}
+                        />
+
+                        {active && (
+                            <span className="absolute -bottom-[22px] left-0 h-[3px] w-full rounded-full bg-[#5C3A21]" />
+                        )}
+                    </button>
+
+                    {employeeMenuOpen && (
+                        <div className="absolute left-1/2 top-full z-50 mt-4 w-48 -translate-x-1/2 rounded-xl border border-gray-200 bg-white p-2 shadow-xl">
+                            <Link
+                                href="/employees"
+                                onClick={() =>
+                                    setEmployeeMenuOpen(false)
+                                }
+                                className="block rounded-lg px-4 py-2.5 text-sm text-gray-600 transition hover:bg-[#FAF8F5] hover:text-[#5C3A21]"
+                            >
+                                직원 현황
+                            </Link>
+
+                            <Link
+                                href="/employees/tasks"
+                                onClick={() =>
+                                    setEmployeeMenuOpen(false)
+                                }
+                                className="block rounded-lg px-4 py-2.5 text-sm text-gray-600 transition hover:bg-[#FAF8F5] hover:text-[#5C3A21]"
+                            >
+                                업무 관리
+                            </Link>
+
+                            <Link
+                                href="/employees/schedule"
+                                onClick={() =>
+                                    setEmployeeMenuOpen(false)
+                                }
+                                className="block rounded-lg px-4 py-2.5 text-sm text-gray-600 transition hover:bg-[#FAF8F5] hover:text-[#5C3A21]"
+                            >
+                                스케줄 관리
+                            </Link>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+            return (
+                <Link
+                    key={menu.href}
+                    href={menu.href}
+                    className={`group relative flex items-center gap-2 pb-1 transition-all ${
+                        active
+                            ? "font-bold text-[#5C3A21]"
+                            : "text-gray-600 hover:text-[#5C3A21]"
+                    }`}
+                >
+                    <Icon
+                        size={17}
+                        className={
+                            active
+                                ? "text-[#5C3A21]"
+                                : "text-gray-400 group-hover:text-[#5C3A21]"
+                        }
+                    />
+
+                    <span className="text-[15px]">
+                        {menu.name}
+                    </span>
+
+                    {active && (
+                        <span className="absolute -bottom-[22px] left-0 h-[3px] w-full rounded-full bg-[#5C3A21]" />
+                    )}
+                </Link>
             );
           })}
 

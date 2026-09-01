@@ -83,15 +83,13 @@ public class User {
             String phone,
             LocalDate birthDate,
             Gender gender,
-            UserRole role,
-            Boolean enabled
+            UserRole role
     ) {
         this.name = name;
         this.phone = phone;
         this.birthDate = birthDate;
         this.gender = gender;
         this.role = role;
-        this.enabled = enabled;
     }
 
     public void updateMyInfo(

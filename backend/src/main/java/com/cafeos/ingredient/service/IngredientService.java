@@ -98,7 +98,8 @@ public class IngredientService {
         ingredient.update(
                 request.getName(),
                 request.getUnit(),
-                request.getEnabled()
+                request.getEnabled(),
+                request.getUnitCost()
         );
     }
 
