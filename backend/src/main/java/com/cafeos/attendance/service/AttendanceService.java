@@ -9,7 +9,6 @@ import com.cafeos.common.exception.ErrorCode;
 import com.cafeos.schedule.entity.Schedule;
 import com.cafeos.schedule.repository.ScheduleRepository;
 import com.cafeos.user.entity.User;
-import com.cafeos.user.entity.UserRole;
 import com.cafeos.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -122,10 +121,6 @@ public class AttendanceService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() ->
                         new BusinessException(ErrorCode.USER_NOT_FOUND));
-
-        if (user.getRole() == UserRole.STAFF) {
-            throw new BusinessException(ErrorCode.ACCESS_DENIED);
-        }
 
         return attendanceRepository.findAll()
                 .stream()

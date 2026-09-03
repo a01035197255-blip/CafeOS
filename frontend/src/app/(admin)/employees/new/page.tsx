@@ -87,22 +87,26 @@ export default function CreateEmployeePage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F4F5F7]">
+    <div className="min-h-screen bg-[#FAF8F5]">
       <main className="mx-auto max-w-[1000px] px-8 py-8">
 
-        {/* 뒤로가기 */}
+        {/* =========================
+            뒤로가기
+        ========================= */}
         <button
           type="button"
           onClick={() =>
             router.push("/employees")
           }
-          className="mb-6 flex cursor-pointer items-center gap-2 text-sm text-gray-500 transition hover:text-[#5C3A21]"
+          className="mb-6 flex cursor-pointer items-center gap-2 text-sm text-[#8B7768] transition hover:text-[#5C3A21]"
         >
           <ArrowLeft size={17} />
           직원 관리
         </button>
 
-        {/* Header */}
+        {/* =========================
+            Header
+        ========================= */}
         <div className="mb-8">
           <div className="mb-2 flex items-center gap-2">
             <BriefcaseBusiness
@@ -110,26 +114,28 @@ export default function CreateEmployeePage() {
               className="text-[#5C3A21]"
             />
 
-            <span className="text-sm font-medium text-[#8B735D]">
+            <span className="text-sm font-medium text-[#8B7768]">
               운영 관리
             </span>
           </div>
 
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="text-2xl font-bold text-[#3E2A1F]">
             직원 등록
           </h1>
 
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-[#8B7768]">
             매장에서 근무할 새로운 직원을 등록합니다.
           </p>
         </div>
 
-        {/* Form */}
-        <section className="overflow-hidden rounded-2xl border border-[#E5E8EB] bg-white">
+        {/* =========================
+            Form Card
+        ========================= */}
+        <section className="overflow-hidden rounded-2xl border border-[#E8DED5] bg-white shadow-sm">
 
           {/* Section Header */}
-          <div className="flex items-center gap-4 border-b border-gray-100 px-7 py-6">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#F5EFE9]">
+          <div className="flex items-center gap-4 border-b border-[#E8DED5] px-7 py-6">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#F4EEE9]">
               <UserPlus
                 size={21}
                 className="text-[#5C3A21]"
@@ -137,11 +143,11 @@ export default function CreateEmployeePage() {
             </div>
 
             <div>
-              <h2 className="font-bold text-gray-900">
+              <h2 className="font-bold text-[#3E2A1F]">
                 직원 정보
               </h2>
 
-              <p className="mt-1 text-xs text-gray-400">
+              <p className="mt-1 text-xs text-[#9B8A7D]">
                 직원의 기본 정보와 계정 정보를 입력해주세요.
               </p>
             </div>
@@ -150,14 +156,16 @@ export default function CreateEmployeePage() {
           {/* Form Body */}
           <div className="space-y-8 px-7 py-7">
 
-            {/* 계정 정보 */}
+            {/* =========================
+                계정 정보
+            ========================= */}
             <div>
               <div className="mb-5">
-                <h3 className="text-sm font-bold text-gray-900">
+                <h3 className="text-sm font-bold text-[#3E2A1F]">
                   계정 정보
                 </h3>
 
-                <p className="mt-1 text-xs text-gray-400">
+                <p className="mt-1 text-xs text-[#9B8A7D]">
                   직원이 시스템에 로그인할 때 사용하는 정보입니다.
                 </p>
               </div>
@@ -168,7 +176,7 @@ export default function CreateEmployeePage() {
                 <div>
                   <label
                     htmlFor="email"
-                    className="mb-2 block text-sm font-semibold text-gray-800"
+                    className="mb-2 block text-sm font-semibold text-[#4A382D]"
                   >
                     이메일
                   </label>
@@ -181,7 +189,7 @@ export default function CreateEmployeePage() {
                       setEmail(e.target.value)
                     }
                     placeholder="example@cafeos.com"
-                    className="h-12 w-full rounded-xl border border-gray-200 px-4 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#5C3A21] focus:ring-2 focus:ring-[#5C3A21]/10"
+                    className="h-12 w-full rounded-xl border border-[#E8DED5] bg-white px-4 text-sm text-[#3E2A1F] outline-none transition placeholder:text-[#B8A99D] focus:border-[#5C3A21] focus:ring-2 focus:ring-[#5C3A21]/10"
                   />
                 </div>
 
@@ -189,7 +197,7 @@ export default function CreateEmployeePage() {
                 <div>
                   <label
                     htmlFor="password"
-                    className="mb-2 block text-sm font-semibold text-gray-800"
+                    className="mb-2 block text-sm font-semibold text-[#4A382D]"
                   >
                     초기 비밀번호
                   </label>
@@ -202,21 +210,23 @@ export default function CreateEmployeePage() {
                       setPassword(e.target.value)
                     }
                     placeholder="초기 비밀번호 입력"
-                    className="h-12 w-full rounded-xl border border-gray-200 px-4 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#5C3A21] focus:ring-2 focus:ring-[#5C3A21]/10"
+                    className="h-12 w-full rounded-xl border border-[#E8DED5] bg-white px-4 text-sm text-[#3E2A1F] outline-none transition placeholder:text-[#B8A99D] focus:border-[#5C3A21] focus:ring-2 focus:ring-[#5C3A21]/10"
                   />
                 </div>
 
               </div>
             </div>
 
-            {/* 기본 정보 */}
-            <div className="border-t border-gray-100 pt-8">
+            {/* =========================
+                기본 정보
+            ========================= */}
+            <div className="border-t border-[#E8DED5] pt-8">
               <div className="mb-5">
-                <h3 className="text-sm font-bold text-gray-900">
+                <h3 className="text-sm font-bold text-[#3E2A1F]">
                   기본 정보
                 </h3>
 
-                <p className="mt-1 text-xs text-gray-400">
+                <p className="mt-1 text-xs text-[#9B8A7D]">
                   직원의 개인정보를 입력해주세요.
                 </p>
               </div>
@@ -227,7 +237,7 @@ export default function CreateEmployeePage() {
                 <div>
                   <label
                     htmlFor="name"
-                    className="mb-2 block text-sm font-semibold text-gray-800"
+                    className="mb-2 block text-sm font-semibold text-[#4A382D]"
                   >
                     이름
                   </label>
@@ -240,7 +250,7 @@ export default function CreateEmployeePage() {
                       setName(e.target.value)
                     }
                     placeholder="직원 이름"
-                    className="h-12 w-full rounded-xl border border-gray-200 px-4 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#5C3A21] focus:ring-2 focus:ring-[#5C3A21]/10"
+                    className="h-12 w-full rounded-xl border border-[#E8DED5] bg-white px-4 text-sm text-[#3E2A1F] outline-none transition placeholder:text-[#B8A99D] focus:border-[#5C3A21] focus:ring-2 focus:ring-[#5C3A21]/10"
                   />
                 </div>
 
@@ -248,7 +258,7 @@ export default function CreateEmployeePage() {
                 <div>
                   <label
                     htmlFor="phone"
-                    className="mb-2 block text-sm font-semibold text-gray-800"
+                    className="mb-2 block text-sm font-semibold text-[#4A382D]"
                   >
                     전화번호
                   </label>
@@ -261,7 +271,7 @@ export default function CreateEmployeePage() {
                       setPhone(e.target.value)
                     }
                     placeholder="01012345678"
-                    className="h-12 w-full rounded-xl border border-gray-200 px-4 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#5C3A21] focus:ring-2 focus:ring-[#5C3A21]/10"
+                    className="h-12 w-full rounded-xl border border-[#E8DED5] bg-white px-4 text-sm text-[#3E2A1F] outline-none transition placeholder:text-[#B8A99D] focus:border-[#5C3A21] focus:ring-2 focus:ring-[#5C3A21]/10"
                   />
                 </div>
 
@@ -269,7 +279,7 @@ export default function CreateEmployeePage() {
                 <div>
                   <label
                     htmlFor="birthDate"
-                    className="mb-2 block text-sm font-semibold text-gray-800"
+                    className="mb-2 block text-sm font-semibold text-[#4A382D]"
                   >
                     생년월일
                   </label>
@@ -281,13 +291,13 @@ export default function CreateEmployeePage() {
                     onChange={(e) =>
                       setBirthDate(e.target.value)
                     }
-                    className="h-12 w-full rounded-xl border border-gray-200 px-4 text-sm text-gray-900 outline-none transition focus:border-[#5C3A21] focus:ring-2 focus:ring-[#5C3A21]/10"
+                    className="h-12 w-full rounded-xl border border-[#E8DED5] bg-white px-4 text-sm text-[#3E2A1F] outline-none transition focus:border-[#5C3A21] focus:ring-2 focus:ring-[#5C3A21]/10"
                   />
                 </div>
 
                 {/* 성별 */}
                 <div>
-                  <label className="mb-2 block text-sm font-semibold text-gray-800">
+                  <label className="mb-2 block text-sm font-semibold text-[#4A382D]">
                     성별
                   </label>
 
@@ -300,8 +310,8 @@ export default function CreateEmployeePage() {
                       }
                       className={`h-12 cursor-pointer rounded-xl border text-sm font-semibold transition ${
                         gender === "MALE"
-                          ? "border-[#5C3A21] bg-[#F5EFE9] text-[#5C3A21]"
-                          : "border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
+                          ? "border-[#5C3A21] bg-[#F4EEE9] text-[#5C3A21]"
+                          : "border-[#E8DED5] bg-white text-[#806F63] hover:bg-[#FAF8F5]"
                       }`}
                     >
                       남성
@@ -314,8 +324,8 @@ export default function CreateEmployeePage() {
                       }
                       className={`h-12 cursor-pointer rounded-xl border text-sm font-semibold transition ${
                         gender === "FEMALE"
-                          ? "border-[#5C3A21] bg-[#F5EFE9] text-[#5C3A21]"
-                          : "border-gray-200 bg-white text-gray-500 hover:bg-gray-50"
+                          ? "border-[#5C3A21] bg-[#F4EEE9] text-[#5C3A21]"
+                          : "border-[#E8DED5] bg-white text-[#806F63] hover:bg-[#FAF8F5]"
                       }`}
                     >
                       여성
@@ -327,20 +337,22 @@ export default function CreateEmployeePage() {
               </div>
             </div>
 
-            {/* 근무 정보 */}
-            <div className="border-t border-gray-100 pt-8">
+            {/* =========================
+                근무 정보
+            ========================= */}
+            <div className="border-t border-[#E8DED5] pt-8">
               <div className="mb-5">
-                <h3 className="text-sm font-bold text-gray-900">
+                <h3 className="text-sm font-bold text-[#3E2A1F]">
                   근무 정보
                 </h3>
 
-                <p className="mt-1 text-xs text-gray-400">
+                <p className="mt-1 text-xs text-[#9B8A7D]">
                   직원의 시스템 권한을 설정합니다.
                 </p>
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-800">
+                <label className="mb-2 block text-sm font-semibold text-[#4A382D]">
                   역할
                 </label>
 
@@ -354,21 +366,21 @@ export default function CreateEmployeePage() {
                     }
                     className={`cursor-pointer rounded-xl border p-4 text-left transition ${
                       role === "STAFF"
-                        ? "border-[#5C3A21] bg-[#F5EFE9]"
-                        : "border-gray-200 bg-white hover:bg-gray-50"
+                        ? "border-[#5C3A21] bg-[#F4EEE9]"
+                        : "border-[#E8DED5] bg-white hover:bg-[#FAF8F5]"
                     }`}
                   >
                     <p
                       className={`text-sm font-bold ${
                         role === "STAFF"
                           ? "text-[#5C3A21]"
-                          : "text-gray-800"
+                          : "text-[#4A382D]"
                       }`}
                     >
                       직원
                     </p>
 
-                    <p className="mt-1 text-xs leading-5 text-gray-400">
+                    <p className="mt-1 text-xs leading-5 text-[#9B8A7D]">
                       일반적인 매장 업무를 수행합니다.
                     </p>
                   </button>
@@ -381,21 +393,21 @@ export default function CreateEmployeePage() {
                     }
                     className={`cursor-pointer rounded-xl border p-4 text-left transition ${
                       role === "MANAGER"
-                        ? "border-[#5C3A21] bg-[#F5EFE9]"
-                        : "border-gray-200 bg-white hover:bg-gray-50"
+                        ? "border-[#5C3A21] bg-[#F4EEE9]"
+                        : "border-[#E8DED5] bg-white hover:bg-[#FAF8F5]"
                     }`}
                   >
                     <p
                       className={`text-sm font-bold ${
                         role === "MANAGER"
                           ? "text-[#5C3A21]"
-                          : "text-gray-800"
+                          : "text-[#4A382D]"
                       }`}
                     >
                       매니저
                     </p>
 
-                    <p className="mt-1 text-xs leading-5 text-gray-400">
+                    <p className="mt-1 text-xs leading-5 text-[#9B8A7D]">
                       매장 운영 및 직원 관리를 담당합니다.
                     </p>
                   </button>
@@ -406,8 +418,10 @@ export default function CreateEmployeePage() {
 
           </div>
 
-          {/* Bottom */}
-          <div className="flex items-center justify-end gap-3 border-t border-gray-100 bg-[#FCFCFC] px-7 py-5">
+          {/* =========================
+              Bottom
+          ========================= */}
+          <div className="flex items-center justify-end gap-3 border-t border-[#E8DED5] bg-[#FCFAF8] px-7 py-5">
 
             <button
               type="button"
@@ -415,7 +429,7 @@ export default function CreateEmployeePage() {
                 router.push("/employees")
               }
               disabled={saving}
-              className="cursor-pointer rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-semibold text-gray-600 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+              className="cursor-pointer rounded-xl border border-[#E8DED5] bg-white px-5 py-3 text-sm font-semibold text-[#806F63] transition hover:bg-[#FAF8F5] disabled:cursor-not-allowed disabled:opacity-50"
             >
               취소
             </button>
@@ -424,7 +438,7 @@ export default function CreateEmployeePage() {
               type="button"
               onClick={handleSubmit}
               disabled={saving}
-              className="flex cursor-pointer items-center gap-2 rounded-xl bg-[#5C3A21] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#4A2E1A] disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex cursor-pointer items-center gap-2 rounded-xl bg-[#5C3A21] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#4A2E19] disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Save size={17} />
 

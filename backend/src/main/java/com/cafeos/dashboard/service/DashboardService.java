@@ -84,6 +84,10 @@ public class DashboardService {
                         .stream()
                         .filter(attendance ->
                                 attendance.getStatus() == AttendanceStatus.WORKING)
+                        .filter(attendance ->
+                                attendance.getCheckInTime() != null &&
+                                        !attendance.getCheckInTime().isBefore(startOfDay) &&
+                                        attendance.getCheckInTime().isBefore(endOfDay))
                         .count();
 
         // 재고 부족 개수
@@ -116,6 +120,10 @@ public class DashboardService {
                         .stream()
                         .filter(attendance ->
                                 attendance.getStatus() == AttendanceStatus.WORKING)
+                        .filter(attendance ->
+                                attendance.getCheckInTime() != null &&
+                                        !attendance.getCheckInTime().isBefore(startOfDay) &&
+                                        attendance.getCheckInTime().isBefore(endOfDay))
                         .map(AttendanceResponse::from)
                         .toList();
 

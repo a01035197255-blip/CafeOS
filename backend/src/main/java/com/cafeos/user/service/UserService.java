@@ -64,12 +64,12 @@ public class UserService {
         userRepository.save(staff);
     }
 
-    /**
-     * 직원 목록
-     */
+
     public List<StaffResponse> getStaffList(String email) {
 
-        validateOwner(email);
+        userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new BusinessException(ErrorCode.USER_NOT_FOUND));
 
         return userRepository.findAll()
                 .stream()

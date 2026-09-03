@@ -230,19 +230,19 @@ export default function TaskPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F7F5] p-8">
-      <div className="max-w-[1400px] mx-auto">
+    <div className="min-h-screen bg-[#FAF8F5] p-8">
+      <div className="mx-auto max-w-[1400px]">
 
         {/* =========================
             Header
         ========================= */}
-        <div className="flex items-end justify-between mb-8">
+        <div className="mb-8 flex items-end justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1 className="text-2xl font-bold text-[#3E2A1F]">
               업무 관리
             </h1>
 
-            <p className="text-sm text-gray-500 mt-2">
+            <p className="mt-2 text-sm text-[#8B7768]">
               직원별 업무를 등록하고 관리합니다.
             </p>
           </div>
@@ -250,7 +250,7 @@ export default function TaskPage() {
           <button
             type="button"
             onClick={handleCreate}
-            className="px-5 py-3 rounded-xl bg-[#8B4513] text-white text-sm font-bold hover:bg-[#72370F] transition cursor-pointer"
+            className="cursor-pointer rounded-lg bg-[#5C3A21] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[#4A2E19]"
           >
             + 업무 등록
           </button>
@@ -259,38 +259,38 @@ export default function TaskPage() {
         {/* =========================
             Summary
         ========================= */}
-        <div className="grid grid-cols-3 gap-4 mb-6">
+        <div className="mb-6 grid grid-cols-3 gap-4">
 
-          <div className="bg-white rounded-2xl border border-gray-100 p-5">
-            <p className="text-xs font-semibold text-gray-400 mb-2">
+          <div className="rounded-xl border border-[#E8DED5] bg-white p-5 shadow-sm">
+            <p className="mb-2 text-xs font-semibold text-[#9B8A7D]">
               전체 업무
             </p>
 
-            <p className="text-2xl font-bold text-gray-900">
+            <p className="text-2xl font-bold text-[#3E2A1F]">
               {totalCount}
             </p>
 
-            <p className="text-xs text-gray-400 mt-1">
+            <p className="mt-1 text-xs text-[#9B8A7D]">
               등록된 전체 업무
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl border border-gray-100 p-5">
-            <p className="text-xs font-semibold text-gray-400 mb-2">
+          <div className="rounded-xl border border-[#E8DED5] bg-white p-5 shadow-sm">
+            <p className="mb-2 text-xs font-semibold text-[#9B8A7D]">
               진행 중
             </p>
 
-            <p className="text-2xl font-bold text-[#8B4513]">
+            <p className="text-2xl font-bold text-[#5C3A21]">
               {incompleteCount}
             </p>
 
-            <p className="text-xs text-gray-400 mt-1">
+            <p className="mt-1 text-xs text-[#9B8A7D]">
               아직 완료되지 않은 업무
             </p>
           </div>
 
-          <div className="bg-white rounded-2xl border border-gray-100 p-5">
-            <p className="text-xs font-semibold text-gray-400 mb-2">
+          <div className="rounded-xl border border-[#E8DED5] bg-white p-5 shadow-sm">
+            <p className="mb-2 text-xs font-semibold text-[#9B8A7D]">
               완료
             </p>
 
@@ -298,7 +298,7 @@ export default function TaskPage() {
               {completedCount}
             </p>
 
-            <p className="text-xs text-gray-400 mt-1">
+            <p className="mt-1 text-xs text-[#9B8A7D]">
               완료 처리된 업무
             </p>
           </div>
@@ -308,11 +308,11 @@ export default function TaskPage() {
         {/* =========================
             Filter
         ========================= */}
-        <div className="bg-white rounded-2xl border border-gray-100 p-4 mb-5 flex items-center justify-between">
+        <div className="mb-5 flex items-center justify-between rounded-xl border border-[#E8DED5] bg-white p-4 shadow-sm">
 
           <div className="flex items-center gap-2">
 
-            <span className="text-sm font-bold text-gray-700 mr-2">
+            <span className="mr-2 text-sm font-bold text-[#5C3A21]">
               역할
             </span>
 
@@ -320,10 +320,10 @@ export default function TaskPage() {
             <button
               type="button"
               onClick={() => setRoleFilter("ALL")}
-              className={`px-4 py-2 rounded-lg text-xs font-semibold transition cursor-pointer ${
+              className={`cursor-pointer rounded-lg px-4 py-2 text-xs font-semibold transition ${
                 roleFilter === "ALL"
-                  ? "bg-[#8B4513] text-white"
-                  : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                  ? "bg-[#5C3A21] text-white"
+                  : "bg-[#F4EEE9] text-[#806F63] hover:bg-[#EDE3DC]"
               }`}
             >
               전체
@@ -333,10 +333,10 @@ export default function TaskPage() {
             <button
               type="button"
               onClick={() => setRoleFilter("OWNER")}
-              className={`px-4 py-2 rounded-lg text-xs font-semibold transition cursor-pointer ${
+              className={`cursor-pointer rounded-lg px-4 py-2 text-xs font-semibold transition ${
                 roleFilter === "OWNER"
-                  ? "bg-[#8B4513] text-white"
-                  : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                  ? "bg-[#5C3A21] text-white"
+                  : "bg-[#F4EEE9] text-[#806F63] hover:bg-[#EDE3DC]"
               }`}
             >
               사장님
@@ -346,10 +346,10 @@ export default function TaskPage() {
             <button
               type="button"
               onClick={() => setRoleFilter("MANAGER")}
-              className={`px-4 py-2 rounded-lg text-xs font-semibold transition cursor-pointer ${
+              className={`cursor-pointer rounded-lg px-4 py-2 text-xs font-semibold transition ${
                 roleFilter === "MANAGER"
-                  ? "bg-[#8B4513] text-white"
-                  : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                  ? "bg-[#5C3A21] text-white"
+                  : "bg-[#F4EEE9] text-[#806F63] hover:bg-[#EDE3DC]"
               }`}
             >
               매니저
@@ -359,10 +359,10 @@ export default function TaskPage() {
             <button
               type="button"
               onClick={() => setRoleFilter("STAFF")}
-              className={`px-4 py-2 rounded-lg text-xs font-semibold transition cursor-pointer ${
+              className={`cursor-pointer rounded-lg px-4 py-2 text-xs font-semibold transition ${
                 roleFilter === "STAFF"
-                  ? "bg-[#8B4513] text-white"
-                  : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                  ? "bg-[#5C3A21] text-white"
+                  : "bg-[#F4EEE9] text-[#806F63] hover:bg-[#EDE3DC]"
               }`}
             >
               직원
@@ -370,7 +370,7 @@ export default function TaskPage() {
 
           </div>
 
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-[#9B8A7D]">
             총 {filteredTasks.length}개
           </p>
 
@@ -379,47 +379,47 @@ export default function TaskPage() {
         {/* =========================
             Task List
         ========================= */}
-        <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+        <div className="overflow-hidden rounded-xl border border-[#E8DED5] bg-white shadow-sm">
 
-          <div className="px-6 py-5 border-b border-gray-100">
-            <h2 className="text-base font-bold text-gray-900">
+          <div className="border-b border-[#E8DED5] px-6 py-5">
+            <h2 className="text-base font-bold text-[#3E2A1F]">
               업무 목록
             </h2>
 
-            <p className="text-xs text-gray-400 mt-1">
+            <p className="mt-1 text-xs text-[#9B8A7D]">
               역할별 업무를 확인하고 관리할 수 있습니다.
             </p>
           </div>
 
           {loading ? (
-            <div className="py-20 text-center text-sm text-gray-400">
+            <div className="py-20 text-center text-sm text-[#9B8A7D]">
               업무 목록을 불러오는 중입니다...
             </div>
           ) : filteredTasks.length === 0 ? (
             <div className="py-20 text-center">
 
-              <p className="text-sm font-semibold text-gray-500">
+              <p className="text-sm font-semibold text-[#5C3A21]">
                 등록된 업무가 없습니다.
               </p>
 
-              <p className="text-xs text-gray-400 mt-2">
+              <p className="mt-2 text-xs text-[#9B8A7D]">
                 새로운 업무를 등록해주세요.
               </p>
 
             </div>
           ) : (
-            <div className="divide-y divide-gray-100">
+            <div className="divide-y divide-[#F0E9E4]">
 
               {filteredTasks.map((task) => (
                 <div
                   key={task.id}
-                  className="px-6 py-5 flex items-center justify-between hover:bg-[#FAFAF8] transition"
+                  className="flex items-center justify-between px-6 py-5 transition hover:bg-[#FAF8F5]"
                 >
 
                   {/* =========================
                       Task Info
                   ========================= */}
-                  <div className="flex items-center gap-4 min-w-0">
+                  <div className="flex min-w-0 items-center gap-4">
 
                     {/* 완료 버튼 */}
                     <button
@@ -427,10 +427,10 @@ export default function TaskPage() {
                       onClick={() =>
                         handleComplete(task)
                       }
-                      className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition cursor-pointer ${
+                      className={`flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 transition ${
                         task.completed
-                          ? "bg-[#8B4513] border-[#8B4513] text-white"
-                          : "border-gray-300 hover:border-[#8B4513]"
+                          ? "border-[#5C3A21] bg-[#5C3A21] text-white"
+                          : "border-[#CFC2B9] hover:border-[#5C3A21]"
                       }`}
                     >
                       {task.completed && (
@@ -445,27 +445,27 @@ export default function TaskPage() {
                       <div className="flex items-center gap-2">
 
                         <h3
-                          className={`text-sm font-bold truncate ${
+                          className={`truncate text-sm font-bold ${
                             task.completed
-                              ? "text-gray-400 line-through"
-                              : "text-gray-900"
+                              ? "text-[#B0A096] line-through"
+                              : "text-[#3E2A1F]"
                           }`}
                         >
                           {task.title}
                         </h3>
 
                         {/* 역할 */}
-                        <span className="px-2 py-1 rounded-md text-[10px] font-bold bg-[#FFF4E8] text-[#8B4513]">
+                        <span className="rounded-md bg-[#F8F3EF] px-2 py-1 text-[10px] font-bold text-[#5C3A21]">
                           {getRoleName(task.role)}
                         </span>
 
                       </div>
 
                       <p
-                        className={`text-xs mt-1 truncate ${
+                        className={`mt-1 truncate text-xs ${
                           task.completed
-                            ? "text-gray-300"
-                            : "text-gray-500"
+                            ? "text-[#C2B5AC]"
+                            : "text-[#806F63]"
                         }`}
                       >
                         {task.description ||
@@ -479,14 +479,14 @@ export default function TaskPage() {
                   {/* =========================
                       Actions
                   ========================= */}
-                  <div className="flex items-center gap-2 ml-6 shrink-0">
+                  <div className="ml-6 flex shrink-0 items-center gap-2">
 
                     <button
                       type="button"
                       onClick={() =>
                         handleEdit(task)
                       }
-                      className="px-3 py-2 rounded-lg text-xs font-semibold text-gray-500 hover:bg-gray-100 hover:text-gray-900 transition cursor-pointer"
+                      className="cursor-pointer rounded-lg border border-[#E8DED5] bg-white px-3 py-2 text-xs font-semibold text-[#5C3A21] transition hover:bg-[#F8F3EF]"
                     >
                       수정
                     </button>
@@ -496,7 +496,7 @@ export default function TaskPage() {
                       onClick={() =>
                         handleDelete(task.id)
                       }
-                      className="px-3 py-2 rounded-lg text-xs font-semibold text-red-400 hover:bg-red-50 hover:text-red-600 transition cursor-pointer"
+                      className="cursor-pointer rounded-lg border border-red-100 bg-white px-3 py-2 text-xs font-semibold text-red-500 transition hover:bg-red-50 hover:text-red-600"
                     >
                       삭제
                     </button>
@@ -519,19 +519,19 @@ export default function TaskPage() {
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 px-4">
 
-          <div className="w-full max-w-lg bg-white rounded-2xl shadow-xl">
+          <div className="w-full max-w-lg rounded-2xl bg-white shadow-xl">
 
             {/* Modal Header */}
-            <div className="px-6 py-5 border-b border-gray-100 flex items-center justify-between">
+            <div className="flex items-center justify-between border-b border-[#E8DED5] px-6 py-5">
 
               <div>
-                <h2 className="text-lg font-bold text-gray-900">
+                <h2 className="text-lg font-bold text-[#3E2A1F]">
                   {editingTask
                     ? "업무 수정"
                     : "업무 등록"}
                 </h2>
 
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="mt-1 text-xs text-[#9B8A7D]">
                   업무 정보를 입력해주세요.
                 </p>
               </div>
@@ -542,7 +542,7 @@ export default function TaskPage() {
                   setShowModal(false);
                   resetForm();
                 }}
-                className="w-8 h-8 rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition cursor-pointer"
+                className="h-8 w-8 cursor-pointer rounded-lg text-[#9B8A7D] transition hover:bg-[#F4EEE9] hover:text-[#5C3A21]"
               >
                 ✕
               </button>
@@ -550,11 +550,11 @@ export default function TaskPage() {
             </div>
 
             {/* Modal Body */}
-            <div className="p-6 space-y-5">
+            <div className="space-y-5 p-6">
 
               {/* 제목 */}
               <div>
-                <label className="block text-xs font-bold text-gray-700 mb-2">
+                <label className="mb-2 block text-xs font-bold text-[#5C3A21]">
                   업무 제목
                 </label>
 
@@ -565,13 +565,13 @@ export default function TaskPage() {
                     setTitle(e.target.value)
                   }
                   placeholder="예: 매출 확인"
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm outline-none focus:border-[#8B4513] transition"
+                  className="w-full rounded-xl border border-[#E8DED5] px-4 py-3 text-sm text-[#3E2A1F] outline-none transition focus:border-[#5C3A21]"
                 />
               </div>
 
               {/* 설명 */}
               <div>
-                <label className="block text-xs font-bold text-gray-700 mb-2">
+                <label className="mb-2 block text-xs font-bold text-[#5C3A21]">
                   업무 설명
                 </label>
 
@@ -582,13 +582,13 @@ export default function TaskPage() {
                   }
                   placeholder="업무 내용을 입력해주세요."
                   rows={4}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm outline-none focus:border-[#8B4513] transition resize-none"
+                  className="w-full resize-none rounded-xl border border-[#E8DED5] px-4 py-3 text-sm text-[#3E2A1F] outline-none transition focus:border-[#5C3A21]"
                 />
               </div>
 
               {/* 역할 */}
               <div>
-                <label className="block text-xs font-bold text-gray-700 mb-2">
+                <label className="mb-2 block text-xs font-bold text-[#5C3A21]">
                   담당 역할
                 </label>
 
@@ -600,10 +600,10 @@ export default function TaskPage() {
                     onClick={() =>
                       setRole("OWNER")
                     }
-                    className={`py-3 rounded-xl text-sm font-bold border transition cursor-pointer ${
+                    className={`cursor-pointer rounded-xl border py-3 text-sm font-bold transition ${
                       role === "OWNER"
-                        ? "border-[#8B4513] bg-[#FFF4E8] text-[#8B4513]"
-                        : "border-gray-200 text-gray-500 hover:bg-gray-50"
+                        ? "border-[#5C3A21] bg-[#F4EEE9] text-[#5C3A21]"
+                        : "border-[#E8DED5] text-[#806F63] hover:bg-[#FAF8F5]"
                     }`}
                   >
                     사장님
@@ -615,10 +615,10 @@ export default function TaskPage() {
                     onClick={() =>
                       setRole("MANAGER")
                     }
-                    className={`py-3 rounded-xl text-sm font-bold border transition cursor-pointer ${
+                    className={`cursor-pointer rounded-xl border py-3 text-sm font-bold transition ${
                       role === "MANAGER"
-                        ? "border-[#8B4513] bg-[#FFF4E8] text-[#8B4513]"
-                        : "border-gray-200 text-gray-500 hover:bg-gray-50"
+                        ? "border-[#5C3A21] bg-[#F4EEE9] text-[#5C3A21]"
+                        : "border-[#E8DED5] text-[#806F63] hover:bg-[#FAF8F5]"
                     }`}
                   >
                     매니저
@@ -630,10 +630,10 @@ export default function TaskPage() {
                     onClick={() =>
                       setRole("STAFF")
                     }
-                    className={`py-3 rounded-xl text-sm font-bold border transition cursor-pointer ${
+                    className={`cursor-pointer rounded-xl border py-3 text-sm font-bold transition ${
                       role === "STAFF"
-                        ? "border-[#8B4513] bg-[#FFF4E8] text-[#8B4513]"
-                        : "border-gray-200 text-gray-500 hover:bg-gray-50"
+                        ? "border-[#5C3A21] bg-[#F4EEE9] text-[#5C3A21]"
+                        : "border-[#E8DED5] text-[#806F63] hover:bg-[#FAF8F5]"
                     }`}
                   >
                     직원
@@ -645,7 +645,7 @@ export default function TaskPage() {
             </div>
 
             {/* Modal Footer */}
-            <div className="px-6 py-5 border-t border-gray-100 flex justify-end gap-3">
+            <div className="flex justify-end gap-3 border-t border-[#E8DED5] px-6 py-5">
 
               <button
                 type="button"
@@ -653,7 +653,7 @@ export default function TaskPage() {
                   setShowModal(false);
                   resetForm();
                 }}
-                className="px-5 py-3 rounded-xl bg-gray-100 text-gray-600 text-sm font-bold hover:bg-gray-200 transition cursor-pointer"
+                className="cursor-pointer rounded-xl bg-[#F4EEE9] px-5 py-3 text-sm font-bold text-[#806F63] transition hover:bg-[#EDE3DC]"
               >
                 취소
               </button>
@@ -662,7 +662,7 @@ export default function TaskPage() {
                 type="button"
                 onClick={handleSubmit}
                 disabled={saving}
-                className="px-5 py-3 rounded-xl bg-[#8B4513] text-white text-sm font-bold hover:bg-[#72370F] transition cursor-pointer disabled:opacity-50"
+                className="cursor-pointer rounded-xl bg-[#5C3A21] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#4A2E19] disabled:opacity-50"
               >
                 {saving
                   ? "저장 중..."

@@ -102,10 +102,12 @@ export default function EmployeesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F4F5F7]">
+    <div className="min-h-screen bg-[#FAF8F5]">
       <main className="mx-auto max-w-[1400px] px-8 py-8">
 
-        {/* Header */}
+        {/* =========================
+            Header
+        ========================= */}
         <div className="mb-8 flex items-start justify-between">
           <div>
             <div className="mb-2 flex items-center gap-2">
@@ -119,11 +121,11 @@ export default function EmployeesPage() {
               </span>
             </div>
 
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1 className="text-2xl font-bold text-[#3E2A1F]">
               직원 관리
             </h1>
 
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-[#8B7768]">
               매장 직원의 정보와 근무 상태를 관리합니다.
             </p>
           </div>
@@ -140,43 +142,52 @@ export default function EmployeesPage() {
           </button>
         </div>
 
-        {/* Summary */}
+        {/* =========================
+            Summary
+        ========================= */}
         <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
 
-          <div className="rounded-2xl border border-[#E5E8EB] bg-white p-5">
+          {/* 전체 직원 */}
+          <div className="rounded-2xl border border-[#E8DED5] bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between">
+
               <div>
-                <p className="text-xs font-medium text-gray-400">
+                <p className="text-xs font-medium text-[#9B8A7D]">
                   전체 직원
                 </p>
 
-                <p className="mt-2 text-2xl font-bold text-gray-900">
+                <p className="mt-2 text-2xl font-bold text-[#3E2A1F]">
                   {staff.length}
-                  <span className="ml-1 text-sm font-medium text-gray-400">
+
+                  <span className="ml-1 text-sm font-medium text-[#9B8A7D]">
                     명
                   </span>
                 </p>
               </div>
 
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#F5EFE9]">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#F4EEE9]">
                 <Users
                   size={20}
                   className="text-[#5C3A21]"
                 />
               </div>
+
             </div>
           </div>
 
-          <div className="rounded-2xl border border-[#E5E8EB] bg-white p-5">
+          {/* 활성 직원 */}
+          <div className="rounded-2xl border border-[#E8DED5] bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between">
+
               <div>
-                <p className="text-xs font-medium text-gray-400">
+                <p className="text-xs font-medium text-[#9B8A7D]">
                   활성 직원
                 </p>
 
-                <p className="mt-2 text-2xl font-bold text-gray-900">
+                <p className="mt-2 text-2xl font-bold text-[#3E2A1F]">
                   {activeCount}
-                  <span className="ml-1 text-sm font-medium text-gray-400">
+
+                  <span className="ml-1 text-sm font-medium text-[#9B8A7D]">
                     명
                   </span>
                 </p>
@@ -188,43 +199,52 @@ export default function EmployeesPage() {
                   className="text-green-600"
                 />
               </div>
+
             </div>
           </div>
 
-          <div className="rounded-2xl border border-[#E5E8EB] bg-white p-5">
+          {/* 비활성 직원 */}
+          <div className="rounded-2xl border border-[#E8DED5] bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between">
+
               <div>
-                <p className="text-xs font-medium text-gray-400">
+                <p className="text-xs font-medium text-[#9B8A7D]">
                   비활성 직원
                 </p>
 
-                <p className="mt-2 text-2xl font-bold text-gray-900">
+                <p className="mt-2 text-2xl font-bold text-[#3E2A1F]">
                   {inactiveCount}
-                  <span className="ml-1 text-sm font-medium text-gray-400">
+
+                  <span className="ml-1 text-sm font-medium text-[#9B8A7D]">
                     명
                   </span>
                 </p>
               </div>
 
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gray-100">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#F4EEE9]">
                 <UserX
                   size={20}
-                  className="text-gray-500"
+                  className="text-[#8B7768]"
                 />
               </div>
+
             </div>
           </div>
 
         </div>
 
-        {/* Search / Filter */}
-        <div className="mb-6 rounded-2xl border border-[#E5E8EB] bg-white p-5">
+        {/* =========================
+            Search / Filter
+        ========================= */}
+        <div className="mb-6 rounded-2xl border border-[#E8DED5] bg-white p-5 shadow-sm">
+
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
 
             <div className="relative max-w-md flex-1">
+
               <Search
                 size={18}
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-[#9B8A7D]"
               />
 
               <input
@@ -234,8 +254,9 @@ export default function EmployeesPage() {
                   setSearch(e.target.value)
                 }
                 placeholder="이름, 이메일, 전화번호 검색"
-                className="h-11 w-full rounded-xl border border-gray-200 bg-white pl-11 pr-4 text-sm text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#5C3A21] focus:ring-2 focus:ring-[#5C3A21]/10"
+                className="h-11 w-full rounded-xl border border-[#E8DED5] bg-white pl-11 pr-4 text-sm text-[#3E2A1F] outline-none transition placeholder:text-[#B8A99D] focus:border-[#5C3A21] focus:ring-2 focus:ring-[#5C3A21]/10"
               />
+
             </div>
 
             <div className="flex items-center gap-2">
@@ -248,7 +269,7 @@ export default function EmployeesPage() {
                 className={`cursor-pointer rounded-lg px-4 py-2.5 text-sm font-medium transition ${
                   statusFilter === "ALL"
                     ? "bg-[#5C3A21] text-white"
-                    : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                    : "bg-[#F4EEE9] text-[#806F63] hover:bg-[#EDE4DD]"
                 }`}
               >
                 전체
@@ -262,7 +283,7 @@ export default function EmployeesPage() {
                 className={`cursor-pointer rounded-lg px-4 py-2.5 text-sm font-medium transition ${
                   statusFilter === "ACTIVE"
                     ? "bg-[#5C3A21] text-white"
-                    : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                    : "bg-[#F4EEE9] text-[#806F63] hover:bg-[#EDE4DD]"
                 }`}
               >
                 활성
@@ -276,7 +297,7 @@ export default function EmployeesPage() {
                 className={`cursor-pointer rounded-lg px-4 py-2.5 text-sm font-medium transition ${
                   statusFilter === "INACTIVE"
                     ? "bg-[#5C3A21] text-white"
-                    : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                    : "bg-[#F4EEE9] text-[#806F63] hover:bg-[#EDE4DD]"
                 }`}
               >
                 비활성
@@ -286,7 +307,7 @@ export default function EmployeesPage() {
                 type="button"
                 onClick={fetchStaff}
                 disabled={loading}
-                className="ml-1 flex h-11 w-11 cursor-pointer items-center justify-center rounded-xl border border-gray-200 text-gray-500 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
+                className="ml-1 flex h-11 w-11 cursor-pointer items-center justify-center rounded-xl border border-[#E8DED5] text-[#806F63] transition hover:bg-[#F8F3EF] disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <RefreshCw
                   size={18}
@@ -302,42 +323,55 @@ export default function EmployeesPage() {
           </div>
         </div>
 
-        {/* Employee Table */}
-        <section className="overflow-hidden rounded-2xl border border-[#E5E8EB] bg-white">
+        {/* =========================
+            Employee Table
+        ========================= */}
+        <section className="overflow-hidden rounded-2xl border border-[#E8DED5] bg-white shadow-sm">
 
-          <div className="flex items-center justify-between border-b border-gray-100 px-6 py-5">
+          <div className="flex items-center justify-between border-b border-[#E8DED5] px-6 py-5">
+
             <div>
-              <h2 className="font-bold text-gray-900">
+              <h2 className="font-bold text-[#3E2A1F]">
                 직원 목록
               </h2>
 
-              <p className="mt-1 text-xs text-gray-400">
+              <p className="mt-1 text-xs text-[#9B8A7D]">
                 검색 결과 {filteredStaff.length}명
               </p>
             </div>
+
           </div>
 
+          {/* Loading */}
           {loading ? (
+
             <div className="flex min-h-[450px] items-center justify-center">
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-[#9B8A7D]">
                 직원 목록을 불러오는 중...
               </p>
             </div>
+
           ) : filteredStaff.length === 0 ? (
+
+            /* =========================
+                데이터 없음
+            ========================= */
             <div className="flex min-h-[450px] flex-col items-center justify-center">
 
-              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#F5EFE9]">
+              <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#F4EEE9]">
+
                 <Users
                   size={28}
                   className="text-[#8B735D]"
                 />
+
               </div>
 
-              <h3 className="text-base font-semibold text-gray-800">
+              <h3 className="text-base font-semibold text-[#5C3A21]">
                 등록된 직원이 없습니다.
               </h3>
 
-              <p className="mt-1 text-sm text-gray-400">
+              <p className="mt-1 text-sm text-[#9B8A7D]">
                 새로운 직원을 등록해주세요.
               </p>
 
@@ -351,45 +385,54 @@ export default function EmployeesPage() {
                 <Plus size={16} />
                 직원 등록
               </button>
+
             </div>
+
           ) : (
+
             <div className="overflow-x-auto">
+
               <table className="w-full min-w-[900px]">
+
                 <thead>
-                  <tr className="border-b border-gray-100 bg-[#FAFAFA]">
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-400">
+                  <tr className="border-b border-[#E8DED5] bg-[#FAF8F5]">
+
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-[#9B8A7D]">
                       직원
                     </th>
 
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-400">
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-[#9B8A7D]">
                       이메일
                     </th>
 
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-400">
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-[#9B8A7D]">
                       연락처
                     </th>
 
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-400">
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-[#9B8A7D]">
                       성별
                     </th>
 
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-400">
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-[#9B8A7D]">
                       역할
                     </th>
 
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-400">
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-[#9B8A7D]">
                       상태
                     </th>
 
-                    <th className="px-6 py-4 text-right text-xs font-semibold text-gray-400">
+                    <th className="px-6 py-4 text-right text-xs font-semibold text-[#9B8A7D]">
                       관리
                     </th>
+
                   </tr>
                 </thead>
 
                 <tbody>
+
                   {filteredStaff.map(
                     (employee) => (
+
                       <tr
                         key={employee.id}
                         onClick={() =>
@@ -397,41 +440,44 @@ export default function EmployeesPage() {
                             `/employees/${employee.id}`
                           )
                         }
-                        className="cursor-pointer border-b border-gray-100 transition last:border-b-0 hover:bg-[#FCFAF8]"
+                        className="cursor-pointer border-b border-[#F0E9E4] transition last:border-b-0 hover:bg-[#FCFAF8]"
                       >
 
                         {/* 직원 */}
                         <td className="px-6 py-5">
+
                           <div className="flex items-center gap-3">
 
-                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#F5EFE9] text-sm font-bold text-[#5C3A21]">
-                              {employee.name
-                                .charAt(0)}
+                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#F4EEE9] text-sm font-bold text-[#5C3A21]">
+                              {employee.name.charAt(0)}
                             </div>
 
                             <div>
-                              <p className="text-sm font-bold text-gray-900">
+
+                              <p className="text-sm font-bold text-[#3E2A1F]">
                                 {employee.name}
                               </p>
 
-                              <p className="mt-0.5 text-xs text-gray-400">
+                              <p className="mt-0.5 text-xs text-[#B0A096]">
                                 #{employee.id}
                               </p>
+
                             </div>
 
                           </div>
+
                         </td>
 
                         {/* 이메일 */}
                         <td className="px-6 py-5">
-                          <span className="text-sm text-gray-600">
+                          <span className="text-sm text-[#806F63]">
                             {employee.email}
                           </span>
                         </td>
 
                         {/* 연락처 */}
                         <td className="px-6 py-5">
-                          <span className="text-sm text-gray-600">
+                          <span className="text-sm text-[#806F63]">
                             {formatPhone(
                               employee.phone
                             )}
@@ -440,7 +486,7 @@ export default function EmployeesPage() {
 
                         {/* 성별 */}
                         <td className="px-6 py-5">
-                          <span className="text-sm text-gray-600">
+                          <span className="text-sm text-[#806F63]">
                             {getGenderLabel(
                               employee.gender
                             )}
@@ -449,60 +495,73 @@ export default function EmployeesPage() {
 
                         {/* 역할 */}
                         <td className="px-6 py-5">
+
                           <span
                             className={`inline-flex rounded-lg px-2.5 py-1 text-xs font-semibold ${
                               employee.role ===
                               "MANAGER"
                                 ? "bg-[#F5EDE5] text-[#5C3A21]"
-                                : "bg-gray-100 text-gray-600"
+                                : "bg-[#F4EEE9] text-[#806F63]"
                             }`}
                           >
                             {getRoleLabel(
                               employee.role
                             )}
                           </span>
+
                         </td>
 
                         {/* 상태 */}
                         <td className="px-6 py-5">
+
                           <span
                             className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold ${
                               employee.enabled
                                 ? "bg-green-50 text-green-600"
-                                : "bg-gray-100 text-gray-500"
+                                : "bg-[#F4EEE9] text-[#806F63]"
                             }`}
                           >
+
                             <span
                               className={`h-1.5 w-1.5 rounded-full ${
                                 employee.enabled
                                   ? "bg-green-500"
-                                  : "bg-gray-400"
+                                  : "bg-[#B8A99D]"
                               }`}
                             />
 
                             {employee.enabled
                               ? "활성"
                               : "비활성"}
+
                           </span>
+
                         </td>
 
                         {/* 관리 */}
                         <td className="px-6 py-5 text-right">
+
                           <span className="inline-flex items-center gap-1 text-sm font-semibold text-[#5C3A21]">
                             상세
+
                             <ChevronRight
                               size={16}
                             />
                           </span>
+
                         </td>
 
                       </tr>
                     )
                   )}
+
                 </tbody>
+
               </table>
+
             </div>
           )}
+
         </section>
 
       </main>

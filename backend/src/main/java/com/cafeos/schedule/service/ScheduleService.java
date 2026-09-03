@@ -104,9 +104,7 @@ public class ScheduleService {
             LocalDate workDate
     ) {
 
-        User user = getUser(email);
-
-        validateManager(user);
+        getUser(email);
 
         return scheduleRepository
                 .findAllByWorkDate(workDate)

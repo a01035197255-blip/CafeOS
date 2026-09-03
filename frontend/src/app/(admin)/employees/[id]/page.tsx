@@ -14,6 +14,7 @@ import {
   CircleX,
   Pencil,
   X,
+  BriefcaseBusiness,
 } from "lucide-react";
 
 import {
@@ -36,12 +37,10 @@ export default function EmployeeDetailPage() {
   const [staff, setStaff] = useState<StaffResponse | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // 수정 모드
   const [isEditing, setIsEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [disabling, setDisabling] = useState(false);
 
-  // 수정 폼
   const [form, setForm] = useState<UpdateStaffRequest>({
     name: "",
     phone: "",
@@ -50,6 +49,9 @@ export default function EmployeeDetailPage() {
     role: "STAFF",
   });
 
+  /* =========================
+     직원 상세 조회
+  ========================= */
   useEffect(() => {
     const fetchStaff = async () => {
       try {
@@ -80,7 +82,12 @@ export default function EmployeeDetailPage() {
     }
   }, [staffId, router]);
 
-  const getRoleLabel = (role: StaffResponse["role"]) => {
+  /* =========================
+     역할 표시
+  ========================= */
+  const getRoleLabel = (
+    role: StaffResponse["role"]
+  ) => {
     switch (role) {
       case "OWNER":
         return "점주";
@@ -96,12 +103,18 @@ export default function EmployeeDetailPage() {
     }
   };
 
+  /* =========================
+     성별 표시
+  ========================= */
   const getGenderLabel = (
     gender: StaffResponse["gender"]
   ) => {
     return gender === "MALE" ? "남성" : "여성";
   };
 
+  /* =========================
+     전화번호 포맷
+  ========================= */
   const formatPhone = (phone: string) => {
     const numbers = phone.replace(/\D/g, "");
 
@@ -115,6 +128,9 @@ export default function EmployeeDetailPage() {
     return phone;
   };
 
+  /* =========================
+     생년월일 포맷
+  ========================= */
   const formatBirthDate = (birthDate: string) => {
     if (!birthDate) return "-";
 
@@ -124,7 +140,9 @@ export default function EmployeeDetailPage() {
     );
   };
 
-  // 수정 모드 시작
+  /* =========================
+     수정 시작
+  ========================= */
   const handleEdit = () => {
     if (!staff) return;
 
@@ -139,7 +157,9 @@ export default function EmployeeDetailPage() {
     setIsEditing(true);
   };
 
-  // 수정 취소
+  /* =========================
+     수정 취소
+  ========================= */
   const handleCancelEdit = () => {
     if (!staff) return;
 
@@ -154,7 +174,9 @@ export default function EmployeeDetailPage() {
     setIsEditing(false);
   };
 
-  // 폼 변경
+  /* =========================
+     폼 변경
+  ========================= */
   const handleChange = (
     field: keyof UpdateStaffRequest,
     value: string
@@ -165,7 +187,9 @@ export default function EmployeeDetailPage() {
     }));
   };
 
-  // 직원 정보 수정
+  /* =========================
+     직원 정보 수정
+  ========================= */
   const handleUpdate = async () => {
     if (!staff) return;
 
@@ -218,7 +242,9 @@ export default function EmployeeDetailPage() {
     }
   };
 
-  // 직원 비활성화
+  /* =========================
+     직원 비활성화
+  ========================= */
   const handleDisable = async () => {
     if (!staff) return;
 
@@ -256,6 +282,9 @@ export default function EmployeeDetailPage() {
     }
   };
 
+  /* =========================
+     Loading
+  ========================= */
   if (loading) {
     return (
       <div className="min-h-screen bg-[#F4F5F7]">
@@ -275,31 +304,39 @@ export default function EmployeeDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F4F5F7]">
+    <div className="min-h-screen bg-[#F8F6F3]">
       <main className="mx-auto max-w-[1200px] px-8 py-8">
 
-        {/* 상단 */}
+        {/* =========================
+            Header
+        ========================= */}
         <div className="mb-8">
-          <div className="flex items-center justify-between">
+          <div className="flex items-start justify-between">
+
+            {/* 왼쪽 */}
             <div>
+              {/* 뒤로가기 */}
               <button
                 type="button"
-                onClick={() => router.push("/employees")}
+                onClick={() =>
+                  router.push("/employees")
+                }
                 className="mb-5 flex cursor-pointer items-center gap-2 text-sm font-medium text-gray-500 transition hover:text-[#5C3A21]"
               >
                 <ArrowLeft size={17} />
                 직원 목록
               </button>
 
+              {/* 페이지 타이틀 */}
               <div>
                 <div className="mb-2 flex items-center gap-2">
-                  <User
+                  <BriefcaseBusiness
                     size={21}
                     className="text-[#5C3A21]"
                   />
 
                   <span className="text-sm font-medium text-[#8B735D]">
-                    직원 관리
+                    운영 관리
                   </span>
                 </div>
 
@@ -313,27 +350,33 @@ export default function EmployeeDetailPage() {
               </div>
             </div>
 
-            {/* 상단 버튼 */}
-            <div className="flex items-center gap-3">
+            {/* =========================
+                상단 버튼
+            ========================= */}
+            <div className="flex items-center gap-3 pt-9">
+
               {!isEditing && (
                 <>
+                  {/* 수정 */}
                   <button
                     type="button"
                     onClick={handleEdit}
-                    className="flex cursor-pointer items-center gap-2 rounded-xl border border-[#E5E8EB] bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:border-[#D8C8B8] hover:bg-[#FAF8F6]"
+                    className="flex cursor-pointer items-center gap-2 rounded-xl border border-[#E5E8EB] bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 shadow-sm transition hover:border-[#D8C8B8] hover:bg-[#FAF8F6]"
                   >
                     <Pencil size={16} />
                     수정
                   </button>
 
+                  {/* 비활성화 */}
                   {staff.enabled && (
                     <button
                       type="button"
                       onClick={handleDisable}
                       disabled={disabling}
-                      className="flex cursor-pointer items-center gap-2 rounded-xl border border-red-200 bg-white px-4 py-2.5 text-sm font-semibold text-red-500 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
+                      className="flex cursor-pointer items-center gap-2 rounded-xl border border-red-200 bg-white px-4 py-2.5 text-sm font-semibold text-red-500 shadow-sm transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                       <CircleX size={16} />
+
                       {disabling
                         ? "처리 중..."
                         : "직원 비활성화"}
@@ -344,46 +387,58 @@ export default function EmployeeDetailPage() {
 
               {isEditing && (
                 <>
+                  {/* 취소 */}
                   <button
                     type="button"
                     onClick={handleCancelEdit}
                     disabled={saving}
-                    className="flex cursor-pointer items-center gap-2 rounded-xl border border-[#E5E8EB] bg-white px-4 py-2.5 text-sm font-semibold text-gray-600 transition hover:bg-gray-50 disabled:opacity-50"
+                    className="flex cursor-pointer items-center gap-2 rounded-xl border border-[#E5E8EB] bg-white px-4 py-2.5 text-sm font-semibold text-gray-600 shadow-sm transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <X size={16} />
                     취소
                   </button>
 
+                  {/* 저장 */}
                   <button
                     type="button"
                     onClick={handleUpdate}
                     disabled={saving}
-                    className="flex cursor-pointer items-center gap-2 rounded-xl bg-[#5C3A21] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#4B2F1B] disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex cursor-pointer items-center gap-2 rounded-xl bg-[#5C3A21] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#4B2F1B] disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    {saving ? "저장 중..." : "저장"}
+                    {saving
+                      ? "저장 중..."
+                      : "저장"}
                   </button>
                 </>
               )}
+
             </div>
           </div>
         </div>
 
-        {/* 직원 프로필 */}
-        <section className="mb-6 rounded-2xl border border-[#E5E8EB] bg-white p-7">
+        {/* =========================
+            직원 프로필
+        ========================= */}
+        <section className="mb-6 rounded-2xl border border-[#E5E8EB] bg-white p-7 shadow-sm">
+
           <div className="flex items-center justify-between">
 
+            {/* 직원 기본 프로필 */}
             <div className="flex items-center gap-5">
-              {/* 프로필 */}
+
+              {/* 프로필 아이콘 */}
               <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#F5EFE9] text-2xl font-bold text-[#5C3A21]">
                 {staff.name.charAt(0)}
               </div>
 
               <div>
                 <div className="flex items-center gap-3">
+
                   <h2 className="text-xl font-bold text-gray-900">
                     {staff.name}
                   </h2>
 
+                  {/* 상태 */}
                   <span
                     className={`inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs font-semibold ${
                       staff.enabled
@@ -399,8 +454,11 @@ export default function EmployeeDetailPage() {
                       }`}
                     />
 
-                    {staff.enabled ? "활성" : "비활성"}
+                    {staff.enabled
+                      ? "활성"
+                      : "비활성"}
                   </span>
+
                 </div>
 
                 <p className="mt-1 text-sm text-gray-400">
@@ -423,9 +481,12 @@ export default function EmployeeDetailPage() {
           </div>
         </section>
 
-        {/* 기본 정보 */}
-        <section className="mb-6 overflow-hidden rounded-2xl border border-[#E5E8EB] bg-white">
+        {/* =========================
+            기본 정보
+        ========================= */}
+        <section className="mb-6 overflow-hidden rounded-2xl border border-[#E5E8EB] bg-white shadow-sm">
 
+          {/* Section Header */}
           <div className="border-b border-gray-100 px-6 py-5">
             <h2 className="font-bold text-gray-900">
               기본 정보
@@ -436,10 +497,11 @@ export default function EmployeeDetailPage() {
             </p>
           </div>
 
+          {/* =========================
+              수정 모드
+          ========================= */}
           {isEditing ? (
-            /* =========================
-               수정 폼
-            ========================= */
+
             <div className="grid grid-cols-1 md:grid-cols-2">
 
               {/* 이름 */}
@@ -452,10 +514,13 @@ export default function EmployeeDetailPage() {
                   type="text"
                   value={form.name}
                   onChange={(e) =>
-                    handleChange("name", e.target.value)
+                    handleChange(
+                      "name",
+                      e.target.value
+                    )
                   }
-                  className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-900 outline-none transition focus:border-[#8B735D] focus:ring-2 focus:ring-[#F5EFE9]"
                   placeholder="이름"
+                  className="h-12 w-full rounded-xl border border-gray-200 bg-white px-4 text-sm font-medium text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#5C3A21] focus:ring-2 focus:ring-[#5C3A21]/10"
                 />
               </div>
 
@@ -469,7 +534,7 @@ export default function EmployeeDetailPage() {
                   type="text"
                   value={staff.email}
                   disabled
-                  className="w-full cursor-not-allowed rounded-xl border border-gray-100 bg-gray-50 px-4 py-3 text-sm font-medium text-gray-400"
+                  className="h-12 w-full cursor-not-allowed rounded-xl border border-gray-100 bg-gray-50 px-4 text-sm font-medium text-gray-400"
                 />
 
                 <p className="mt-2 text-xs text-gray-400">
@@ -487,10 +552,13 @@ export default function EmployeeDetailPage() {
                   type="tel"
                   value={form.phone}
                   onChange={(e) =>
-                    handleChange("phone", e.target.value)
+                    handleChange(
+                      "phone",
+                      e.target.value
+                    )
                   }
-                  className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-900 outline-none transition focus:border-[#8B735D] focus:ring-2 focus:ring-[#F5EFE9]"
                   placeholder="010-0000-0000"
+                  className="h-12 w-full rounded-xl border border-gray-200 bg-white px-4 text-sm font-medium text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-[#5C3A21] focus:ring-2 focus:ring-[#5C3A21]/10"
                 />
               </div>
 
@@ -509,7 +577,7 @@ export default function EmployeeDetailPage() {
                       e.target.value
                     )
                   }
-                  className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-900 outline-none transition focus:border-[#8B735D] focus:ring-2 focus:ring-[#F5EFE9]"
+                  className="h-12 w-full rounded-xl border border-gray-200 bg-white px-4 text-sm font-medium text-gray-900 outline-none transition focus:border-[#5C3A21] focus:ring-2 focus:ring-[#5C3A21]/10"
                 />
               </div>
 
@@ -527,10 +595,15 @@ export default function EmployeeDetailPage() {
                       e.target.value
                     )
                   }
-                  className="w-full cursor-pointer rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-900 outline-none transition focus:border-[#8B735D] focus:ring-2 focus:ring-[#F5EFE9]"
+                  className="h-12 w-full cursor-pointer rounded-xl border border-gray-200 bg-white px-4 text-sm font-medium text-gray-900 outline-none transition focus:border-[#5C3A21] focus:ring-2 focus:ring-[#5C3A21]/10"
                 >
-                  <option value="MALE">남성</option>
-                  <option value="FEMALE">여성</option>
+                  <option value="MALE">
+                    남성
+                  </option>
+
+                  <option value="FEMALE">
+                    여성
+                  </option>
                 </select>
               </div>
 
@@ -548,24 +621,35 @@ export default function EmployeeDetailPage() {
                       e.target.value
                     )
                   }
-                  className="w-full cursor-pointer rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm font-medium text-gray-900 outline-none transition focus:border-[#8B735D] focus:ring-2 focus:ring-[#F5EFE9]"
+                  className="h-12 w-full cursor-pointer rounded-xl border border-gray-200 bg-white px-4 text-sm font-medium text-gray-900 outline-none transition focus:border-[#5C3A21] focus:ring-2 focus:ring-[#5C3A21]/10"
                 >
-                  <option value="STAFF">직원</option>
-                  <option value="MANAGER">매니저</option>
-                  <option value="OWNER">점주</option>
+                  <option value="STAFF">
+                    직원
+                  </option>
+
+                  <option value="MANAGER">
+                    매니저
+                  </option>
+
+                  <option value="OWNER">
+                    점주
+                  </option>
                 </select>
               </div>
 
             </div>
+
           ) : (
+
             /* =========================
-               기존 상세 정보
+               조회 모드
             ========================= */
             <div className="grid grid-cols-1 md:grid-cols-2">
 
               {/* 이름 */}
               <div className="border-b border-gray-100 p-6 md:border-r">
                 <div className="flex items-start gap-4">
+
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#F5EFE9]">
                     <UserRound
                       size={18}
@@ -582,12 +666,14 @@ export default function EmployeeDetailPage() {
                       {staff.name}
                     </p>
                   </div>
+
                 </div>
               </div>
 
               {/* 이메일 */}
               <div className="border-b border-gray-100 p-6">
                 <div className="flex items-start gap-4">
+
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#F5EFE9]">
                     <Mail
                       size={18}
@@ -604,12 +690,14 @@ export default function EmployeeDetailPage() {
                       {staff.email}
                     </p>
                   </div>
+
                 </div>
               </div>
 
               {/* 전화번호 */}
               <div className="border-b border-gray-100 p-6 md:border-r">
                 <div className="flex items-start gap-4">
+
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#F5EFE9]">
                     <Phone
                       size={18}
@@ -626,13 +714,15 @@ export default function EmployeeDetailPage() {
                       {formatPhone(staff.phone)}
                     </p>
                   </div>
+
                 </div>
               </div>
 
               {/* 생년월일 */}
               <div className="border-b border-gray-100 p-6">
                 <div className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F5EFE9]">
+
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#F5EFE9]">
                     <CalendarDays
                       size={18}
                       className="text-[#5C3A21]"
@@ -650,13 +740,15 @@ export default function EmployeeDetailPage() {
                       )}
                     </p>
                   </div>
+
                 </div>
               </div>
 
               {/* 성별 */}
-              <div className="p-6 md:border-r">
+              <div className="p-6 md:border-r md:border-gray-100">
                 <div className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F5EFE9]">
+
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#F5EFE9]">
                     <User
                       size={18}
                       className="text-[#5C3A21]"
@@ -669,16 +761,20 @@ export default function EmployeeDetailPage() {
                     </p>
 
                     <p className="mt-1.5 text-sm font-semibold text-gray-900">
-                      {getGenderLabel(staff.gender)}
+                      {getGenderLabel(
+                        staff.gender
+                      )}
                     </p>
                   </div>
+
                 </div>
               </div>
 
               {/* 역할 */}
               <div className="p-6">
                 <div className="flex items-start gap-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#F5EFE9]">
+
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#F5EFE9]">
                     <ShieldCheck
                       size={18}
                       className="text-[#5C3A21]"
@@ -691,9 +787,12 @@ export default function EmployeeDetailPage() {
                     </p>
 
                     <p className="mt-1.5 text-sm font-semibold text-gray-900">
-                      {getRoleLabel(staff.role)}
+                      {getRoleLabel(
+                        staff.role
+                      )}
                     </p>
                   </div>
+
                 </div>
               </div>
 
@@ -701,9 +800,12 @@ export default function EmployeeDetailPage() {
           )}
         </section>
 
-        {/* 근무 상태 */}
-        <section className="rounded-2xl border border-[#E5E8EB] bg-white">
+        {/* =========================
+            근무 상태
+        ========================= */}
+        <section className="overflow-hidden rounded-2xl border border-[#E5E8EB] bg-white shadow-sm">
 
+          {/* Section Header */}
           <div className="border-b border-gray-100 px-6 py-5">
             <h2 className="font-bold text-gray-900">
               근무 상태
@@ -714,7 +816,9 @@ export default function EmployeeDetailPage() {
             </p>
           </div>
 
+          {/* 상태 */}
           <div className="p-6">
+
             <div
               className={`flex items-center justify-between rounded-xl px-5 py-4 ${
                 staff.enabled
@@ -722,6 +826,7 @@ export default function EmployeeDetailPage() {
                   : "bg-gray-50"
               }`}
             >
+
               <div className="flex items-center gap-3">
 
                 {staff.enabled ? (
@@ -765,8 +870,11 @@ export default function EmployeeDetailPage() {
                     : "text-gray-500"
                 }`}
               >
-                {staff.enabled ? "활성" : "비활성"}
+                {staff.enabled
+                  ? "활성"
+                  : "비활성"}
               </span>
+
             </div>
           </div>
         </section>
