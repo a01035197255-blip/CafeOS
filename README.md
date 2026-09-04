@@ -36,16 +36,6 @@ AI 운영 분석
 
 ---
 
-## 🎬 Demo
-
-### 실제 서비스 시연
-
-[여기에 시연 영상 GIF 또는 썸네일]
-
-> 로그인 → 매장 현황 → 메뉴/레시피 → 주문 → 재고 자동 차감 → 매출 분석 → AI 운영 분석
-
----
-
 ## ✨ Key Features
 
 ### 🛒 주문 관리
@@ -332,33 +322,6 @@ API 접근
 
 ---
 
-## 🏗 Architecture
-
-┌─────────────────────────────┐
-│        Next.js Client       │
-│ React · TypeScript · Tailwind│
-└──────────────┬──────────────┘
-               │
-               │ REST API
-               ▼
-┌─────────────────────────────┐
-│       Spring Boot API       │
-│ Security · JWT · JPA        │
-└──────────────┬──────────────┘
-               │
-       ┌───────┴────────┐
-       ▼                ▼
-┌─────────────┐   ┌─────────────┐
-│ PostgreSQL  │   │    Redis    │
-└─────────────┘   └─────────────┘
-       │
-       ▼
-┌─────────────────────────────┐
-│     Spring AI / OpenAI      │
-│        운영 데이터 분석      │
-└─────────────────────────────┘
-
----
 
 ## 🗄️ Domain Structure
 
@@ -669,100 +632,6 @@ AI Analysis
 ![AI Analysis](./docs/images/ai-analysis.png)
 
 ---
-
-## 📁 Project Structure
-
-### Backend
-
-backend/
-├── src/
-│   └── main/
-│       ├── java/
-│       │   └── com.cafeos/
-│       │       ├── ai/
-│       │       ├── auth/
-│       │       ├── dashboard/
-│       │       ├── employee/
-│       │       ├── inventory/
-│       │       ├── menu/
-│       │       ├── order/
-│       │       ├── task/
-│       │       ├── attendance/
-│       │       ├── user/
-│       │       └── common/
-│       │
-│       └── resources/
-│           └── application.yml
-│
-└── build.gradle
-
-### Frontend
-
-frontend/
-├── app/
-│   ├── dashboard/
-│   ├── orders/
-│   ├── menu/
-│   ├── inventory/
-│   ├── employees/
-│   ├── attendance/
-│   ├── tasks/
-│   └── ai-analysis/
-│
-├── components/
-├── lib/
-├── types/
-└── package.json
-
----
-
-## 🚀 Getting Started
-
-### 1. Clone
-
-git clone <repository-url>
-cd CafeOS
-
-### 2. Backend
-
-cd backend
-
-./gradlew bootRun
-
-Windows 환경:
-
-gradlew.bat bootRun
-
-### 3. Frontend
-
-cd frontend
-
-npm install
-
-npm run dev
-
----
-
-## 🔑 Environment Variables
-
-실제 API Key 및 DB 인증 정보는 GitHub Repository에 직접 업로드하지 않습니다.
-
-### Backend
-
-DATABASE_URL=
-DATABASE_USERNAME=
-DATABASE_PASSWORD=
-
-JWT_SECRET=
-
-OPENAI_API_KEY=
-
-GOOGLE_CLIENT_ID=
-GOOGLE_CLIENT_SECRET=
-
-### Frontend
-
-NEXT_PUBLIC_API_URL=
 
 ---
 
