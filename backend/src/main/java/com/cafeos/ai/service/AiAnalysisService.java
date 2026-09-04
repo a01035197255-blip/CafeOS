@@ -6,13 +6,18 @@ import com.cafeos.common.exception.ErrorCode;
 import com.cafeos.dashboard.dto.SalesAnalysisResponse;
 import com.cafeos.inventory.dto.InventoryPredictionResponse;
 import com.cafeos.inventory.service.InventoryPredictionService;
+import com.cafeos.task.entity.Task;
+import com.cafeos.task.repository.TaskRepository;
+import com.cafeos.user.entity.User;
 import com.cafeos.user.entity.UserRole;
+import com.cafeos.user.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +26,10 @@ public class AiAnalysisService {
     private final ChatClient.Builder chatClientBuilder;
 
     private final InventoryPredictionService inventoryPredictionService;
+
+    private final TaskRepository taskRepository;
+
+    private final UserRepository userRepository;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -68,10 +77,9 @@ public class AiAnalysisService {
             // 전체 재고 예측 데이터 생성
             // =========================================================
             //
-            // 기존에는 최소 재고 이하인 재고만 AI에게 전달했지만,
-            // 이제는 모든 재고의 사용량/소진일/발주량을 전달한다.
+            // 모든 재고의 사용량 / 소진일 / 발주량을 AI에게 전달한다.
             //
-            // AI가 단순 "재고 부족"이 아니라
+            // AI가 단순히 "재고가 부족하다"라고 판단하는 것이 아니라
             // 실제 사용량과 예상 소진 시점을 기준으로 판단하도록 한다.
             // =========================================================
 
@@ -90,14 +98,94 @@ public class AiAnalysisService {
 
 
             // =========================================================
+            // 인력 운영 데이터
+            // =========================================================
+            //
+            // 전체 직원 구성과 역할별 업무를 AI에게 전달한다.
+            //
+            // OWNER / MANAGER / STAFF를 구분하여
+            // 현재 어떤 업무가 배정되어 있고
+            // 완료되지 않은 업무가 무엇인지 분석할 수 있도록 한다.
+            // =========================================================
+
+            long ownerCount =
+                    userRepository.findAll()
+                            .stream()
+                            .filter(user ->
+                                    user.getRole() == UserRole.OWNER)
+                            .count();
+
+            long managerCount =
+                    userRepository.findAll()
+                            .stream()
+                            .filter(user ->
+                                    user.getRole() == UserRole.MANAGER)
+                            .count();
+
+            long staffCount =
+                    userRepository.findAll()
+                            .stream()
+                            .filter(user ->
+                                    user.getRole() == UserRole.STAFF)
+                            .count();
+
+
+            List<Task> ownerTasks =
+                    taskRepository.findByRole(
+                            UserRole.OWNER
+                    );
+
+            List<Task> managerTasks =
+                    taskRepository.findByRole(
+                            UserRole.MANAGER
+                    );
+
+            List<Task> staffTasks =
+                    taskRepository.findByRole(
+                            UserRole.STAFF
+                    );
+
+
+            String workforceData = """
+                    [직원 구성]
+
+                    OWNER: %d명
+                    MANAGER: %d명
+                    STAFF: %d명
+
+
+                    [OWNER 업무]
+
+                    %s
+
+
+                    [MANAGER 업무]
+
+                    %s
+
+
+                    [STAFF 업무]
+
+                    %s
+                    """.formatted(
+                    ownerCount,
+                    managerCount,
+                    staffCount,
+                    formatTasks(ownerTasks),
+                    formatTasks(managerTasks),
+                    formatTasks(staffTasks)
+            );
+
+
+            // =========================================================
             // AI Prompt
             // =========================================================
 
             String prompt = """
                     당신은 CafeOS 카페 매장 운영 전문 AI 분석가입니다.
 
-                    당신의 목적은 단순히 매출, 주문, 인기 메뉴, 재고 데이터를
-                    다시 나열하는 것이 아닙니다.
+                    당신의 목적은 단순히 매출, 주문, 인기 메뉴, 재고,
+                    직원 데이터를 다시 나열하는 것이 아닙니다.
 
                     실제 매장 데이터를 종합적으로 분석하여
                     현재 매장에서 의미 있는 변화나 문제를 발견하고,
@@ -183,6 +271,57 @@ public class AiAnalysisService {
 
 
                     ==============================
+                    [인력 운영 데이터]
+                    ==============================
+
+                    아래 데이터는 현재 CafeOS에 등록된 직원 구성과
+                    역할별 업무 데이터를 나타냅니다.
+
+                    직원 수와 업무를 단순히 설명하지 말고
+                    매출, 주문, 메뉴, 재고 데이터와 연결하여
+                    현재 인력 운영에 의미 있는 문제가 있는지 판단하세요.
+
+                    %s
+
+
+                    ==============================
+                    [인력 분석 규칙]
+                    ==============================
+
+                    1. OWNER / MANAGER / STAFF의 역할을 구분해서 분석하세요.
+
+                    2. 단순히 직원 수가 많거나 적다는 이유만으로
+                    인력 문제라고 판단하지 마세요.
+
+                    3. 역할별 업무의 내용과 완료 여부를 확인하세요.
+
+                    4. 미완료 업무가 있다고 해서 무조건 문제라고 판단하지 마세요.
+
+                    업무 내용이 현재 매출, 주문, 재고 등의 상황과
+                    직접적으로 연결되는 경우에 우선순위를 높게 판단하세요.
+
+                    5. 다음과 같은 연결 관계가 발견되면
+                    이를 적극적으로 분석하세요.
+
+                    - 재고 부족 + 관련 재고 확인 업무 미완료
+                    - 발주 필요 + 관련 발주 업무 미완료
+                    - 인기 메뉴 증가 + 관련 재료 관리 업무 미완료
+                    - 주문량 증가 + STAFF 업무 집중
+                    - 운영상 중요한 업무의 미완료
+                    - 재고 문제 + MANAGER 업무 미완료
+
+                    6. 실제 데이터에 존재하지 않는 직원이나 업무를
+                    만들어내지 마세요.
+
+                    7. 근무시간이나 실제 출근 상태가 제공되지 않은 경우
+                    임의로 근무시간이나 출근 여부를 추측하지 마세요.
+
+                    8. 인력 분석은 단순한 직원 수가 아니라
+                    "현재 매장 운영 상황에서 어떤 역할의 어떤 업무가
+                    중요한가"를 중심으로 판단하세요.
+
+
+                    ==============================
                     [재고 분석 규칙]
                     ==============================
 
@@ -234,12 +373,15 @@ public class AiAnalysisService {
                     의미 있는 상황을 찾아내세요.
 
                     예:
+
                     - 매출 증가 + 특정 메뉴 판매 증가
                     - 인기 메뉴 증가 + 해당 메뉴 관련 재고 부족
                     - 매출 감소 + 주문 수 감소
                     - 특정 날짜의 매출 급증 또는 급감
                     - 특정 메뉴의 판매량이 다른 메뉴보다 높은 상황
                     - 인기 메뉴 판매 증가 + 원재료 예상 소진일 감소
+                    - 재고 부족 + 관련 업무 미완료
+                    - 주문량 증가 + 직원 업무 집중
 
                     3. 실제 데이터에서 확인할 수 있는
                     변화와 패턴을 우선적으로 분석하세요.
@@ -253,15 +395,21 @@ public class AiAnalysisService {
                     6. 인기 메뉴와 재고 데이터를 연결할 수 있다면
                     해당 관계를 분석하세요.
 
-                    7. 단순히
-                    "재고를 관리하세요",
-                    "매출을 확인하세요"
+                    7. 인력 데이터와 다른 운영 데이터를 연결할 수 있다면
+                    해당 관계를 분석하세요.
+
+                    8. 단순히
+
+                    "재고를 관리하세요."
+                    "매출을 확인하세요."
+                    "직원을 관리하세요."
+
                     와 같은 일반적인 조언을 하지 마세요.
 
                     반드시 현재 데이터에서 발견된 상황을 근거로
                     사용자가 실제로 수행할 수 있는 행동을 추천하세요.
 
-                    8. 모든 분석 결과에 억지로 문제를 만들지 마세요.
+                    9. 모든 분석 결과에 억지로 문제를 만들지 마세요.
 
                     특별한 문제가 발견되지 않는 경우
 
@@ -269,9 +417,9 @@ public class AiAnalysisService {
 
                     와 같이 판단하세요.
 
-                    9. 추천사항은 중요도가 높은 순서대로 작성하세요.
+                    10. 추천사항은 중요도가 높은 순서대로 작성하세요.
 
-                    10. 추천사항은 현재 로그인한 사용자의 역할에 맞는
+                    11. 추천사항은 현재 로그인한 사용자의 역할에 맞는
                     실제 매장 업무가 되도록 작성하세요.
 
 
@@ -316,7 +464,27 @@ public class AiAnalysisService {
                     이를 우선적으로 분석하세요.
 
 
-                    ④ 운영 위험 분석
+                    ④ 인력 운영 분석
+
+                    직원 구성과 역할별 업무 데이터를 분석하세요.
+
+                    단순히 직원 수를 설명하지 말고
+                    현재 매장 운영 상황과 업무 데이터를 연결하세요.
+
+                    특히 MANAGER와 STAFF의 업무를 구분하여
+                    어떤 업무가 현재 운영에서 중요한지 판단하세요.
+
+                    미완료 업무가 실제 재고,
+                    주문,
+                    메뉴,
+                    매출 등의 문제와 연결되는 경우
+                    우선적으로 분석하세요.
+
+                    실제 데이터에 근거가 없는
+                    인력 부족이나 업무 과부하를 단정하지 마세요.
+
+
+                    ⑤ 운영 위험 분석
 
                     현재 데이터를 기준으로
                     매장 운영에 영향을 줄 가능성이 있는 문제를 찾아보세요.
@@ -327,13 +495,16 @@ public class AiAnalysisService {
                     실제 사용량,
                     예상 소진일,
                     인기 메뉴 판매량,
-                    매출 흐름 등을 종합하여 판단하세요.
+                    매출 흐름,
+                    업무 완료 여부 등을 종합하여 판단하세요.
 
 
-                    ⑤ 오늘의 운영 우선순위
+                    ⑥ 오늘의 운영 우선순위
 
                     현재 사용자가 오늘 가장 먼저 확인하거나
-                    처리해야 할 일을 최대 3개까지 선정하세요.
+                    처리해야 할 일을 최대 4개까지 선정하세요.
+
+                    반드시 중요도가 높은 순서대로 작성하세요.
 
                     각 업무는 반드시
 
@@ -344,6 +515,16 @@ public class AiAnalysisService {
                     "왜 지금 해야 하는지"
 
                     를 실제 데이터에 근거하여 설명하세요.
+
+                    특별한 운영 문제가 없다면
+                    중요도가 낮은 일반적인 업무를 억지로 추천하지 마세요.
+
+                    단, 응답 형식에서는 recommendations 배열을
+                    정확히 4개의 항목으로 작성해야 합니다.
+
+                    문제가 부족한 경우에도
+                    제공된 데이터에 근거한 점검 또는 유지 관리 항목을
+                    구체적으로 작성하세요.
 
 
                     ==============================
@@ -357,11 +538,13 @@ public class AiAnalysisService {
                     예:
 
                     좋은 표현:
+
                     "우유의 예상 소진일이 2일이고
                     현재 재고가 최소 재고보다 낮으므로
                     재고 확보를 위해 발주를 권장합니다."
 
                     나쁜 표현:
+
                     "우유 8,206ml를 반드시 발주하세요."
 
                     또한 숫자가 충분한 경우에는
@@ -383,31 +566,46 @@ public class AiAnalysisService {
 
                       "inventoryAnalysis": "재고 예측 데이터와 매출/메뉴 데이터를 연결한 분석",
 
+                      "workforceAnalysis": "직원 구성과 역할별 업무를 매출, 주문, 재고 데이터와 연결하여 분석한 결과",
+
                       "recommendations": [
-                        "우선순위가 가장 높은 실제 운영 행동과 그 이유",
-                        "두 번째로 중요한 실제 운영 행동과 그 이유",
-                        "세 번째로 중요한 실제 운영 행동과 그 이유"
+                        "가장 중요한 운영 행동과 그 이유",
+                        "두 번째로 중요한 운영 행동과 그 이유",
+                        "세 번째로 중요한 운영 행동과 그 이유",
+                        "네 번째로 중요한 운영 행동과 그 이유"
                       ]
                     }
+
+                    recommendations는 반드시 정확히 4개의 항목을 작성하세요.
+
+                    각 추천은 서로 다른 운영 행동이어야 하며,
+                    동일한 내용을 반복하지 마세요.
 
                     반드시 실제로 제공된 데이터만 사용하세요.
 
                     존재하지 않는 메뉴,
                     재고,
                     매출,
-                    직원 상태 등을 만들어내지 마세요.
+                    직원,
+                    업무,
+                    근무 상태 등을 만들어내지 마세요.
                     """.formatted(
                     userRole.name(),
+
                     salesData.getTodaySales(),
                     salesData.getMonthlySales(),
                     salesData.getTotalOrders(),
                     salesData.getAverageOrderPrice(),
+
                     salesChartJson,
                     monthlySalesJson,
                     popularMenusJson,
                     categorySalesJson,
                     dailySalesJson,
-                    inventoryPredictionJson
+
+                    inventoryPredictionJson,
+
+                    workforceData
             );
 
 
@@ -455,6 +653,7 @@ public class AiAnalysisService {
                 권장 발주량: %s%s
                 발주 필요 여부: %s
                 """.formatted(
+
                 data.getIngredientName(),
 
                 data.getCurrentStock(),
@@ -481,6 +680,41 @@ public class AiAnalysisService {
                         ? "발주 검토 필요"
                         : "현재 발주 불필요"
         );
+    }
+
+
+    // =========================================================
+    // 역할별 업무 데이터 포맷
+    // =========================================================
+
+    private String formatTasks(
+            List<Task> tasks
+    ) {
+
+        if (tasks == null || tasks.isEmpty()) {
+            return "등록된 업무가 없습니다.";
+        }
+
+        return tasks.stream()
+                .map(task -> """
+                    업무명: %s
+                    설명: %s
+                    완료 여부: %s
+                    """.formatted(
+
+                        task.getTitle(),
+
+                        task.getDescription() == null
+                                ? "설명 없음"
+                                : task.getDescription(),
+
+                        Boolean.TRUE.equals(task.getCompleted())
+                                ? "완료"
+                                : "미완료"
+                ))
+                .collect(
+                        Collectors.joining("\n")
+                );
     }
 
 

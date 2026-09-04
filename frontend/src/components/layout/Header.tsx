@@ -37,6 +37,7 @@ export default function Header() {
   const [notificationOpen, setNotificationOpen] = useState(false);
 
   const [salesMenuOpen, setSalesMenuOpen] = useState(false);
+  const [storeMenuOpen, setStoreMenuOpen] = useState(false);
   const [employeeMenuOpen, setEmployeeMenuOpen] = useState(false);
 
   const [loggingOut, setLoggingOut] = useState(false);
@@ -244,10 +245,89 @@ export default function Header() {
             const Icon = menu.icon;
 
             const active =
-              pathname === menu.href ||
-              pathname.startsWith(
-                menu.href + "/"
-              );
+              menu.name === "매장관리"
+                ? pathname === "/dashboard" ||
+                  pathname.startsWith("/ai-analysis")
+                : pathname === menu.href ||
+                  pathname.startsWith(menu.href + "/");
+
+          if (menu.name === "매장관리") {
+            return (
+              <div
+                key={menu.href}
+                className="relative"
+              >
+                <button
+                  type="button"
+                  onClick={() =>
+                    setStoreMenuOpen((prev) => !prev)
+                  }
+                  className={`group relative flex cursor-pointer items-center gap-2 pb-1 transition-all ${
+                    active
+                      ? "font-bold text-[#5C3A21]"
+                      : "text-gray-600 hover:text-[#5C3A21]"
+                  }`}
+                >
+                  <Icon
+                    size={17}
+                    className={
+                      active
+                        ? "text-[#5C3A21]"
+                        : "text-gray-400 group-hover:text-[#5C3A21]"
+                    }
+                  />
+
+                  <span className="text-[15px]">
+                    {menu.name}
+                  </span>
+
+                  <ChevronDown
+                    size={14}
+                    className={`transition-transform ${
+                      storeMenuOpen
+                        ? "rotate-180"
+                        : ""
+                    }`}
+                  />
+
+                  {active && (
+                    <span className="absolute -bottom-[22px] left-0 h-[3px] w-full rounded-full bg-[#5C3A21]" />
+                  )}
+                </button>
+
+                {storeMenuOpen && (
+                  <div className="absolute left-1/2 top-full z-50 mt-4 w-48 -translate-x-1/2 rounded-xl border border-gray-200 bg-white p-2 shadow-xl">
+
+                    {/* 매장 현황 */}
+
+                    <Link
+                      href="/dashboard"
+                      onClick={() =>
+                        setStoreMenuOpen(false)
+                      }
+                      className="block rounded-lg px-4 py-2.5 text-sm text-gray-600 transition hover:bg-[#FAF8F5] hover:text-[#5C3A21]"
+                    >
+                      매장 현황
+                    </Link>
+
+                    {/* AI 운영 분석 */}
+
+                    <Link
+                      href="/ai-analysis"
+                      onClick={() =>
+                        setStoreMenuOpen(false)
+                      }
+                      className="flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm text-gray-600 transition hover:bg-[#FAF8F5] hover:text-[#5C3A21]"
+                    >
+
+                      <span>AI 운영 분석</span>
+                    </Link>
+
+                  </div>
+                )}
+              </div>
+            );
+          }
 
             if (menu.name === "매출분석") {
                 return (

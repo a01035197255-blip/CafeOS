@@ -22,6 +22,8 @@ public class AiAnalysisResponse {
     // 인기 메뉴 분석
     private String menuAnalysis;
 
+    private String workforceAnalysis;
+
     // 재고 / 운영 분석
     private String inventoryAnalysis;
 
