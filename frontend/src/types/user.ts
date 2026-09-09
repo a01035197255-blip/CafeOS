@@ -1,3 +1,8 @@
+import type {
+  Gender,
+  UserRole,
+} from "@/types/user-role";
+
 export type {
   Gender,
   UserRole,

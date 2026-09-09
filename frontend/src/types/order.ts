@@ -1,3 +1,5 @@
+import type { OrderStatus } from "./order-status";
+
 export type { OrderStatus } from "./order-status";
 
 export interface CreateOrderItemRequest {
