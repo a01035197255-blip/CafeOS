@@ -21,7 +21,7 @@ INSERT INTO users (
           '1996-06-01',
           'MALE',
           'OWNER',
-          'GOOGLE',
+          NULL,
           true,
           '2026-01-01 00:00:00',
           '2026-01-01 00:00:00'
@@ -54,3 +54,5 @@ INSERT INTO users (
           '2026-01-01 00:00:00',
           '2026-01-01 00:00:00'
       );
+
+SELECT setval('users_user_id_seq', 3, true);
