@@ -900,7 +900,7 @@ export default function OrdersPage() {
                       onClick={() =>
                         changeStatus(
                           selectedOrder.id,
-                          "MAKING"
+                          OrderStatus.MAKING
                         )
                       }
                       disabled={
@@ -919,7 +919,7 @@ export default function OrdersPage() {
                       onClick={() =>
                         changeStatus(
                           selectedOrder.id,
-                          "COMPLETED"
+                          OrderStatus.COMPLETED
                         )
                       }
                       disabled={
