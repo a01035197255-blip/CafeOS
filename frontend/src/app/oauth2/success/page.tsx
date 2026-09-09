@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Coffee, Loader2 } from "lucide-react";
 
-export default function OAuth2SuccessPage() {
+function OAuth2SuccessContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [statusText, setStatusText] = useState("구글 로그인 정보를 안전하게 처리 중입니다...");
@@ -75,5 +75,13 @@ export default function OAuth2SuccessPage() {
         © 2026 CafeOS. All rights reserved.
       </footer>
     </div>
+  );
+}
+
+export default function OAuth2SuccessPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <OAuth2SuccessContent />
+    </Suspense>
   );
 }
