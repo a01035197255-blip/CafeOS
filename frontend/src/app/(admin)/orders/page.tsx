@@ -16,7 +16,8 @@ import {
   CalendarDays,
 } from "lucide-react";
 
-import type { OrderResponse, OrderStatus } from "@/types/order";
+import type { OrderResponse } from "@/types/order";
+import { OrderStatus } from "@/types/order";
 
 import {
   getOrderList,
