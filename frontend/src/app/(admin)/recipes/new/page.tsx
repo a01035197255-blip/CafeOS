@@ -1,7 +1,7 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { FormEvent, Suspense, useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   ArrowLeft,
   ChefHat,
@@ -38,7 +38,7 @@ const unitLabels: Record<string, string> = {
   SHOT: "샷",
 };
 
-export default function RecipeCreatePage() {
+function RecipeCreateContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -651,5 +651,13 @@ export default function RecipeCreatePage() {
         </form>
       </main>
     </div>
+  );
+}
+
+export default function RecipeCreatePage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <RecipeCreateContent />
+    </Suspense>
   );
 }
