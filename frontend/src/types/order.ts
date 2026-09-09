@@ -1,6 +1,6 @@
-import type { OrderStatus } from "./order-status";
+import { OrderStatus } from "./order-status";
 
-export type { OrderStatus } from "./order-status";
+export { OrderStatus } from "./order-status";
 
 export interface CreateOrderItemRequest {
   menuId: number;

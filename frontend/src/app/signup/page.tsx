@@ -16,7 +16,8 @@ export default function SignupPage() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [birthDate, setBirthDate] = useState("");
-  const [gender, setGender] = useState<"MALE" | "FEMALE" | "OTHER">("MALE");
+  const [gender, setGender] =
+    useState<"MALE" | "FEMALE">("MALE");
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -303,7 +304,6 @@ export default function SignupPage() {
               >
                 <option value="MALE">남성</option>
                 <option value="FEMALE">여성</option>
-                <option value="OTHER">기타</option>
               </select>
             </div>
 
