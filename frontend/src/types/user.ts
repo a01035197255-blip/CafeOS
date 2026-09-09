@@ -1,4 +1,4 @@
-import type {
+export type {
   Gender,
   UserRole,
 } from "@/types/user-role";

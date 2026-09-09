@@ -1,5 +1,6 @@
 import { api } from "@/lib/api";
 import { ApiResponse } from "@/types/api";
+import type { MenuProfitabilityResponse } from "@/types/profitability";
 
 export const getProfitability = async (): Promise<MenuProfitabilityResponse[]> => {
   const { data } = await api.get<
