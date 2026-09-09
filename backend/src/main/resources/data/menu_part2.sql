@@ -88,4 +88,6 @@ VALUES
 
     ('체스트넛 크림 라떼','밤 크림을 올린 시즌 라떼',6500,'SEASON',true,true,NULL,NOW(),NOW()),
 
-    ('유자 스파클링','유자와 탄산이 어우러진 시즌 음료',5900,'SEASON',true,true,NULL,NOW(),NOW());
+    ('유자 스파클링','유자와 탄산이 어우러진 시즌 음료',5900,'SEASON',true,true,NULL,NOW(),NOW()),
+    -- 70번 메뉴
+    ('딸기 크림 라떼','딸기와 부드러운 크림이 어우러진 시즌 라떼',6500,'SEASON',true,true,NULL,NOW(),NOW());
