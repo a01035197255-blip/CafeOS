@@ -42,7 +42,7 @@ export default function LoginPage() {
 
 const handleGoogleLogin = () => {
   // 백엔드 스프링 시큐리티의 구글 소셜 로그인 엔드포인트로 이동
-  window.location.href = "http://localhost:8080/oauth2/authorization/google";
+  window.location.href = "https://api.leejinoh.store/oauth2/authorization/google";
 };
 
   return (
