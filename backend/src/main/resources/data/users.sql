@@ -14,7 +14,7 @@ INSERT INTO users (
 ) VALUES
       (
           1,
-          'dlwlsh95@naver.com',
+          'a01035197255@gmail.com',
           'dlwlsh@0035',
           '이지노',
           '010-1111-1111',
