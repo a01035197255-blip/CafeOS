@@ -18,7 +18,8 @@ public class CorsConfig {
 
         // 프론트 주소
         configuration.setAllowedOrigins(List.of(
-                "http://localhost:3000"
+                "http://localhost:3000",
+                "https://leejinoh.store"
         ));
 
         // 허용 메서드
