@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 @Service
@@ -48,7 +49,7 @@ public class DashboardService {
         // 오늘 날짜
         // =========================
 
-        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.now(ZoneId.of("Asia/Seoul"));
 
         LocalDateTime startOfDay =
                 today.atStartOfDay();
