@@ -15,7 +15,7 @@ INSERT INTO users (
       (
           1,
           'a01035197255@gmail.com',
-          'dlwlsh@0035',
+          '$2a$10$3l7LMmA5XRv0xFGoOUUwZOiiSawJLX5MiNsH9mF0zDiX2C9dZyZHC',
           '이지노',
           '010-1111-1111',
           '1996-06-01',
@@ -29,7 +29,7 @@ INSERT INTO users (
       (
           2,
           '01034887255@naver.com',
-          'dlwlsh@0035',
+          '$2a$10$3l7LMmA5XRv0xFGoOUUwZOiiSawJLX5MiNsH9mF0zDiX2C9dZyZHC',
           '심은진',
           '010-2222-2222',
           '1995-01-01',
@@ -43,7 +43,7 @@ INSERT INTO users (
       (
           3,
           'wlsh95@naver.com',
-          'dlwlsh@0035',
+          '$2a$10$3l7LMmA5XRv0xFGoOUUwZOiiSawJLX5MiNsH9mF0zDiX2C9dZyZHC',
           '홍현준',
           '010-3333-3333',
           '1995-01-01',
