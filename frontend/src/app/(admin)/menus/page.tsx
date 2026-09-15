@@ -286,7 +286,7 @@ export default function MenusPage() {
                     <img
                       src={menu.imageUrl}
                       alt={menu.name}
-                      className="w-full h-full object-contain"
+                      className="w-full max-h-full object-contain"
                     />
                   ) : (
                     <Coffee
