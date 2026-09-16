@@ -192,7 +192,7 @@ public class DashboardService {
                 .tasks(tasks)
                 .workingEmployees(workingEmployees)
                 .recentOrders(recentOrders)
-                .today(LocalDate.now())
+                .today(today)
                 .build();
     }
 }
