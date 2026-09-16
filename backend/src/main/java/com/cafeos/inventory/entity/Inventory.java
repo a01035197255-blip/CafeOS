@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Entity
 @Table(name = "inventories")
@@ -39,17 +40,18 @@ public class Inventory {
 
     @PrePersist
     protected void onCreate() {
-        updatedAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
     }
 
     public void stockIn(Integer quantity) {
         this.quantity += quantity;
-        this.lastStockedAt = LocalDateTime.now();
+        this.lastStockedAt =
+                LocalDateTime.now(ZoneId.of("Asia/Seoul"));
     }
 
     public void stockOut(Integer quantity) {

@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +40,7 @@ public class AttendanceService {
                 .orElseThrow(() ->
                         new BusinessException(ErrorCode.USER_NOT_FOUND));
 
-        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.now(ZoneId.of("Asia/Seoul"));
 
         LocalDateTime start = today.atStartOfDay();
         LocalDateTime end = today.plusDays(1).atStartOfDay();
@@ -52,7 +53,8 @@ public class AttendanceService {
                     );
                 });
 
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now =
+                LocalDateTime.now(ZoneId.of("Asia/Seoul"));
 
         /*
          * 오늘 스케줄 조회
@@ -96,7 +98,7 @@ public class AttendanceService {
                 .orElseThrow(() ->
                         new BusinessException(ErrorCode.USER_NOT_FOUND));
 
-        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.now(ZoneId.of("Asia/Seoul"));
 
         LocalDateTime start = today.atStartOfDay();
         LocalDateTime end = today.plusDays(1).atStartOfDay();
@@ -131,7 +133,8 @@ public class AttendanceService {
     @Transactional
     public void autoCheckOut() {
 
-        LocalDate today = LocalDate.now();
+        LocalDate today =
+                LocalDate.now(ZoneId.of("Asia/Seoul"));
 
         attendanceRepository
                 .findAllByStatus(AttendanceStatus.WORKING)

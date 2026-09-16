@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Entity
 @Table(name = "notices")
@@ -36,13 +37,17 @@ public class Notice {
 
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+        LocalDateTime now =
+                LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+
+        createdAt = now;
+        updatedAt = now;
     }
 
     @PreUpdate
     protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
+        updatedAt =
+                LocalDateTime.now(ZoneId.of("Asia/Seoul"));
     }
 
     public void update(String title,

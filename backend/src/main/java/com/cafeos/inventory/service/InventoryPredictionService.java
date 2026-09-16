@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +43,7 @@ public class InventoryPredictionService {
      */
     public List<InventoryPredictionResponse> predictAll() {
 
-        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.now(ZoneId.of("Asia/Seoul"));
 
         LocalDateTime start =
                 today.minusDays(7).atStartOfDay();
@@ -152,8 +153,7 @@ public class InventoryPredictionService {
                                 )
                         );
 
-        LocalDate today =
-                LocalDate.now();
+        LocalDate today = LocalDate.now(ZoneId.of("Asia/Seoul"));
 
         LocalDateTime start =
                 today.minusDays(7)

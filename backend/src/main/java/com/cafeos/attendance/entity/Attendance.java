@@ -7,6 +7,7 @@ import lombok.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 
 @Entity
 @Table(name = "attendances")
@@ -43,7 +44,7 @@ public class Attendance {
 
     public void checkOut() {
 
-        this.checkOutTime = LocalDateTime.now();
+        this.checkOutTime = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
 
         this.workMinutes =
                 Duration.between(checkInTime, checkOutTime)

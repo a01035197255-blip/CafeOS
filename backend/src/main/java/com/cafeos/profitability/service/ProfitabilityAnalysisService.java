@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -50,7 +51,7 @@ public class ProfitabilityAnalysisService {
             throw new BusinessException(ErrorCode.ACCESS_DENIED);
         }
 
-        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.now(ZoneId.of("Asia/Seoul"));
 
         LocalDateTime start =
                 today.minusDays(30).atStartOfDay();

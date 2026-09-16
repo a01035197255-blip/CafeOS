@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.time.ZoneId;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,7 +36,7 @@ public class SalesService {
     public SalesAnalysisResponse getSalesAnalysis() {
 
         // 현재 날짜와 현재 월을 가져옴
-        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.now(ZoneId.of("Asia/Seoul"));
         YearMonth currentMonth = YearMonth.from(today);
 
         // 오늘의 시작 시간과 내일의 시작 시간을 구함
